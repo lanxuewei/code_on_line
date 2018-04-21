@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://localhost:3306/code_on_line?&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=true" />
+                <property name="username" value="root" />
+                <property name="password" value="520027" />
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper class="com.lanxuewei.code_on_line.dao.mapper.UserMapper"/>
+        <!-- 如果mapper接口与xml文件名或者存放路径不相同则需要添加路径
+        <mapper resource="mapping/UserMapper.xml"/>-->
+    </mappers>
+
+</configuration>

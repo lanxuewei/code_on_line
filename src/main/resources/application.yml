@@ -1,0 +1,36 @@
+server:
+  port: 8080
+spring:
+    datasource:
+        name: codeonline
+        url: jdbc:mysql://127.0.0.1:3306/code_on_line?characterEncoding=utf8&useSSL=true
+        username: root
+        password: 520027
+        type: com.alibaba.druid.pool.DruidDataSource # 使用druid数据源
+        driver-class-name: com.mysql.jdbc.Driver
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+    redis:
+      database: 0             # Redis数据库索引（默认为0）
+      host: localhost         # Redis服务器地址
+      port: 6379              # Redis服务器连接端口
+      password:               # Redis服务器连接密码（默认为空）
+      jedis:
+        pool:
+          max-active: 8       # 连接池最大连接数(使用负数表示没有限制)
+          max-idle: 8         # 连接池中的最大空闲连接
+          min-idle: 0         # 连接池中最小空闲连接
+mybatis:
+  mybatis.mapper-locations: classpath:com.lanxuewei.code_on_line.dao.mapper/*.xml
+  type-aliases-package: com.lanxuewei.code_on_line.dao.entity
