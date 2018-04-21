@@ -4,8 +4,10 @@ import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.utils.CompareUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +43,27 @@ public class CaseMapperTest extends BaseTest{
             mapper.deleteByPrimaryKey(problemCase.getId());
             problemCaseFromDatabase = mapper.selectByPrimaryKey(problemCase.getId());
             Assert.assertNull(problemCaseFromDatabase);
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    /**
+     * 返回更新数条数 test
+     */
+    @Test
+    public void addTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            CaseMapper mapper = sqlSession.getMapper(CaseMapper.class);
+            Case problemCase = (Case) getTestCase();
+            //insert
+            int result1 = mapper.insert(problemCase);
+            logger.info("result1 = " + result1);
+            //update
+            problemCase.setId(problemCase.getId() + 1);
+            int result2 = mapper.updateByPrimaryKey(problemCase);
+            logger.info("result2 = " + result2);
         } finally {
             sqlSession.close();
         }

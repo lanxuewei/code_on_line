@@ -33,7 +33,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
         String authorization = request.getHeader(Constants.AUTHORIZATION);  //从请求头中得到token
-        TokenModel model = tokenManager.getToken(authorization);  //验证token
+        TokenModel model = tokenManager.getToken(authorization);            //验证token
         if (tokenManager.checkToken(model)) {  //token验证成功
             //如果token验证成功，将token对应的用户的id存入request，便于之后的注入
             request.setAttribute(Constants.CURRENT_USER_ID, model.getUserId());

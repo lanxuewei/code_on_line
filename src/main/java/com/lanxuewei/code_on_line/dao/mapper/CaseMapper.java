@@ -8,15 +8,18 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface CaseMapper {
-    int deleteByPrimaryKey(Long id);
 
+    //新增
     int insert(Case record);
-
     int insertSelective(Case record);
 
+    //删除
+    int deleteByPrimaryKey(Long id);
+
+    //查找
     Case selectByPrimaryKey(Long id);
 
+    //更新
     int updateByPrimaryKeySelective(Case record);
-
     int updateByPrimaryKey(Case record);
 }

@@ -49,8 +49,8 @@ public class TokenController {
         Assert.notNull(password, "password can not be empty");
 
         User user = userService.findByUserName(userName);
-        if (user == null || //未注册
-                !user.getPassword().equals(password)) {  //密码错误
+        if (user == null ||                                         //未注册
+                !user.getPassword().equals(password)) {             //密码错误
             return new ReturnValue(ReturnCodeAndMsgEnum.Username_Or_Password_Error);
         }
         TokenModel model = tokenManager.createToken(user.getId());  //生成一个token，保持用户登陆状态

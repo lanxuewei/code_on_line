@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
 
-    //新增
+    //add
     /**
      * 添加用户
      * @param user
@@ -19,7 +19,7 @@ public interface UserService {
     public boolean addUser(User user);
 
 
-    //删除
+    //delete
     /**
      * 删除用户(TODO 暂时不考虑实现)
      * @param userId
@@ -28,7 +28,7 @@ public interface UserService {
     public boolean deleteUserByUserId(Long userId);
 
 
-    //查找
+    //find
     /**
      * 通过用户名查找用户信息
      * @param userName
@@ -38,7 +38,7 @@ public interface UserService {
     public User findByUserId(Long userId);
 
 
-    //修改
+    //modify
     /**
      * 通过用户名修改用户信息
      * @param userName
