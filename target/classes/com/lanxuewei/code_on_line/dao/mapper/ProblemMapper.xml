@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lanxuewei.code_on_line.dao.mapper.ProblemMapper">
+  <resultMap id="BaseResultMap" type="com.lanxuewei.code_on_line.dao.entity.Problem">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="difficulty" jdbcType="TINYINT" property="difficulty" />
+    <result column="submit" jdbcType="INTEGER" property="submit" />
+    <result column="fail" jdbcType="INTEGER" property="fail" />
+    <result column="success" jdbcType="INTEGER" property="success" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lanxuewei.code_on_line.dao.entity.Problem">
+    <result column="des" jdbcType="LONGVARCHAR" property="des" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `name`, difficulty, submit, fail, success, author, create_time, update_time, `status`
+  </sql>
+  <sql id="Blob_Column_List">
+    des
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from problem
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from problem
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.Problem" useGeneratedKeys="true" keyProperty="id">
+    insert into problem (id, `name`, difficulty,
+      submit, fail, success, 
+      author, status, des)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{difficulty,jdbcType=TINYINT}, 
+      #{submit,jdbcType=INTEGER}, #{fail,jdbcType=INTEGER}, #{success,jdbcType=INTEGER}, 
+      #{author,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{des,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lanxuewei.code_on_line.dao.entity.Problem" useGeneratedKeys="true" keyProperty="id">
+    insert into problem
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="difficulty != null">
+        difficulty,
+      </if>
+      <if test="submit != null">
+        submit,
+      </if>
+      <if test="fail != null">
+        fail,
+      </if>
+      <if test="success != null">
+        success,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="des != null">
+        des,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="difficulty != null">
+        #{difficulty,jdbcType=TINYINT},
+      </if>
+      <if test="submit != null">
+        #{submit,jdbcType=INTEGER},
+      </if>
+      <if test="fail != null">
+        #{fail,jdbcType=INTEGER},
+      </if>
+      <if test="success != null">
+        #{success,jdbcType=INTEGER},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="des != null">
+        #{des,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lanxuewei.code_on_line.dao.entity.Problem">
+    update problem
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="difficulty != null">
+        difficulty = #{difficulty,jdbcType=TINYINT},
+      </if>
+      <if test="submit != null">
+        submit = #{submit,jdbcType=INTEGER},
+      </if>
+      <if test="fail != null">
+        fail = #{fail,jdbcType=INTEGER},
+      </if>
+      <if test="success != null">
+        success = #{success,jdbcType=INTEGER},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="des != null">
+        des = #{des,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lanxuewei.code_on_line.dao.entity.Problem">
+    update problem
+    set name = #{name,jdbcType=VARCHAR},
+      difficulty = #{difficulty,jdbcType=TINYINT},
+      submit = #{submit,jdbcType=INTEGER},
+      fail = #{fail,jdbcType=INTEGER},
+      success = #{success,jdbcType=INTEGER},
+      author = #{author,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=TINYINT},
+      des = #{des,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lanxuewei.code_on_line.dao.entity.Problem">
+    update problem
+    set name = #{name,jdbcType=VARCHAR},
+      difficulty = #{difficulty,jdbcType=TINYINT},
+      submit = #{submit,jdbcType=INTEGER},
+      fail = #{fail,jdbcType=INTEGER},
+      success = #{success,jdbcType=INTEGER},
+      author = #{author,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

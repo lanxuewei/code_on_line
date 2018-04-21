@@ -1,6 +1,6 @@
 package com.lanxuewei.code_on_line.dao.mapper;
 
-import com.lanxuewei.code_on_line.dao.common.UserConstant;
+import com.lanxuewei.code_on_line.dao.common.DaoConstants;
 import com.lanxuewei.code_on_line.dao.entity.User;
 import com.lanxuewei.code_on_line.utils.CompareUtil;
 import com.lanxuewei.code_on_line.utils.Md5Util;
@@ -63,8 +63,8 @@ public class UserMapperTest extends BaseTest{
         user.setDes("这个人很懒，什么都没说！");
         user.setImg("D:/img/img1");
         user.setRealName("lanxuewei");
-        user.setSex(UserConstant.Male);
-        user.setStatus(UserConstant.Student);
+        user.setSex(DaoConstants.Male);
+        user.setStatus(DaoConstants.Student);
         return user;
     }
 

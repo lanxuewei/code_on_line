@@ -13,7 +13,7 @@ public class User {
     //密码
     private String password;
 
-    //状态码
+    //状态码 权限默认学生 0表示老师以及管理员 1表示学生
     private Byte status;
 
     //真实姓名

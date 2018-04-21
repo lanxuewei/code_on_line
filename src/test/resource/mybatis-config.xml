@@ -17,9 +17,12 @@
     </environments>
 
     <mappers>
-        <mapper class="com.lanxuewei.code_on_line.dao.mapper.UserMapper"/>
         <!-- 如果mapper接口与xml文件名或者存放路径不相同则需要添加路径
         <mapper resource="mapping/UserMapper.xml"/>-->
+        <mapper class="com.lanxuewei.code_on_line.dao.mapper.UserMapper"/>
+        <mapper class="com.lanxuewei.code_on_line.dao.mapper.TagMapper" />
+        <mapper class="com.lanxuewei.code_on_line.dao.mapper.ProblemMapper" />
+        <mapper class="com.lanxuewei.code_on_line.dao.mapper.CaseMapper" />
     </mappers>
 
 </configuration>

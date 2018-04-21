@@ -64,7 +64,7 @@ public class BaseTest {
     /**
      * print compare message
      */
-    public void compareMessagePrint(Object obj, Object src){
+    public final void compareMessagePrint(Object obj, Object src){
         System.out.println("obj = " + obj.toString());
         System.out.println("src = " + src.toString());
         System.out.println("compareTo: " + compareTo(obj,src));
