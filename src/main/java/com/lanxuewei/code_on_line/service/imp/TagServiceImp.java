@@ -6,11 +6,13 @@ import com.lanxuewei.code_on_line.service.TagService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * create by lanxuewei in 2018/4/21 19:19
  * description: Tag 相关业务实现
  */
+@Service
 public class TagServiceImp implements TagService{
 
     private static final Logger logger = LoggerFactory.getLogger(TagServiceImp.class);

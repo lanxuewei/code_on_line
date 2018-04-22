@@ -43,11 +43,12 @@ public class UserServiceImp implements UserService{
     /**
      * 查找
      * @param userName
+     * @param status
      * @return
      */
     @Override
-    public User findByUserName(String userName) {
-        return userMapper.selectByUserName(userName);
+    public User findByUserName(String userName, Byte status) {
+        return userMapper.selectByUserName(userName, status);
     }
 
     @Override

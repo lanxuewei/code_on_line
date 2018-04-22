@@ -30,11 +30,12 @@ public interface UserService {
 
     //find
     /**
-     * 通过用户名查找用户信息
-     * @param userName
+     * 通过用户名以及status查找用户信息
+     * @param userName 用户名
+     * @param status 身份码
      * @return 查找到的用户信息
      */
-    public User findByUserName(String userName);
+    public User findByUserName(String userName, Byte status);
     public User findByUserId(Long userId);
 
 

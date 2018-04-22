@@ -41,14 +41,22 @@ public class TokenController {
         logger.info("---> test");
     }
 
+    /**
+     * 登陆
+     * @param userName 用户名
+     * @param password 密码
+     * @param status 身份码
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
-    @ApiOperation("登陆")
-    public ReturnValue login(@RequestParam String userName, @RequestParam String password) {
+    @ApiOperation("login")
+    public ReturnValue login(@RequestParam String userName, @RequestParam String password, @RequestParam Byte status) {
         logger.info("---> login");
         Assert.notNull(userName, "username can not be empty");
         Assert.notNull(password, "password can not be empty");
+        Assert.notNull(status, "status can not be empty");
 
-        User user = userService.findByUserName(userName);
+        User user = userService.findByUserName(userName, status);
         if (user == null ||                                         //未注册
                 !user.getPassword().equals(password)) {             //密码错误
             return new ReturnValue(ReturnCodeAndMsgEnum.Username_Or_Password_Error);
@@ -57,9 +65,14 @@ public class TokenController {
         return new ReturnValue(ReturnCodeAndMsgEnum.Success, model);
     }
 
+    /**
+     * 登出
+     * @param user
+     * @return
+     */
     @RequestMapping(method = RequestMethod.DELETE)
     @Authorization
-    @ApiOperation(value = "退出登陆")
+    @ApiOperation(value = "logout")
     @ApiImplicitParams(
             @ApiImplicitParam(name = "authorization", value = "authorization", required = true, dataType = "string", paramType = "header")
     )

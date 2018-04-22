@@ -68,4 +68,8 @@
       `status` = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- get all tags -->
+  <select id="selectTagList" >
+
+  </select>
 </mapper>

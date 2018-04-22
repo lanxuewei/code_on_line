@@ -9,11 +9,16 @@ public enum ReturnCodeAndMsgEnum {
     Success(0, "ok"),  //请求成功
 
     /**
-     * User相关业务
+     * User 相关业务
      */
     Username_Or_Password_Error(-1000, "username or password error"),  //账号或密码错误
     User_Not_Exist(-1001, "user not exist"),  //用户不存在
-    User_Not_Login(-1002, "user not login");  //账号未登录
+    User_Not_Login(-1002, "user not login"),  //账号未登录
+
+    /**
+     * Problem 相关业务
+     */
+    Problem_Not_Exist(-1003, "problem not exist");
 
     /**
      * code 状态码

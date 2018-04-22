@@ -46,7 +46,7 @@ public class UserMapperTest extends BaseTest{
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             User user = (User) getTestCase();
             userMapper.insertSelective(user);  //insert
-            User userFromDatabase = userMapper.selectByUserName(user.getUserName());
+            User userFromDatabase = userMapper.selectByUserName(user.getUserName(), user.getStatus());
             Assert.assertTrue(CompareUtil.isPropertiesEquals(user, userFromDatabase));
         } finally {
             if (sqlSession != null) {
@@ -61,6 +61,8 @@ public class UserMapperTest extends BaseTest{
         user.setUserName(StringUtil.createStringByRandom(5));
         user.setPassword(Md5Util.getMd5(StringUtil.createStringByRandom(8)));
         user.setDes("这个人很懒，什么都没说！");
+        Byte status = 1;
+        user.setStatus(status);
         user.setImg("D:/img/img1");
         user.setRealName("lanxuewei");
         user.setSex(DaoConstants.Male);

@@ -2,6 +2,7 @@ package com.lanxuewei.code_on_line.dao.mapper;
 
 import com.lanxuewei.code_on_line.dao.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 对应 User 的CURD操作
@@ -24,11 +25,12 @@ public interface UserMapper {
      */
     User selectByPrimaryKey(Long id);
     /**
-     * 通过用户名查找对应User
+     * 通过用户名以及身份码查找对应User
      * @param userName 用户名
+     * @param status 身份码
      * @return User
      */
-    User selectByUserName(String userName);
+    User selectByUserName(@Param("userName") String userName, @Param("status") Byte status);
 
     //修改
     int updateByPrimaryKey(User record);

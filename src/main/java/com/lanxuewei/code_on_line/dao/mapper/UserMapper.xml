@@ -14,7 +14,7 @@
     <result column="des" property="des" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_name, password, status, real_name, sex, img
+    id, user_name, `password`, `status`, real_name, sex, img
   </sql>
   <sql id="Blob_Column_List" >
     des
@@ -24,15 +24,15 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from user
+    from `user`
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from user
+    delete from `user`
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.User" keyProperty="id" useGeneratedKeys="true">
-    insert into user (id, user_name, password, 
+    insert into `user` (id, user_name, password,
       status, real_name, sex, 
       img, des)
     values (#{id,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
@@ -40,7 +40,7 @@
       #{img,jdbcType=VARCHAR}, #{des,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lanxuewei.code_on_line.dao.entity.User" keyProperty="id" useGeneratedKeys="true">
-    insert into user
+    insert into `user`
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -95,16 +95,16 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lanxuewei.code_on_line.dao.entity.User" >
-    update user
+    update `user`
     <set >
       <if test="userName != null" >
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
+        `password` = #{password,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
+        `status` = #{status,jdbcType=TINYINT},
       </if>
       <if test="realName != null" >
         real_name = #{realName,jdbcType=VARCHAR},
@@ -122,10 +122,10 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lanxuewei.code_on_line.dao.entity.User" >
-    update user
+    update `user`
     set user_name = #{userName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
+      `password` = #{password,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=TINYINT},
       real_name = #{realName,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=TINYINT},
       img = #{img,jdbcType=VARCHAR},
@@ -133,22 +133,23 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lanxuewei.code_on_line.dao.entity.User" >
-    update user
+    update `user`
     set user_name = #{userName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
+      `password` = #{password,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=TINYINT},
       real_name = #{realName,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=TINYINT},
       img = #{img,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <!-- 通过userName查找User -->
-  <select id="selectByUserName" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <!-- 通过userName和status查找User -->
+  <select id="selectByUserName" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from user
-    where user_name = #{userName,jdbcType=VARCHAR}
+    from `user`
+    where user_name = #{userName,jdbcType=VARCHAR} and
+          `status` = #{status,jdbcType=TINYINT}
   </select>
 </mapper>
