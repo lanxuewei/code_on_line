@@ -48,10 +48,9 @@
                       url : "/tokens",
                       data : "userName=" + username + "&password=" + password + "&status=0",
                       success : function (msg) {
-
-                          alert(msg);
+                          alert(JSON.stringify(msg));
+                          console.log(msg);
                           location.href='management.html';
-                        console.log(msg);
                       },
                       fail : function (msg) {
                           alert(msg);
