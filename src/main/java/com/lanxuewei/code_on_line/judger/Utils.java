@@ -29,8 +29,6 @@ public class Utils {
             out.write(content.getBytes());
             out.flush();
             return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

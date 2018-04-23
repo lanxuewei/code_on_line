@@ -112,7 +112,7 @@
             }
             ,pass: [/(.+){6,12}$/, '密码必须6到12位']
             ,repass: function(value){
-                if($('#L_pass').val()!=$('#L_repass').val()){
+                if($('#L_pass').val()!==$('#L_repass').val()){
                     return '两次密码不一致';
                 }
             }
