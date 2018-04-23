@@ -33,52 +33,10 @@
         </form>
     </div>
 
+    <script type="text/javascript" src="js/common/utilRequest.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
     <script>
-        $(function  () {
-            layui.use('form', function(){
-              var form = layui.form;
-              /*表单提交事件*/
-              $('#login-form').submit(function () {
-                var username = $("#username").val();
-                var password = $("#password").val();
-                console.log(username);
-                console.log(password);
-                  $.ajax({
-                      type : "post",
-                      url : "/tokens",
-                      data : "userName=" + username + "&password=" + password + "&status=0",
-                      success : function (msg) {
-                          alert(JSON.stringify(msg));
-                          console.log(msg);
-                          location.href='management.html';
-                      },
-                      fail : function (msg) {
-                          alert(msg);
-                          console.log(msg);
-                      }
-                  });
-              });
-              /*//监听提交
-              form.on('submit(login)', function(data){
-                  console.log(data);
-                /!*layer.msg(JSON.stringify(data.field),function(){
-                    location.href='management.html'
-                });*!/
-                return false;
-              });*/
-            });
-        })
+        login.login();  //注册登陆
     </script>
-    <!-- 底部结束 -->
-    <!--<script>-->
-    <!--//百度统计可去掉-->
-    <!--var _hmt = _hmt || [];-->
-    <!--(function() {-->
-      <!--var hm = document.createElement("script");-->
-      <!--hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";-->
-      <!--var s = document.getElementsByTagName("script")[0]; -->
-      <!--s.parentNode.insertBefore(hm, s);-->
-    <!--})();-->
-    <!--</script>-->
 </body>
 </html>
