@@ -1,5 +1,9 @@
 var utilRequest = {
 
+    /**
+     * request method
+     * @returns {string}
+     */
     GET : function () {
         return "GET";
     },
