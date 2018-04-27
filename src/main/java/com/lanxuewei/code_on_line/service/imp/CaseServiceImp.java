@@ -22,12 +22,12 @@ public class CaseServiceImp implements CaseService{
 
     @Override
     public boolean addCase(Case problemCase) {
-        return caseMapper.insert(problemCase) != 0 ? true : false;
+        return caseMapper.insert(problemCase) != 0;
     }
 
     @Override
     public boolean deleteCaseById(Long id) {
-        return caseMapper.deleteByPrimaryKey(id) != 0 ? true : false;
+        return caseMapper.deleteByPrimaryKey(id) != 0;
     }
 
     @Override
@@ -37,6 +37,6 @@ public class CaseServiceImp implements CaseService{
 
     @Override
     public boolean modifyCaseById(Case problemCase) {
-        return caseMapper.updateByPrimaryKey(problemCase) != 0 ? true : false;
+        return caseMapper.updateByPrimaryKey(problemCase) != 0;
     }
 }

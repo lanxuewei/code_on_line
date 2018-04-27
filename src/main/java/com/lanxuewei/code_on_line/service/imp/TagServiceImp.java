@@ -22,12 +22,12 @@ public class TagServiceImp implements TagService{
 
     @Override
     public boolean addTag(Tag tag) {
-        return tagMapper.insert(tag) != 0 ? true : false;
+        return tagMapper.insert(tag) != 0;
     }
 
     @Override
     public boolean deleteTagById(Long id) {
-        return tagMapper.deleteByPrimaryKey(id) != 0 ? true : false;
+        return tagMapper.deleteByPrimaryKey(id) != 0;
     }
 
     @Override
@@ -37,6 +37,6 @@ public class TagServiceImp implements TagService{
 
     @Override
     public boolean modifyTagById(Tag tag) {
-        return tagMapper.updateByPrimaryKey(tag) != 0 ? true : false;
+        return tagMapper.updateByPrimaryKey(tag) != 0;
     }
 }

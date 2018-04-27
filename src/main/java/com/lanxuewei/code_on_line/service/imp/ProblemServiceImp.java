@@ -22,12 +22,12 @@ public class ProblemServiceImp implements ProblemService{
 
     @Override
     public boolean addProblem(Problem problem) {
-        return problemMapper.insert(problem) != 0 ? true : false;
+        return problemMapper.insert(problem) != 0;
     }
 
     @Override
     public boolean deleteProblemById(Long id) {
-        return problemMapper.deleteByPrimaryKey(id) != 0 ? true : false;
+        return problemMapper.deleteByPrimaryKey(id) != 0;
     }
 
     @Override
@@ -37,6 +37,6 @@ public class ProblemServiceImp implements ProblemService{
 
     @Override
     public boolean modifyProblemById(Problem problem) {
-        return problemMapper.updateByPrimaryKey(problem) != 0 ? true : false;
+        return problemMapper.updateByPrimaryKey(problem) != 0;
     }
 }
