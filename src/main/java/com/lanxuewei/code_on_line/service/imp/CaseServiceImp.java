@@ -1,9 +1,10 @@
 package com.lanxuewei.code_on_line.service.imp;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.dao.mapper.CaseMapper;
+import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.service.CaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,11 +41,15 @@ public class CaseServiceImp implements CaseService{
     }
 
     @Override
-    public PageInfo<Case> selectAll() {
-        PageHelper.startPage(1, 5);
+    public List<Case> selectAll() {
+        return caseMapper.selectAll();
+    }
+
+    @Override
+    public Page<Case> selectByPage(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);  //分页查询
         List<Case> cases = caseMapper.selectAll();
-        PageInfo<Case> pageInfo = new PageInfo<Case>(cases);
-        return pageInfo;
+        return new Page<>(cases);
     }
 
     @Override

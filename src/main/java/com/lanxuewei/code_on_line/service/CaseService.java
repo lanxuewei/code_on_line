@@ -1,7 +1,7 @@
 package com.lanxuewei.code_on_line.service;
 
-import com.github.pagehelper.PageInfo;
 import com.lanxuewei.code_on_line.dao.entity.Case;
+import com.lanxuewei.code_on_line.model.Page;
 
 import java.util.List;
 
@@ -38,13 +38,19 @@ public interface CaseService {
      * 查找所有用例
      * @return all case
      */
-    PageInfo<Case> selectAll();
+    List<Case> selectAll();
     /**
      * 查找总记录数
      * @return count all case
      */
     int selectCount();
-
+    /**
+     * 分页查找case
+     * @param pageNum 页码
+     * @param pageSize 每页大小
+     * @return 分页后数据集以及分页信息
+     */
+    Page<Case> selectByPage(Integer pageNum, Integer pageSize);
 
     //修改
     /**
