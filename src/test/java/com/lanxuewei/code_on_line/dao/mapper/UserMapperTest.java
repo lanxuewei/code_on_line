@@ -10,7 +10,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * create by lanxuewei in 2018/3/31
@@ -65,8 +68,8 @@ public class UserMapperTest extends BaseTest{
         user.setStatus(status);
         user.setImg("D:/img/img1");
         user.setRealName("lanxuewei");
-        user.setSex(DaoConstants.Male);
-        user.setStatus(DaoConstants.Student);
+        user.setSex(DaoConstants.User.Male);
+        user.setStatus(DaoConstants.User.Student);
         return user;
     }
 

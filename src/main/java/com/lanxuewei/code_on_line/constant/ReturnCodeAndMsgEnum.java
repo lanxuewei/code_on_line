@@ -18,7 +18,7 @@ public enum ReturnCodeAndMsgEnum {
     /**
      * Problem 相关业务
      */
-    Problem_Not_Exist(-1003, "problem not exist");
+    Problem_Not_Exist(-2001, "problem not exist");
 
     /**
      * code 状态码

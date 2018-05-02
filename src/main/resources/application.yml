@@ -34,3 +34,9 @@ spring:
 mybatis:
   mybatis.mapper-locations: classpath:com.lanxuewei.code_on_line.dao.mapper/*.xml
   type-aliases-package: com.lanxuewei.code_on_line.dao.entity
+#分页插件配置 默认配置
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql

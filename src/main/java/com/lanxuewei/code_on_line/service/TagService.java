@@ -14,7 +14,7 @@ public interface TagService {
      * @param tag
      * @return true or false
      */
-    public boolean addTag(Tag tag);
+    boolean addTag(Tag tag);
 
     //删除
     /**
@@ -22,7 +22,7 @@ public interface TagService {
      * @param id
      * @return true or false
      */
-    public boolean deleteTagById(Long id);
+    boolean deleteTagById(Long id);
 
     //查询
     /**
@@ -30,7 +30,7 @@ public interface TagService {
      * @param id
      * @return tag
      */
-    public Tag findTagById(Long id);
+    Tag findTagById(Long id);
 
     //修改
     /**
@@ -38,5 +38,5 @@ public interface TagService {
      * @param tag
      * @return true or false
      */
-    public boolean modifyTagById(Tag tag);
+    boolean modifyTagById(Tag tag);
 }

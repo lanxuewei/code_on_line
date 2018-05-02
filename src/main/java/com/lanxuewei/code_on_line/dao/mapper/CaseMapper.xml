@@ -23,15 +23,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.Case" useGeneratedKeys="true" keyProperty="id">
-    insert into `case` (id, `input`, `output`, `status`)
-    values (#{id,jdbcType=BIGINT}, #{input,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+    insert into `case` (`input`, `output`, `status`)
+    values (#{input,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.lanxuewei.code_on_line.dao.entity.Case" useGeneratedKeys="true" keyProperty="id">
     insert into `case`
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="input != null" >
         input,
       </if>
@@ -43,9 +40,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="input != null" >
         #{input,jdbcType=VARCHAR},
       </if>
@@ -79,4 +73,15 @@
       `status` = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- select all -->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `case`
+  </select>
+  <!-- count all case -->
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*)
+    from `case`
+  </select>
 </mapper>

@@ -8,8 +8,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -59,11 +61,11 @@ public class CaseMapperTest extends BaseTest{
             Case problemCase = (Case) getTestCase();
             //insert
             int result1 = mapper.insert(problemCase);
-            logger.info("result1 = " + result1);
+            logger.debug("result1 = " + result1);
             //update
             problemCase.setId(problemCase.getId() + 1);
             int result2 = mapper.updateByPrimaryKey(problemCase);
-            logger.info("result2 = " + result2);
+            logger.debug("result2 = " + result2);
         } finally {
             sqlSession.close();
         }
@@ -98,6 +100,35 @@ public class CaseMapperTest extends BaseTest{
             Assert.assertEquals(problemCase.getOutput(), problemCaseFromDatabase.getOutput());
         } finally {
             sqlSession.close();
+        }
+    }
+
+    /**
+     * selectAll selectCount
+     */
+    @Test
+    @Transactional
+    public void selectCountAndSelectAllTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            CaseMapper mapper = sqlSession.getMapper(CaseMapper.class);
+            Case problemCase = (Case) getTestCase();
+            //test
+            //insert
+            mapper.insert(problemCase);
+            mapper.insert(problemCase);
+            mapper.insert(problemCase);
+            //selectAll
+            List<Case> cases = mapper.selectAll();
+            logger.info("cases = {}", cases);
+            //selectCount
+            int count = mapper.selectCount();
+            logger.info("count = {}", count);
+            Assert.assertEquals(cases.size(), count);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
         }
     }
 

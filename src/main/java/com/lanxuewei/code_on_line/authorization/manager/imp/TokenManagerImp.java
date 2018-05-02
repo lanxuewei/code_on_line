@@ -56,7 +56,7 @@ public class TokenManagerImp implements TokenManager {
             return false;
         }
         String token = redis.boundValueOps(model.getUserId()).get();
-        if (token == null || !token.equals(model.getToken())) {
+        if (!token.equals(model.getToken())) {
             return false;
         }
         //如果验证成功，说明此用户进行了一次有效操作，延长token的过期时间

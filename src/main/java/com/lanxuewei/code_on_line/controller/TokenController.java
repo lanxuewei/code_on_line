@@ -50,7 +50,7 @@ public class TokenController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation("login")
-    public ReturnValue login(@RequestParam String userName, @RequestParam String password, @RequestParam Byte status) {
+    public ReturnValue<TokenModel> login(@RequestParam String userName, @RequestParam String password, @RequestParam Byte status) {
         logger.info("---> login");
         Assert.notNull(userName, "username can not be empty");
         Assert.notNull(password, "password can not be empty");
@@ -59,10 +59,10 @@ public class TokenController {
         User user = userService.findByUserName(userName, status);
         if (user == null ||                                         //未注册
                 !user.getPassword().equals(password)) {             //密码错误
-            return new ReturnValue(ReturnCodeAndMsgEnum.Username_Or_Password_Error);
+            return new ReturnValue<TokenModel>(ReturnCodeAndMsgEnum.Username_Or_Password_Error);
         }
         TokenModel model = tokenManager.createToken(user.getId());  //生成一个token，保持用户登陆状态
-        return new ReturnValue(ReturnCodeAndMsgEnum.Success, model);
+        return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, model);
     }
 
     /**

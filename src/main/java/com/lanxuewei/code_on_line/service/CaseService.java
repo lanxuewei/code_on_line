@@ -1,6 +1,9 @@
 package com.lanxuewei.code_on_line.service;
 
+import com.github.pagehelper.PageInfo;
 import com.lanxuewei.code_on_line.dao.entity.Case;
+
+import java.util.List;
 
 /**
  * create by lanxuewei in 2018/4/21 19:04
@@ -14,7 +17,7 @@ public interface CaseService {
      * @param problemCase
      * @return true or false
      */
-    public boolean addCase(Case problemCase);
+    boolean addCase(Case problemCase);
 
     //删除
     /**
@@ -22,7 +25,7 @@ public interface CaseService {
      * @param id
      * @return true or false
      */
-    public boolean deleteCaseById(Long id);
+    boolean deleteCaseById(Long id);
 
     //查询
     /**
@@ -30,7 +33,17 @@ public interface CaseService {
      * @param id
      * @return true or false
      */
-    public Case findCaseById(Long id);
+    Case findCaseById(Long id);
+    /**
+     * 查找所有用例
+     * @return all case
+     */
+    PageInfo<Case> selectAll();
+    /**
+     * 查找总记录数
+     * @return count all case
+     */
+    int selectCount();
 
 
     //修改
@@ -39,5 +52,5 @@ public interface CaseService {
      * @param problemCase
      * @return true or false
      */
-    public boolean modifyCaseById(Case problemCase);
+    boolean modifyCaseById(Case problemCase);
 }

@@ -16,7 +16,7 @@ public interface ProblemService {
      * @param problem
      * @return true or false
      */
-    public boolean addProblem(Problem problem);
+    boolean addProblem(Problem problem);
 
     //delete
     /**
@@ -24,7 +24,7 @@ public interface ProblemService {
      * @param id
      * @return true or false
      */
-    public boolean deleteProblemById(Long id);
+    boolean deleteProblemById(Long id);
 
     //find
     /**
@@ -32,7 +32,7 @@ public interface ProblemService {
      * @param id
      * @return true or false
      */
-    public Problem findProblemById(Long id);
+    Problem findProblemById(Long id);
 
     //modify
     /**
@@ -40,5 +40,5 @@ public interface ProblemService {
      * @param problem
      * @return true or false
      */
-    public boolean modifyProblemById(Problem problem);
+    boolean modifyProblemById(Problem problem);
 }

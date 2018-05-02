@@ -1,5 +1,7 @@
 package com.lanxuewei.code_on_line.service.imp;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.dao.mapper.CaseMapper;
 import com.lanxuewei.code_on_line.service.CaseService;
@@ -7,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * create by lanxuewei in 2018/4/21 19:10
@@ -33,6 +37,19 @@ public class CaseServiceImp implements CaseService{
     @Override
     public Case findCaseById(Long id) {
         return caseMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public PageInfo<Case> selectAll() {
+        PageHelper.startPage(1, 5);
+        List<Case> cases = caseMapper.selectAll();
+        PageInfo<Case> pageInfo = new PageInfo<Case>(cases);
+        return pageInfo;
+    }
+
+    @Override
+    public int selectCount() {
+        return caseMapper.selectCount();
     }
 
     @Override

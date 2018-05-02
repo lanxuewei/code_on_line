@@ -22,6 +22,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<!-- 依赖版本管理 -->
+		<pagehelper.version>4.1.6</pagehelper.version>
 	</properties>
 
 	<!-- 依赖 -->
@@ -47,6 +49,16 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>1.3.0</version>
 		</dependency>
+		<!-- PageHelper分页插件 -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+<!--		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+		</dependency>-->
 		<!-- alibaba的druid数据库连接池 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>

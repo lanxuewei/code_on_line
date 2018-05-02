@@ -16,7 +16,7 @@ public interface UserService {
      * @param user
      * @return 操作是否成功
      */
-    public boolean addUser(User user);
+    boolean addUser(User user);
 
 
     //delete
@@ -25,7 +25,7 @@ public interface UserService {
      * @param userId
      * @return 操作是否成功
      */
-    public boolean deleteUserByUserId(Long userId);
+    boolean deleteUserByUserId(Long userId);
 
 
     //find
@@ -35,15 +35,15 @@ public interface UserService {
      * @param status 身份码
      * @return 查找到的用户信息
      */
-    public User findByUserName(String userName, Byte status);
-    public User findByUserId(Long userId);
+    User findByUserName(String userName, Byte status);
+    User findByUserId(Long userId);
 
 
     //modify
     /**
      * 通过用户名修改用户信息
-     * @param userName
+     * @param userName 用户名
      * @return 操作是否成功
      */
-    public boolean modifyUserByUserName(String userName);
+    boolean modifyUserByUserName(String userName);
 }
