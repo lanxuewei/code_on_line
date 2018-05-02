@@ -11,12 +11,12 @@ var login = {
     },
 
     /**
-     * login 登陆
+     * login 鐧婚檰
      */
     login : function () {
         layui.use('form', function(){
             var form = layui.form;
-            /**表单提交事件*/
+            /**琛ㄥ崟鎻愪氦浜嬩欢*/
             $('#login-form').submit(function () {
                 var username = $("#username").val();
                 var password = $("#password").val();
