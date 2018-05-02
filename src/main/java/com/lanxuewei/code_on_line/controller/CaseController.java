@@ -27,10 +27,16 @@ public class CaseController {
     @Autowired
     private CaseService caseService;
 
+    /**
+     * 分页查找case,如果参数不全或其中一项为空，则为空项采用默认值
+     * @param pageNum 页码
+     * @param pageSize 每页大小
+     * @return 分页后数据以及分页信息
+     */
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation("select case by page")
-    public ReturnValue<Page> pageHelpTest(@RequestParam(defaultValue = ServiceConstant.Case.Default_PageNum) Integer pageNum,
-                                          @RequestParam(defaultValue = ServiceConstant.Case.Default_PageSize) Integer pageSize) {
+    public ReturnValue<Page> findCaseByPage(@RequestParam(defaultValue = ServiceConstant.Case.Default_PageNum) Integer pageNum,
+                                            @RequestParam(defaultValue = ServiceConstant.Case.Default_PageSize) Integer pageSize) {
         return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, caseService.selectByPage(pageNum, pageSize));
     }
 

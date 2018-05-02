@@ -51,7 +51,6 @@ public class CaseServiceImp implements CaseService{
         List<Case> cases = caseMapper.selectAll();
         return new Page<>(cases);
     }
-
     @Override
     public int selectCount() {
         return caseMapper.selectCount();

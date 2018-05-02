@@ -1,7 +1,11 @@
 package com.lanxuewei.code_on_line.service;
 
+import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
+import com.lanxuewei.code_on_line.model.Page;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * create by lanxuewei in 2018/4/21 17:30
@@ -33,6 +37,23 @@ public interface ProblemService {
      * @return true or false
      */
     Problem findProblemById(Long id);
+    /**
+     * 查找所有问题
+     * @return all problem
+     */
+    List<Problem> selectAll();
+    /**
+     * 查找总记录数
+     * @return count all problem
+     */
+    int selectCount();
+    /**
+     * 分页查找problem
+     * @param pageNum 页码
+     * @param pageSize 每页大小
+     * @return 分页后数据集以及分页信息
+     */
+    Page<Problem> selectByPage(Integer pageNum, Integer pageSize);
 
     //modify
     /**
