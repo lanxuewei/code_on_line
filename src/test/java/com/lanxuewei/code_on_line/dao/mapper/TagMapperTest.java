@@ -1,13 +1,17 @@
 package com.lanxuewei.code_on_line.dao.mapper;
 
+import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.dao.entity.Tag;
 import com.lanxuewei.code_on_line.utils.CompareUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -69,6 +73,36 @@ public class TagMapperTest extends BaseTest{
             Assert.assertTrue(compareTo(tag, tagFromDatabase));
         } finally {
             sqlSession.close();
+        }
+    }
+
+    /**
+     * selectAll selectCount
+     */
+    @Test
+    @Transactional
+    public void selectCountAndSelectAllTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            TagMapper mapper = sqlSession.getMapper(TagMapper.class);
+            Tag tag = (Tag) getTestCase();
+            //test insert
+            mapper.insert(tag);
+            tag.setName("test1");
+            mapper.insert(tag);
+            tag.setName("test2");
+            mapper.insert(tag);
+            //selectAll
+            List<Tag> tags = mapper.selectAll();
+            logger.debug("tags = {}", tags);
+            //selectCout
+            int count = mapper.selectCount();
+            logger.debug("count = {}", count);
+            Assert.assertEquals(tags.size(), count);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
         }
     }
 

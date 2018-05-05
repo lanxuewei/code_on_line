@@ -22,15 +22,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.Tag" useGeneratedKeys="true" keyProperty="id">
-    insert into tag (id, `name`, `status`)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+    insert into tag (`name`, `status`)
+    values (#{name,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.lanxuewei.code_on_line.dao.entity.Tag" useGeneratedKeys="true" keyProperty="id">
     insert into tag
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="name != null" >
         name,
       </if>
@@ -39,9 +36,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
@@ -68,8 +62,15 @@
       `status` = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <!-- get all tags -->
-  <select id="selectTagList" >
-
+  <!-- select all -->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tag
+  </select>
+  <!-- count all case -->
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(*)
+    from tag
   </select>
 </mapper>

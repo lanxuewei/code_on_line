@@ -1,5 +1,6 @@
 package com.lanxuewei.code_on_line.controller;
 
+import com.lanxuewei.code_on_line.constant.ReturnCodeAndMsgEnum;
 import com.lanxuewei.code_on_line.model.ReturnValue;
 import com.lanxuewei.code_on_line.service.TagService;
 import com.wordnik.swagger.annotations.Api;
@@ -47,15 +48,13 @@ public class TagController {
     }
 
     /**
-     * 获取所有标签
+     * 获取所有标签 TODO test
      * @return tags
      */
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation("get tag list")
     public ReturnValue getTagList() {
-        // TODO
-        return null;
+        return new ReturnValue(ReturnCodeAndMsgEnum.Success, tagService.selectAll());
     }
-
 
 }

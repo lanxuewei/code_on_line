@@ -120,10 +120,10 @@ public class CaseMapperTest extends BaseTest{
             mapper.insert(problemCase);
             //selectAll
             List<Case> cases = mapper.selectAll();
-            logger.info("cases = {}", cases);
+            logger.debug("cases = {}", cases);
             //selectCount
             int count = mapper.selectCount();
-            logger.info("count = {}", count);
+            logger.debug("count = {}", count);
             Assert.assertEquals(cases.size(), count);
         } finally {
             if (sqlSession != null) {

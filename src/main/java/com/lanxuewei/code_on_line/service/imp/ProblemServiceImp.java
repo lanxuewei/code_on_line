@@ -38,14 +38,17 @@ public class ProblemServiceImp implements ProblemService{
     public Problem findProblemById(Long id) {
         return problemMapper.selectByPrimaryKey(id);
     }
+
     @Override
     public List<Problem> selectAll() {
         return problemMapper.selectAll();
     }
+
     @Override
     public int selectCount() {
         return problemMapper.selectCount();
     }
+
     @Override
     public Page<Problem> selectByPage(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);  //分页查询

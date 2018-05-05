@@ -1,6 +1,9 @@
 package com.lanxuewei.code_on_line.service;
 
+import com.lanxuewei.code_on_line.dao.entity.Problem;
 import com.lanxuewei.code_on_line.dao.entity.Tag;
+
+import java.util.List;
 
 /**
  * create by lanxuewei in 2018/4/21 19:15
@@ -31,6 +34,16 @@ public interface TagService {
      * @return tag
      */
     Tag findTagById(Long id);
+    /**
+     * 查找所有标签
+     * @return all tags
+     */
+    List<Tag> selectAll();
+    /**
+     * 查找总记录数
+     * @return count all tags
+     */
+    int selectCount();
 
     //修改
     /**

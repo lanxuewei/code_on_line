@@ -51,6 +51,9 @@ CREATE TABLE IF NOT EXISTS `problem`(
   KEY (author)
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='问题表';
 
+-- 插入测试数据
+insert into problem(`name`, `des`, `difficulty`, `author`) values ("test", "test des", 1, "lanxuewei");
+
 -- 用例表(用于存储问题对应的各种用例)
 CREATE TABLE IF NOT EXISTS `case`(
   `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'case id',
@@ -75,6 +78,9 @@ CREATE TABLE IF NOT EXISTS `tag`(
   -- 唯一
   UNIQUE (name)
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='标签表';
+
+-- 插入测试用例
+insert into tag(`name`) values ("test6");
 
 -- 问题-用例表(问题和用例关联表)
 CREATE TABLE IF NOT EXISTS `problem_case`(

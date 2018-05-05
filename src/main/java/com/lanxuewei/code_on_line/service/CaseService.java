@@ -36,12 +36,12 @@ public interface CaseService {
     Case findCaseById(Long id);
     /**
      * 查找所有用例
-     * @return all case
+     * @return all cases
      */
     List<Case> selectAll();
     /**
      * 查找总记录数
-     * @return count all case
+     * @return count all cases
      */
     int selectCount();
     /**

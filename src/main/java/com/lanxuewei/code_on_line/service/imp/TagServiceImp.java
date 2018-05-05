@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * create by lanxuewei in 2018/4/21 19:19
  * description: Tag 相关业务实现
@@ -33,6 +35,16 @@ public class TagServiceImp implements TagService{
     @Override
     public Tag findTagById(Long id) {
         return tagMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<Tag> selectAll() {
+        return tagMapper.selectAll();
+    }
+
+    @Override
+    public int selectCount() {
+        return tagMapper.selectCount();
     }
 
     @Override

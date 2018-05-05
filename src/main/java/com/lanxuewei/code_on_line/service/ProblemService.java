@@ -39,12 +39,12 @@ public interface ProblemService {
     Problem findProblemById(Long id);
     /**
      * 查找所有问题
-     * @return all problem
+     * @return all problems
      */
     List<Problem> selectAll();
     /**
      * 查找总记录数
-     * @return count all problem
+     * @return count all problems
      */
     int selectCount();
     /**
