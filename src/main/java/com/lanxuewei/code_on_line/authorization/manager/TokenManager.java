@@ -11,9 +11,10 @@ public interface TokenManager {
     /**
      * 创建一个 token 关联上指定用户
      * @param userId 指定用户的 userId
+     * @param status 身份码
      * @return 生成的 token
      */
-    TokenModel createToken(Long userId);
+    TokenModel createToken(Long userId, Byte status);
 
     /**
      * 检查 token 是否有效

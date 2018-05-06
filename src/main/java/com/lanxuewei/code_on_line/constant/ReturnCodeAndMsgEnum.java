@@ -12,8 +12,9 @@ public enum ReturnCodeAndMsgEnum {
      * User 相关业务
      */
     Username_Or_Password_Error(-1000, "username or password error"),  //账号或密码错误
-    User_Not_Exist(-1001, "user not exist"),  //用户不存在
-    User_Not_Login(-1002, "user not login"),  //账号未登录
+    User_Not_Exist(-1001, "user not exist"),     //用户不存在
+    User_Not_Login(-1002, "user not login"),     //账号未登录
+    Register_Failed(-1010, "register failure"),  //注册失败
 
     /**
      * Problem 相关业务

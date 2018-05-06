@@ -28,15 +28,17 @@ public class TokenManagerImp implements TokenManager {
         redis.setKeySerializer(new JdkSerializationRedisSerializer());
     }
 
-    public TokenModel createToken(Long userId) {
+    @Override
+    public TokenModel createToken(Long userId, Byte status) {
         //使用uuid作为源token
         String token = UUID.randomUUID().toString().replace("-", "");
-        TokenModel model = new TokenModel(userId, token);
+        TokenModel model = new TokenModel(userId, token, status);
         //存储到redis并设置过期时间
         redis.boundValueOps(userId).set(token, Constants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
         return model;
     }
 
+    @Override
     public TokenModel getToken(String authentication) {
         if (authentication == null || authentication.length() == 0) {
             return null;
@@ -51,6 +53,7 @@ public class TokenManagerImp implements TokenManager {
         return new TokenModel(userId, token);
     }
 
+    @Override
     public boolean checkToken(TokenModel model) {
         if (model == null) {
             return false;
@@ -64,6 +67,7 @@ public class TokenManagerImp implements TokenManager {
         return true;
     }
 
+    @Override
     public void deleteToken(Long userId) {
         redis.delete(userId);
     }

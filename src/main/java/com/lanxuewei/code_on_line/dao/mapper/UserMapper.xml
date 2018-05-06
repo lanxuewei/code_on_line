@@ -32,10 +32,10 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.User" keyProperty="id" useGeneratedKeys="true">
-    insert into `user` (id, user_name, password,
+    insert into `user` (user_name, password,
       status, real_name, sex, 
       img, des)
-    values (#{id,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{status,jdbcType=TINYINT}, #{realName,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
       #{img,jdbcType=VARCHAR}, #{des,jdbcType=LONGVARCHAR})
   </insert>

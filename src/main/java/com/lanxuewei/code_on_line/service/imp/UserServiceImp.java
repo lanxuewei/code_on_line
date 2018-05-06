@@ -2,6 +2,7 @@ package com.lanxuewei.code_on_line.service.imp;
 
 import com.lanxuewei.code_on_line.dao.entity.User;
 import com.lanxuewei.code_on_line.dao.mapper.UserMapper;
+import com.lanxuewei.code_on_line.model.UserViewModel;
 import com.lanxuewei.code_on_line.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +22,31 @@ public class UserServiceImp implements UserService{
     private UserMapper userMapper;
 
     /**
+     * 将UserViewModel转化为User
+     * @param userViewModel
+     * @return User
+     */
+    private User userViewModelToUser(UserViewModel userViewModel) {
+        User user = new User();
+        user.setUserName(userViewModel.getUsername());
+        user.setPassword(userViewModel.getPassword());
+        user.setRealName(userViewModel.getRealname());
+        user.setSex(userViewModel.getSex());
+        user.setImg(userViewModel.getImg());
+        user.setDes(userViewModel.getDes());
+        return user;
+    }
+
+    /**
      * 新增
-     * @param user
+     * @param vUser
      * @return
      */
     @Override
-    public boolean addUser(User user) {
-        return false;
+    public boolean addUser(UserViewModel vUser) {
+        User user = userViewModelToUser(vUser);  //先将界面模型entity
+        return userMapper.insertSelective(user) != 0;
     }
-
     /**
      * 删除
      * @param userId

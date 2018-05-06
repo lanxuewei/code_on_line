@@ -9,10 +9,17 @@ public class TokenModel {
 
     private Long userId;  //用户名
     private String token; //随机生成的 uuid
+    private Byte status;  //身份码
 
     public TokenModel(Long userId, String token) {
         this.userId = userId;
         this.token = token;
+    }
+
+    public TokenModel(Long userId, String token, Byte status) {
+        this.userId = userId;
+        this.token = token;
+        this.status = status;
     }
 
     public Long getUserId() {
@@ -29,5 +36,13 @@ public class TokenModel {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

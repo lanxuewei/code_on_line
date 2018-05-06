@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * description: 获取和删除 token 的请求地址，在 Restful 设计中其实就是对应着登陆和退出登陆的资源映射
  */
 @RestController
-@RequestMapping("/tokens")
+@RequestMapping("/token")
 public class TokenController {
 
     private static Logger logger = LoggerFactory.getLogger(TokenController.class);
@@ -55,9 +55,9 @@ public class TokenController {
         User user = userService.findByUserName(userName, status);
         if (user == null ||                                         //未注册
                 !user.getPassword().equals(password)) {             //密码错误
-            return new ReturnValue<TokenModel>(ReturnCodeAndMsgEnum.Username_Or_Password_Error);
+            return new ReturnValue<>(ReturnCodeAndMsgEnum.Username_Or_Password_Error);
         }
-        TokenModel model = tokenManager.createToken(user.getId());  //生成一个token，保持用户登陆状态
+        TokenModel model = tokenManager.createToken(user.getId(), status);  //生成一个token，保持用户登陆状态
         return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, model);
     }
 

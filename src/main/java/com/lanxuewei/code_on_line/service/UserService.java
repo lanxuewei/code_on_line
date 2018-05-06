@@ -1,6 +1,7 @@
 package com.lanxuewei.code_on_line.service;
 
 import com.lanxuewei.code_on_line.dao.entity.User;
+import com.lanxuewei.code_on_line.model.UserViewModel;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,14 +11,20 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
 
+    /**
+     * 将UserViewModel转化为User
+     * @param userViewModel
+     * @return User
+     */
+    /*User UserViewModelToUser(UserViewModel userViewModel);*/
+
     //add
     /**
      * 添加用户
-     * @param user
+     * @param vUser
      * @return 操作是否成功
      */
-    boolean addUser(User user);
-
+    boolean addUser(UserViewModel vUser);
 
     //delete
     /**

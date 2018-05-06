@@ -6,7 +6,7 @@ var login = {
          * @returns {string}
          */
         login : function () {
-            return "/tokens"
+            return "/token"
         }
     },
 
@@ -30,10 +30,15 @@ var login = {
                     success : function (msg) {
                         //alert(JSON.stringify(msg));
                         var code = msg.code;
-                        if (code === 0) {  //登陆成功,跳转到后台管理界面
-                            location.href='management.html';
-                        } else {           //登陆失败,显示错误信息并继续跳回登陆界面
-                            alert(msg.info);
+                        //alert(status);
+                        if (code === 0) {               //登陆成功,跳转到后台管理界面
+                            if (msg.data.status ==0) {  //管理员身份
+                                location.href='management.html';
+                            } else {                    //游客或者学生身份
+                                location.href='problem.html';
+                            }
+                        } else {                        //登陆失败,显示错误信息并继续跳回登陆界面
+                            alert(msg.info);            //显示登陆失败原因
                             location.href='login.html';
                         }
                     },
