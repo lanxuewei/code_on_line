@@ -16,7 +16,7 @@ var login = {
     },*/
 
     /**
-     * login 登陆
+     * login 登陆 TODO 为空时做拦截，不发送请求
      */
     login : function () {
         layui.use(['layer', 'form'], function(){
@@ -29,6 +29,9 @@ var login = {
                 var username = $("#username").val();  //获得账号
                 var password = $("#password").val();  //密码
                 var status = $('input[name="identity"]:checked').val(); //身份
+                /*if (username == null || password == null || status == null) {
+                    return false;
+                }*/
                 $.ajax({  //发起登陆请求
                     type : utilRequest.POST(),
                     url : login.URL.loginUrl(),
