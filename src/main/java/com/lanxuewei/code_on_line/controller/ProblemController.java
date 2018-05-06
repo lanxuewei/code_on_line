@@ -49,12 +49,7 @@ public class ProblemController {
     public ReturnValue<Problem> findProblemById(@PathVariable Long id) {
         logger.debug("---> findProblemById");
         Assert.notNull(id, "id can not be empty");
-        Problem data = problemService.findProblemById(id);
-        if (data != null) {  //查询不为空
-            return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, data);
-        }                    //查询结果为空 TODO data is always null
-        return new ReturnValue<>(ReturnCodeAndMsgEnum.Problem_Not_Exist, data);
+        return new ReturnValue<Problem>(ReturnCodeAndMsgEnum.Success, problemService.findProblemById(id));
     }
-
 
 }
