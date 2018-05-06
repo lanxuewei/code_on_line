@@ -5,7 +5,9 @@
 	<title>Code_On_Line</title>
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<!--
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+-->
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
@@ -22,7 +24,7 @@
     <div class="login">
         <div class="message">Code_On_Line</div>
         <div id="darkbannerwrap"></div>
-        <form class="layui-form layui-form-pane" action="">
+        <form id="login-form" method="post" class="layui-form layui-form-pane">
             <!-- 账号 -->
             <div class="layui-form-item">
                 <label class="layui-form-label">账号</label>
@@ -41,19 +43,15 @@
             <div class="layui-form-item" pane="">
                 <label class="layui-form-label">身份</label>
                 <div id="identity" class="layui-input-block">
-                    <input type="radio" name="identity" value="管理员" title="管理员" checked="">
-                    <input type="radio" name="identity" value="学生" title="学生">
+                    <input type="radio" name="identity" value="0" title="管理员" checked="">
+                    <input type="radio" name="identity" value="1" title="学生">
                 </div>
             </div>
             <!-- 登陆或注册 -->
             <div class="layui-form-item">
                 <button class="layui-btn" lay-submit="" lay-filter="login" type="submit" style="width: 100%">login</button>
-                <button class="layui-btn layui-btn-primary" style="width: 100%; margin-top: 20px;margin-left: 0px;">register</button>
+                <button class="layui-btn layui-btn-primary" type="reset" style="width: 100%; margin-top: 20px;margin-left: 0px;">register</button>
             </div>
-            <!--<div class="layui-form-item">
-                <input value="login" lay-submit lay-filter="login" style="width:100%;" type="submit">
-                <input value="register" style="width:100%; margin-top: 10px" type="button">
-            </div>-->
         </form>
     </div>
 

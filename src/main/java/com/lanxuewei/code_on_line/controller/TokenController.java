@@ -35,12 +35,6 @@ public class TokenController {
     @Autowired
     private TokenManager tokenManager;
 
-    //test
-    @RequestMapping(value = "/test")
-    public void test() {
-        logger.info("---> test");
-    }
-
     /**
      * 登陆
      * @param userName 用户名
@@ -50,7 +44,9 @@ public class TokenController {
      */
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation("login")
-    public ReturnValue<TokenModel> login(@RequestParam String userName, @RequestParam String password, @RequestParam Byte status) {
+    public ReturnValue<TokenModel> login(@RequestParam("username") String userName,
+                                         @RequestParam("password") String password,
+                                         @RequestParam("status") Byte status) {
         logger.info("---> login");
         Assert.notNull(userName, "username can not be empty");
         Assert.notNull(password, "password can not be empty");
