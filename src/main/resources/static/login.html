@@ -49,16 +49,18 @@
             </div>
             <!-- 登陆或注册 -->
             <div class="layui-form-item">
-                <button class="layui-btn" lay-submit="" lay-filter="login" type="submit" style="width: 100%">login</button>
-                <button class="layui-btn layui-btn-primary" type="reset" style="width: 100%; margin-top: 20px;margin-left: 0px;">register</button>
+                <button id="to-login-btn" class="layui-btn" lay-submit="" lay-filter="login" style="width: 100%">login</button>
+                <button id="to-register-btn" class="layui-btn" type="button" style="width: 100%; margin-top: 20px;margin-left: 0px;">register</button>
             </div>
         </form>
     </div>
 
     <script type="text/javascript" src="js/common/utilRequest.js"></script>
     <script type="text/javascript" src="js/login.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script>
-        login.login();  //登陆
+        login.login();       //登陆
+        login.toRegister();  //注册点击事件
     </script>
 </body>
 </html>
