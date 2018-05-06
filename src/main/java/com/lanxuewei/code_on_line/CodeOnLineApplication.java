@@ -15,6 +15,6 @@ public class CodeOnLineApplication {
 
 	@RequestMapping(value = "/", produces = "text/plain;charset=UTF-8")
 	String index(){
-		return "Hello Spring Boot!";
+		return "Hello Code_on_line!";
 	}
 }
