@@ -15,12 +15,13 @@
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lanxuewei.code_on_line.dao.entity.Problem">
     <result column="des" jdbcType="LONGVARCHAR" property="des" />
+    <result column="des_html" jdbcType="LONGVARCHAR" property="desHtml" />
   </resultMap>
   <sql id="Base_Column_List">
     id, `name`, difficulty, submit, fail, success, author, create_time, update_time, `status`
   </sql>
   <sql id="Blob_Column_List">
-    des
+    des, des_html
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
@@ -35,19 +36,16 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.Problem" useGeneratedKeys="true" keyProperty="id">
-    insert into problem (id, `name`, difficulty,
+    insert into problem (`name`, difficulty,
       submit, fail, success, 
-      author, status, des)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{difficulty,jdbcType=TINYINT}, 
+      author, status, des, des_html)
+    values (#{name,jdbcType=VARCHAR}, #{difficulty,jdbcType=TINYINT},
       #{submit,jdbcType=INTEGER}, #{fail,jdbcType=INTEGER}, #{success,jdbcType=INTEGER}, 
-      #{author,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{des,jdbcType=LONGVARCHAR})
+      #{author,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{des,jdbcType=LONGVARCHAR}, #{desHtml,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lanxuewei.code_on_line.dao.entity.Problem" useGeneratedKeys="true" keyProperty="id">
     insert into problem
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -72,11 +70,11 @@
       <if test="des != null">
         des,
       </if>
+      <if test="desHtml != null">
+        des_html,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -100,6 +98,9 @@
       </if>
       <if test="des != null">
         #{des,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="desHtml != null">
+        #{desHtml,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -130,10 +131,13 @@
       <if test="des != null">
         des = #{des,jdbcType=LONGVARCHAR},
       </if>
+      <if test="desHtml != null">
+        des_html = #{desHtml,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lanxuewei.code_on_line.dao.entity.Problem">
+  <!--<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lanxuewei.code_on_line.dao.entity.Problem">
     update problem
     set name = #{name,jdbcType=VARCHAR},
       difficulty = #{difficulty,jdbcType=TINYINT},
@@ -142,9 +146,10 @@
       success = #{success,jdbcType=INTEGER},
       author = #{author,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=TINYINT},
-      des = #{des,jdbcType=LONGVARCHAR}
+      des = #{des,jdbcType=LONGVARCHAR},
+      des_html = #{desHtml,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
-  </update>
+  </update>-->
   <update id="updateByPrimaryKey" parameterType="com.lanxuewei.code_on_line.dao.entity.Problem">
     update problem
     set name = #{name,jdbcType=VARCHAR},
@@ -153,7 +158,9 @@
       fail = #{fail,jdbcType=INTEGER},
       success = #{success,jdbcType=INTEGER},
       author = #{author,jdbcType=VARCHAR},
-      `status` = #{status,jdbcType=TINYINT}
+      `status` = #{status,jdbcType=TINYINT},
+      des = #{des,jdbcType=LONGVARCHAR},
+      des_html = #{desHtml,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- select all -->

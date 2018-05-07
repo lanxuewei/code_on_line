@@ -39,6 +39,8 @@ public class Problem {
     //描述
     private String des;
 
+    private String desHtml;
+
     public Long getId() {
         return id;
     }
@@ -125,5 +127,13 @@ public class Problem {
 
     public void setDes(String des) {
         this.des = des == null ? null : des.trim();
+    }
+
+    public String getDesHtml() {
+        return desHtml;
+    }
+
+    public void setDesHtml(String desHtml) {
+        this.desHtml = desHtml;
     }
 }

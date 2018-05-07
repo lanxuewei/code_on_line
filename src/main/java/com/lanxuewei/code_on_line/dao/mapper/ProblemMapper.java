@@ -34,6 +34,5 @@ public interface ProblemMapper {
 
     //更新
     int updateByPrimaryKeySelective(Problem record);
-    int updateByPrimaryKeyWithBLOBs(Problem record);
     int updateByPrimaryKey(Problem record);
 }

@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `problem`(
   `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'problem id',
   `name` VARCHAR(128) NOT NULL COMMENT '题目名',
   `des` TEXT NOT NULL COMMENT '问题描述',
+  `des_html` TEXT NOT NULL COMMENT '问题描述html',
   `difficulty` TINYINT NOT NULL COMMENT '题目难度 0:简单 1:中等 2:难',
   `submit` INT NOT NULL DEFAULT 0 COMMENT '提交次数,默认0',
   `fail` INT NOT NULL DEFAULT 0 COMMENT '失败次数,默认0',
@@ -46,13 +47,13 @@ CREATE TABLE IF NOT EXISTS `problem`(
   -- 主键
   PRIMARY KEY (id),
   -- 索引
-  KEY (name),
-  KEY (difficulty),
-  KEY (author)
+  UNIQUE KEY (`name`),
+  KEY (`difficulty`),
+  KEY (`author`)
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='问题表';
 
 -- 插入测试数据
-insert into problem(`name`, `des`, `difficulty`, `author`) values ("test", "test des", 1, "lanxuewei");
+insert into problem(`name`, `des`, `des_html` , `difficulty`, `author`) values ("test", "test des", "test des for html", 1, "lanxuewei");
 
 -- 用例表(用于存储问题对应的各种用例)
 CREATE TABLE IF NOT EXISTS `case`(

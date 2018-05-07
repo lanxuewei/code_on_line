@@ -81,6 +81,7 @@ public class ProblemMapperTest extends BaseTest {
         Problem problem = new Problem();
         problem.setAuthor("lanxuewei");
         problem.setDes("the problem is test");
+        problem.setDesHtml("the problem is test html");
         Byte difficulty = 1;
         problem.setDifficulty(difficulty);
         problem.setFail(0);
