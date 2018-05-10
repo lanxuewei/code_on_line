@@ -1,6 +1,6 @@
 package com.lanxuewei.code_on_line.controller;
 
-import com.lanxuewei.code_on_line.authorization.annotation.Authorization;
+import com.lanxuewei.code_on_line.authorization.annotation.NoNeedLogin;
 import com.lanxuewei.code_on_line.authorization.annotation.CurrentUser;
 import com.lanxuewei.code_on_line.authorization.manager.TokenManager;
 import com.lanxuewei.code_on_line.authorization.model.TokenModel;
@@ -43,6 +43,7 @@ public class TokenController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
+    @NoNeedLogin
     @ApiOperation("login")
     public ReturnValue<TokenModel> login(@RequestParam("username") String userName,
                                          @RequestParam("password") String password,
@@ -58,6 +59,7 @@ public class TokenController {
             return new ReturnValue<>(ReturnCodeAndMsgEnum.Username_Or_Password_Error);
         }
         TokenModel model = tokenManager.createToken(user.getId(), status);  //生成一个token，保持用户登陆状态
+
         return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, model);
     }
 
@@ -67,7 +69,7 @@ public class TokenController {
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE)
-    @Authorization
+    //@NoNeedLogin
     @ApiOperation(value = "logout")
     @ApiImplicitParams(
             @ApiImplicitParam(name = "authorization", value = "authorization", required = true, dataType = "string", paramType = "header")

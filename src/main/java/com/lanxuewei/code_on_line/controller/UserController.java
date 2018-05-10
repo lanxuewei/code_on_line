@@ -1,5 +1,6 @@
 package com.lanxuewei.code_on_line.controller;
 
+import com.lanxuewei.code_on_line.authorization.annotation.NoNeedLogin;
 import com.lanxuewei.code_on_line.constant.ReturnCodeAndMsgEnum;
 import com.lanxuewei.code_on_line.model.ReturnValue;
 import com.lanxuewei.code_on_line.model.UserViewModel;
@@ -31,6 +32,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
+    @NoNeedLogin
     @ApiOperation("register")
     public ReturnValue register(UserViewModel vUser) {
         logger.info("vUser = {}", vUser);
