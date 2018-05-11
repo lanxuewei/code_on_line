@@ -1,5 +1,6 @@
 package com.lanxuewei.code_on_line.controller;
 
+import com.lanxuewei.code_on_line.authorization.annotation.NoNeedLogin;
 import com.lanxuewei.code_on_line.constant.ReturnCodeAndMsgEnum;
 import com.lanxuewei.code_on_line.model.ReturnValue;
 import com.lanxuewei.code_on_line.service.TagService;
@@ -25,14 +26,34 @@ public class TagController {
     private TagService tagService;
 
     /**
-     * 新增标签  TODO
+     * 获取所有标签
+     * @return all tags
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    @NoNeedLogin
+    @ApiOperation("find tag list")
+    public ReturnValue getTagList() {
+        return new ReturnValue(ReturnCodeAndMsgEnum.Success, tagService.selectAll());
+    }
+
+    /**
+     * 新增标签
+     * TODO 1、token认证,暂时先noNeedLogin 2、细化失败原因
      * @param tagName 标签名
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
+    @NoNeedLogin
     @ApiOperation("add a tag")
     public ReturnValue addTag(@RequestParam String tagName) {
-        return null;
+        logger.info("---> add tag");
+        Assert.notNull(tagName, "tag name can not empty!");
+        boolean isSuccess = tagService.addTag(tagName);
+        if (isSuccess) {
+            return new ReturnValue(ReturnCodeAndMsgEnum.Success);
+        } else {  //TODO 判断新增标签失败原因  暂时算内部错误
+            return new ReturnValue(ReturnCodeAndMsgEnum.System_Error);
+        }
     }
 
     /**
@@ -51,10 +72,10 @@ public class TagController {
      * 获取所有标签 TODO test
      * @return tags
      */
-    @RequestMapping(method = RequestMethod.GET)
-    @ApiOperation("get tag list")
-    public ReturnValue getTagList() {
-        return new ReturnValue(ReturnCodeAndMsgEnum.Success, tagService.selectAll());
-    }
+//    @RequestMapping(method = RequestMethod.GET)
+//    @ApiOperation("get tag list")
+//    public ReturnValue getTagList() {
+//        return new ReturnValue(ReturnCodeAndMsgEnum.Success, tagService.selectAll());
+//    }
 
 }

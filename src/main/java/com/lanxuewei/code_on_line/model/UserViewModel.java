@@ -6,22 +6,34 @@ package com.lanxuewei.code_on_line.model;
  */
 public class UserViewModel {
 
-    //用户名
+    /**
+     * 用户名
+     */
     private String username;
 
-    //密码
+    /**
+     * 密码
+     */
     private String password;
 
-    //真实姓名
+    /**
+     * 真实姓名
+     */
     private String realname;
 
-    //性别
+    /**
+     * 性别
+     */
     private Byte sex;
 
-    //头像 TODO 目前前端暂时不传参
+    /**
+     * 头像  TODO 目前前端暂时不传参
+     */
     private String img;
 
-    //个人描述
+    /**
+     * 个人描述
+     */
     private String des;
 
     public String getUsername() {

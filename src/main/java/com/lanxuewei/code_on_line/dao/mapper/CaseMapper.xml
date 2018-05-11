@@ -3,6 +3,7 @@
 <mapper namespace="com.lanxuewei.code_on_line.dao.mapper.CaseMapper" >
   <resultMap id="BaseResultMap" type="com.lanxuewei.code_on_line.dao.entity.Case" >
     <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="problem_id" property="problemId" jdbcType="BIGINT"/>
     <result column="input" property="input" jdbcType="VARCHAR" />
     <result column="output" property="output" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -10,7 +11,7 @@
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, input, output, create_time, update_time, `status`
+    id, problem_id, input, output, create_time, update_time, `status`
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -23,12 +24,15 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.Case" useGeneratedKeys="true" keyProperty="id">
-    insert into `case` (`input`, `output`, `status`)
-    values (#{input,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
+    insert into `case` (`problem_id`, `input`, `output`, `status`)
+    values (#{problemId,jdbcType=BIGINT}, #{input,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.lanxuewei.code_on_line.dao.entity.Case" useGeneratedKeys="true" keyProperty="id">
     insert into `case`
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="problemId != null" >
+        problem_id,
+      </if>
       <if test="input != null" >
         input,
       </if>
@@ -40,6 +44,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="problemId != null" >
+        #{problemId,jdbcType=BIGINT},
+      </if>
       <if test="input != null" >
         #{input,jdbcType=VARCHAR},
       </if>
@@ -54,6 +61,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.lanxuewei.code_on_line.dao.entity.Case" >
     update `case`
     <set >
+      <if test="problemId != null">
+        problem_id = #{problemId,jdbcType=BIGINT},
+      </if>
       <if test="input != null" >
         input = #{input,jdbcType=VARCHAR},
       </if>
@@ -68,7 +78,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lanxuewei.code_on_line.dao.entity.Case" >
     update `case`
-    set input = #{input,jdbcType=VARCHAR},
+    set
+      problem_id = #{problemId,jdbcType=BIGINT},
+      input = #{input,jdbcType=VARCHAR},
       output = #{output,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}

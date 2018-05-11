@@ -21,11 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
-    @Autowired
-    private UserService userService;
-
     /**
      * 用户注册
      * @param vUser TODO 如果存在该用户名则不插入，否则报唯一键冲突,会导致注册相同账号出现界面跳转错误
@@ -43,5 +38,10 @@ public class UserController {
             return new ReturnValue(ReturnCodeAndMsgEnum.Register_Failed);  //注册失败
         }
     }
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    @Autowired
+    private UserService userService;
 
 }

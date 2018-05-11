@@ -6,22 +6,40 @@ import java.util.Date;
  * 用例(对应表 case)
  */
 public class Case {
-    //id
+
+    /**
+     * id
+     */
     private Long id;
 
-    //输入
+    /**
+     * problem id
+     */
+    private Long problemId;
+
+    /**
+     * 输入
+     */
     private String input;
 
-    //输出
+    /**
+     * 输出
+     */
     private String output;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     private Date createTime;
 
-    //更新时间
+    /**
+     * 更新时间
+     */
     private Date updateTime;
 
-    //状态码
+    /**
+     * 状态码
+     */
     private Byte status;
 
     public Long getId() {
@@ -30,6 +48,14 @@ public class Case {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getProblemId() {
+        return problemId;
+    }
+
+    public void setProblemId(Long problemId) {
+        this.problemId = problemId;
     }
 
     public String getInput() {
