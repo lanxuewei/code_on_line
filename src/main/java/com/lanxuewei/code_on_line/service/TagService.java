@@ -14,10 +14,10 @@ public interface TagService {
     //新增
     /**
      * add tag
-     * @param tag
+     * @param tagName
      * @return true or false
      */
-    boolean addTag(Tag tag);
+    boolean addTag(String tagName);
 
     //删除
     /**

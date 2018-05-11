@@ -23,8 +23,10 @@ public class TagServiceImp implements TagService{
     private TagMapper tagMapper;
 
     @Override
-    public boolean addTag(Tag tag) {
-        return tagMapper.insert(tag) != 0;
+    public boolean addTag(String tagName) {
+        Tag tag = new Tag();
+        tag.setName(tagName);
+        return tagMapper.insertSelective(tag) != 0;
     }
 
     @Override

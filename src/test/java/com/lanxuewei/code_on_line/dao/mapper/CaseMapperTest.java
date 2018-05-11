@@ -139,6 +139,7 @@ public class CaseMapperTest extends BaseTest{
     @Override
     public Object getTestCase() {
         Case problemCase = new Case();
+        problemCase.setProblemId(1L);
         problemCase.setInput("1 2");
         problemCase.setOutput("3");
         Byte status = 1;
@@ -154,6 +155,7 @@ public class CaseMapperTest extends BaseTest{
     @Override
     public Object modifyTestCase(Object obj) {
         Case problemCase = (Case) obj;
+        problemCase.setProblemId(2L);
         problemCase.setInput("1 4");
         problemCase.setOutput("5");
         Byte status = 3;

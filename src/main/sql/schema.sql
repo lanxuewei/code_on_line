@@ -58,6 +58,7 @@ insert into problem(`name`, `des`, `des_html` , `difficulty`, `author`) values (
 -- 用例表(用于存储问题对应的各种用例)
 CREATE TABLE IF NOT EXISTS `case`(
   `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'case id',
+  `problem_id` BIGINT NOT NULL COMMENT 'problem id',
   `input` VARCHAR(128) NOT NULL COMMENT '输入',
   `output` VARCHAR(128) NOT NULL COMMENT '输出',
   `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
@@ -80,19 +81,19 @@ CREATE TABLE IF NOT EXISTS `tag`(
   UNIQUE (name)
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='标签表';
 
--- 插入测试用例
+-- 插入测试数据
 insert into tag(`name`) values ("test6");
 
 -- 问题-用例表(问题和用例关联表)
-CREATE TABLE IF NOT EXISTS `problem_case`(
-  `problem_id` BIGINT NOT NULL COMMENT 'problem id',
-  `case_id` BIGINT NOT NULL NOT NULL COMMENT 'case id',
-  `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
-  `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `status` TINYINT NOT NULL DEFAULT 0 COMMENT '状态码',
-  -- 联合主键
-  PRIMARY KEY (problem_id, case_id)
-)ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='问题表';
+# CREATE TABLE IF NOT EXISTS `problem_case`(
+#   `problem_id` BIGINT NOT NULL COMMENT 'problem id',
+#   `case_id` BIGINT NOT NULL NOT NULL COMMENT 'case id',
+#   `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
+#   `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+#   `status` TINYINT NOT NULL DEFAULT 0 COMMENT '状态码',
+#   -- 联合主键
+#   PRIMARY KEY (problem_id, case_id)
+# )ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='问题表';
 
 -- 用户-题目表(用户和题目关联表，用于记录一个用户对于某一题的相关信息)
 CREATE TABLE IF NOT EXISTS `user_problem`(
@@ -107,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `user_problem`(
   `status` TINYINT NOT NULL DEFAULT 0 COMMENT '状态码',
   -- 主键
   PRIMARY KEY (user_id, problem_id)
-)ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='问题表';
+)ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='用户-问题表';
 
 -- 问题-标签表(用于记录问题和标签对应关系)
 CREATE TABLE IF NOT EXISTS `problem_tag` (
@@ -118,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `problem_tag` (
   `status` TINYINT NOT NULL DEFAULT 0 COMMENT '状态码',
   -- 主键
   PRIMARY KEY (problem_id, tag_id)
-)ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='问题表';
+)ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='问题-标签表';
 
 -- 用户-提交记录表(用于记录用户提交记录)
 CREATE TABLE IF NOT EXISTS `user_record` (
@@ -131,4 +132,4 @@ CREATE TABLE IF NOT EXISTS `user_record` (
   `status` TINYINT NOT NULL DEFAULT 0 COMMENT '状态码',
   -- 主键
   PRIMARY KEY (id)
-)ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='问题表';
+)ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='用户-提交记录表';
