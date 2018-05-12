@@ -7,17 +7,19 @@ package com.lanxuewei.code_on_line.authorization.model;
  */
 public class TokenModel {
 
-    private Long userId;  //用户名
-    private String token; //随机生成的 uuid
-    private Byte status;  //身份码
+    private Long userId;      // 用户id
+    private String username;  // 用户名
+    private String token;     // 随机生成的 uuid
+    private Byte status;      // 身份码
 
     public TokenModel(Long userId, String token) {
         this.userId = userId;
         this.token = token;
     }
 
-    public TokenModel(Long userId, String token, Byte status) {
+    public TokenModel(Long userId, String username, String token, Byte status) {
         this.userId = userId;
+        this.username = username;
         this.token = token;
         this.status = status;
     }
@@ -44,5 +46,13 @@ public class TokenModel {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

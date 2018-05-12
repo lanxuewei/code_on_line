@@ -29,10 +29,10 @@ public class TokenManagerImp implements TokenManager {
     }
 
     @Override
-    public TokenModel createToken(Long userId, Byte status) {
+    public TokenModel createToken(Long userId,String username, Byte status) {
         //使用uuid作为源token
         String token = UUID.randomUUID().toString().replace("-", "");
-        TokenModel model = new TokenModel(userId, token, status);
+        TokenModel model = new TokenModel(userId, username, token, status);
         //存储到redis并设置过期时间
         redis.boundValueOps(userId).set(token, Constants.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
         return model;

@@ -58,7 +58,7 @@ public class TokenController {
                 !user.getPassword().equals(password)) {             //密码错误
             return new ReturnValue<>(ReturnCodeAndMsgEnum.Username_Or_Password_Error);
         }
-        TokenModel model = tokenManager.createToken(user.getId(), status);  //生成一个token，保持用户登陆状态
+        TokenModel model = tokenManager.createToken(user.getId(), user.getUserName(), status);  //生成一个token，保持用户登陆状态
 
         return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, model);
     }
