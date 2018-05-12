@@ -1,10 +1,12 @@
 package com.lanxuewei.code_on_line.dao.mapper;
 
 import com.lanxuewei.code_on_line.dao.entity.UserRecord;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * UserRecord mapper todo test
  */
+@Mapper
 public interface UserRecordMapper {
 
     //新增

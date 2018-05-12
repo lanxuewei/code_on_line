@@ -60,7 +60,7 @@ public class ProblemController {
         logger.info("---> add problem");
         logger.info("problemViewModel = {}", problemViewModel);
         problemService.addProblem(problemViewModel);
-        return null;
+        return new ReturnValue(ReturnCodeAndMsgEnum.Success);
     }
 
     /**

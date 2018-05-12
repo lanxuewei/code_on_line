@@ -24,7 +24,7 @@
       and tag_id = #{tagId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.ProblemTag" >
-    insert into problem_tag (problem_id, tag_id, status)
+    insert into problem_tag (problem_id, tag_id, `status`)
     values (#{problemId,jdbcType=BIGINT}, #{tagId,jdbcType=BIGINT}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.lanxuewei.code_on_line.dao.entity.ProblemTag" >
@@ -37,7 +37,7 @@
         tag_id,
       </if>
       <if test="status != null" >
-        status,
+        `status`,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >

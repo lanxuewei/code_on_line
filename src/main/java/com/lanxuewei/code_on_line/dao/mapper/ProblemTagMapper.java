@@ -2,10 +2,12 @@ package com.lanxuewei.code_on_line.dao.mapper;
 
 import com.lanxuewei.code_on_line.dao.entity.ProblemTag;
 import com.lanxuewei.code_on_line.dao.entity.ProblemTagKey;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * problemTag mapper todo test
  */
+@Mapper
 public interface ProblemTagMapper {
 
     //新增

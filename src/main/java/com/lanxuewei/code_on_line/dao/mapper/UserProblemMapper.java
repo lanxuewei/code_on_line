@@ -2,10 +2,12 @@ package com.lanxuewei.code_on_line.dao.mapper;
 
 import com.lanxuewei.code_on_line.dao.entity.UserProblem;
 import com.lanxuewei.code_on_line.dao.entity.UserProblemKey;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * UserProblem mapper todo test
  */
+@Mapper
 public interface UserProblemMapper {
 
     //新增
