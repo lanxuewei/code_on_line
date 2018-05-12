@@ -22,7 +22,7 @@ public class ProblemMapperTest extends BaseTest {
      * insert updateByPrimaryKey selectByPrimaryKey deleteByPrimaryKey test
      */
     @Override
-    public void insertUpdateByPrimaryKeyDeleteSelectByPrimaryKeyTest() {
+    public void insertUpdateByPrimaryKeyDeleteByPrimaryKeyTest() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
             ProblemMapper mapper = sqlSession.getMapper(ProblemMapper.class);
@@ -79,13 +79,13 @@ public class ProblemMapperTest extends BaseTest {
     @Override
     public Object getTestCase() {
         Problem problem = new Problem();
+        problem.setName("test");
         problem.setAuthor("lanxuewei");
         problem.setDes("the problem is test");
         problem.setDesHtml("the problem is test html");
         Byte difficulty = 1;
         problem.setDifficulty(difficulty);
         problem.setFail(0);
-        problem.setName("test");
         Byte status = 1;
         problem.setStatus(status);
         problem.setSubmit(1);

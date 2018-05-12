@@ -26,7 +26,7 @@ public class CaseMapperTest extends BaseTest{
      * insert updateByPrimaryKey selectByPrimaryKey deleteByPrimaryKey test
      */
     @Override
-    public void insertUpdateByPrimaryKeyDeleteSelectByPrimaryKeyTest() {
+    public void insertUpdateByPrimaryKeyDeleteByPrimaryKeyTest() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
             CaseMapper mapper = sqlSession.getMapper(CaseMapper.class);

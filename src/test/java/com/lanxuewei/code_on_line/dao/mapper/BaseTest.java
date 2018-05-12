@@ -31,7 +31,7 @@ public class BaseTest {
      */
     @Test
     @Transactional
-    public void insertUpdateByPrimaryKeyDeleteSelectByPrimaryKeyTest(){}
+    public void insertUpdateByPrimaryKeyDeleteByPrimaryKeyTest(){}
 
     /**
      * insertSelective updateByPrimaryKeySelective selectByPrimaryKey test

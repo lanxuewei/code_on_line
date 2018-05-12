@@ -26,7 +26,7 @@ public class TagMapperTest extends BaseTest{
      * insert updateByPrimaryKey selectByPrimaryKey deleteByPrimaryKey test
      */
     @Override
-    public void insertUpdateByPrimaryKeyDeleteSelectByPrimaryKeyTest() {
+    public void insertUpdateByPrimaryKeyDeleteByPrimaryKeyTest() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
             TagMapper mapper = sqlSession.getMapper(TagMapper.class);
