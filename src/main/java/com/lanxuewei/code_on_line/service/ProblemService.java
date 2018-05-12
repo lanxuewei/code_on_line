@@ -3,6 +3,7 @@ package com.lanxuewei.code_on_line.service;
 import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
 import com.lanxuewei.code_on_line.model.Page;
+import com.lanxuewei.code_on_line.model.ProblemViewModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +18,10 @@ public interface ProblemService {
     //add
     /**
      * add problem
-     * @param problem
+     * @param problemViewModel
      * @return true or false
      */
-    boolean addProblem(Problem problem);
+    boolean addProblem(ProblemViewModel problemViewModel);
 
     //delete
     /**

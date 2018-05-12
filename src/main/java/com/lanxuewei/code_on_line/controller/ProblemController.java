@@ -59,7 +59,7 @@ public class ProblemController {
     public ReturnValue addProblem(@RequestBody ProblemViewModel problemViewModel) {
         logger.info("---> add problem");
         logger.info("problemViewModel = {}", problemViewModel);
-        //problemService.addProblem(problemViewModel);
+        problemService.addProblem(problemViewModel);
         return null;
     }
 
