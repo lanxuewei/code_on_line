@@ -23,6 +23,10 @@
         <mapper class="com.lanxuewei.code_on_line.dao.mapper.TagMapper" />
         <mapper class="com.lanxuewei.code_on_line.dao.mapper.ProblemMapper" />
         <mapper class="com.lanxuewei.code_on_line.dao.mapper.CaseMapper" />
+        <!-- 关联表 -->
+        <mapper class="com.lanxuewei.code_on_line.dao.mapper.ProblemTagMapper" />
+        <mapper class="com.lanxuewei.code_on_line.dao.mapper.UserProblemMapper" />
+        <mapper class="com.lanxuewei.code_on_line.dao.mapper.UserRecordMapper" />
     </mappers>
 
 </configuration>

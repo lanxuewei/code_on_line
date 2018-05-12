@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lanxuewei.code_on_line.dao.mapper.ProblemTagMapper" >
+  <resultMap id="BaseResultMap" type="com.lanxuewei.code_on_line.dao.entity.ProblemTag" >
+    <id column="problem_id" property="problemId" jdbcType="BIGINT" />
+    <id column="tag_id" property="tagId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    problem_id, tag_id, create_time, update_time, `status`
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lanxuewei.code_on_line.dao.entity.ProblemTagKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from problem_tag
+    where problem_id = #{problemId,jdbcType=BIGINT}
+      and tag_id = #{tagId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.lanxuewei.code_on_line.dao.entity.ProblemTagKey" >
+    delete from problem_tag
+    where problem_id = #{problemId,jdbcType=BIGINT}
+      and tag_id = #{tagId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.ProblemTag" >
+    insert into problem_tag (problem_id, tag_id, status)
+    values (#{problemId,jdbcType=BIGINT}, #{tagId,jdbcType=BIGINT}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lanxuewei.code_on_line.dao.entity.ProblemTag" >
+    insert into problem_tag
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="problemId != null" >
+        problem_id,
+      </if>
+      <if test="tagId != null" >
+        tag_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="problemId != null" >
+        #{problemId,jdbcType=BIGINT},
+      </if>
+      <if test="tagId != null" >
+        #{tagId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lanxuewei.code_on_line.dao.entity.ProblemTag" >
+    update problem_tag
+    <set >
+      <if test="status != null" >
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where problem_id = #{problemId,jdbcType=BIGINT}
+      and tag_id = #{tagId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lanxuewei.code_on_line.dao.entity.ProblemTag" >
+    update problem_tag
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=TINYINT}
+    where problem_id = #{problemId,jdbcType=BIGINT}
+      and tag_id = #{tagId,jdbcType=BIGINT}
+  </update>
+</mapper>
