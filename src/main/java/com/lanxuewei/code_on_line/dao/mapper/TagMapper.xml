@@ -63,14 +63,24 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- select all -->
-  <select id="selectAll" resultMap="BaseResultMap">
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Byte">
     select
     <include refid="Base_Column_List" />
     from tag
+    <where>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT}
+      </if>
+    </where>
   </select>
   <!-- count all case -->
-  <select id="selectCount" resultType="java.lang.Integer">
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.Byte">
     select count(*)
     from tag
+    <where>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT}
+      </if>
+    </where>
   </select>
 </mapper>

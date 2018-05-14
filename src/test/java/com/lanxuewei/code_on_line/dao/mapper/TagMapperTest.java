@@ -85,20 +85,24 @@ public class TagMapperTest extends BaseTest{
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
             TagMapper mapper = sqlSession.getMapper(TagMapper.class);
-            Tag tag = (Tag) getTestCase();
-            //test insert
-            mapper.insert(tag);
-            tag.setName("test1");
-            mapper.insert(tag);
-            tag.setName("test2");
-            mapper.insert(tag);
-            //selectAll
-            List<Tag> tags = mapper.selectAll();
-            logger.debug("tags = {}", tags);
-            //selectCout
-            int count = mapper.selectCount();
-            logger.debug("count = {}", count);
-            Assert.assertEquals(tags.size(), count);
+            //select all
+            Byte status = null;
+            List<Tag> allTags = mapper.selectAll(status);
+            int allCount = mapper.selectCount(status);
+            logger.info("allTags = {}", allTags);
+            logger.info("allCount = {}", allCount);
+            //select all deleted
+            status = -1;
+            List<Tag> allDeletedTags = mapper.selectAll(status);
+            logger.info("allDeleteTags = {}", allDeletedTags);
+            int allDeletedCount = mapper.selectCount(status);
+            logger.info("allDeleteCount = {}", allDeletedCount);
+            //select all normal tags
+            status = 0;
+            List<Tag> allNormalTags = mapper.selectAll(status);
+            logger.info("allNormalTags = {}", allNormalTags);
+            int allNormalCount = mapper.selectCount(status);
+            logger.info("allNormalCount = {}", allNormalCount);
         } finally {
             if (sqlSession != null) {
                 sqlSession.close();

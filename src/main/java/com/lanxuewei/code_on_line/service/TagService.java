@@ -35,15 +35,15 @@ public interface TagService {
      */
     Tag findTagById(Long id);
     /**
-     * 查找所有标签
+     * 查找所有标签(状态划分 0:正常 -1:已删除 null:所有)
      * @return all tags
      */
-    List<Tag> selectAll();
+    List<Tag> selectAll(Byte status);
     /**
-     * 查找总记录数
+     * 查找总记录数(状态划分 0:正常 -1:已删除 null:所有)
      * @return count all tags
      */
-    int selectCount();
+    int selectCount(Byte status);
 
     //修改
     /**

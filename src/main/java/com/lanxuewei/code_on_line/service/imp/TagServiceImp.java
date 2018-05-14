@@ -39,14 +39,23 @@ public class TagServiceImp implements TagService{
         return tagMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 查找所有标签(状态划分 0:正常 -1:已删除 null:所有)
+     * @param status
+     * @return
+     */
     @Override
-    public List<Tag> selectAll() {
-        return tagMapper.selectAll();
+    public List<Tag> selectAll(Byte status) {
+        return tagMapper.selectAll(status);
     }
 
+    /**
+     * 查找所有标签总数(状态划分 0:正常 -1:已删除 null:所有)
+     * @return
+     */
     @Override
-    public int selectCount() {
-        return tagMapper.selectCount();
+    public int selectCount(Byte status) {
+        return tagMapper.selectCount(status);
     }
 
     @Override

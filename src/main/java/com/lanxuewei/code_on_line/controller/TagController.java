@@ -26,14 +26,14 @@ public class TagController {
     private TagService tagService;
 
     /**
-     * 获取所有标签
+     * 获取所有标签(状态划分 0:正常 -1:已删除 null:所有)
      * @return all tags
      */
     @RequestMapping(method = RequestMethod.GET)
     @NoNeedLogin
     @ApiOperation("find tag list")
-    public ReturnValue getTagList() {
-        return new ReturnValue(ReturnCodeAndMsgEnum.Success, tagService.selectAll());
+    public ReturnValue getTagList(@RequestParam Byte status) {
+        return new ReturnValue(ReturnCodeAndMsgEnum.Success, tagService.selectAll(status));
     }
 
     /**
