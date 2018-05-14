@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `problem`(
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='问题表';
 
 -- 插入测试数据
-insert into problem(`name`, `des`, `des_html` , `difficulty`, `author`) values ("test", "test des", "test des for html", 1, "lanxuewei");
+insert into problem(`name`, `des`, `des_html` , `difficulty`, `author`) values ("test1", "test des", "test des for html", 1, "lanxuewei");
 
 -- 用例表(用于存储问题对应的各种用例)
 CREATE TABLE IF NOT EXISTS `case`(
@@ -109,6 +109,9 @@ CREATE TABLE IF NOT EXISTS `user_problem`(
   -- 主键
   PRIMARY KEY (user_id, problem_id)
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8 COMMENT='用户-问题表';
+
+-- 测试数据
+insert into `user_problem`(user_id, problem_id, submit, fail, success, last_submit) values (1, 1, 3, 1, 2, 'last_submit');
 
 -- 问题-标签表(用于记录问题和标签对应关系)
 CREATE TABLE IF NOT EXISTS `problem_tag` (

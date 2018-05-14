@@ -176,4 +176,10 @@
     select count(*)
     from problem
   </select>
+  <!-- 查询相应难易度对应问题数 -->
+  <select id="selectCountByDifficulty" resultType="map">
+    select difficulty,count(*) as `count`
+    from problem
+    group by difficulty;
+  </select>
 </mapper>

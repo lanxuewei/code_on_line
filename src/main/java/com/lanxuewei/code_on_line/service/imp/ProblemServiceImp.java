@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * create by lanxuewei in 2018/4/21 18:39
@@ -56,11 +58,11 @@ public class ProblemServiceImp implements ProblemService{
             problemMapper.insertSelective(problem);                                          // 1、插入问题
             List<Case> cases = caseViewModelsToCases(problemViewModel, problem.getId());     // 获取 Case 实体集合
             for (int i = 0; i < cases.size(); i++) {
-                caseMapper.insertSelective(cases.get(i));  // 2、插入测试用例
+                caseMapper.insertSelective(cases.get(i));      // 2、插入测试用例
             }
             List<Tag> tags = problemViewModel.getTags();                                     // 获取 Tag 实体集合
             for (int i = 0; i < tags.size(); i++) {
-                ProblemTag problemTag = new ProblemTag();  // 用于插入问题标签关联记录
+                ProblemTag problemTag = new ProblemTag();      // 用于插入问题标签关联记录
                 problemTag.setProblemId(problem.getId());
                 problemTag.setTagId(tags.get(i).getId());
                 problemTagMapper.insertSelective(problemTag);  // 3、插入 问题-标签关联记录
@@ -121,11 +123,46 @@ public class ProblemServiceImp implements ProblemService{
         return problemMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 根据题目难易度查询对应的题目数
+     * @return
+     */
+    @Override
+    public Map<Integer, Integer> findCountByDifficulty() {
+        List<Map<String, Integer>> list = problemMapper.selectCountByDifficulty();
+        Map<Integer, Integer> result = transferCountMap(list);
+        return result;
+    }
+    /**
+     * 将根据难度分组统计数据的list转化为map
+     *   结果 map 为 {0->2, 1->3, 2->6} key为难度系数,即 0 1 2, value为问题数
+     * @param list
+     * @return
+     */
+    private Map<Integer, Integer> transferCountMap(List<Map<String, Integer>> list) {
+        if (list != null) {
+            Map<Integer, Integer> resultMap = new HashMap<>();
+            for (Map<String, Integer> map : list) {
+                logger.info("map = {}", map);
+                //Integer count = map.get("difficulty");
+                resultMap.put(map.get("difficulty"), map.get("count"));
+            }
+            return resultMap;
+        }
+        return null;
+    }
+    /**
+     * 查询所有问题
+     * @return
+     */
     @Override
     public List<Problem> selectAll() {
         return problemMapper.selectAll();
     }
-
+    /**
+     * 查询问题总记录数
+     * @return
+     */
     @Override
     public int selectCount() {
         return problemMapper.selectCount();

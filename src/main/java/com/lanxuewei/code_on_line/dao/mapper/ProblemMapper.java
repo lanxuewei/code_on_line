@@ -5,6 +5,7 @@ import com.lanxuewei.code_on_line.dao.entity.Problem;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 对应 Problem 的CURD操作
@@ -31,6 +32,11 @@ public interface ProblemMapper {
      * @return count all problem
      */
     int selectCount();
+    /**
+     * 查询相应难易度对应问题数
+     * @return
+     */
+    List<Map<String, Integer>> selectCountByDifficulty();
 
     //更新
     int updateByPrimaryKeySelective(Problem record);

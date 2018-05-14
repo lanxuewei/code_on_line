@@ -7,6 +7,7 @@ import com.lanxuewei.code_on_line.model.ProblemViewModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * create by lanxuewei in 2018/4/21 17:30
@@ -55,6 +56,11 @@ public interface ProblemService {
      * @return 分页后数据集以及分页信息
      */
     Page<Problem> selectByPage(Integer pageNum, Integer pageSize);
+    /**
+     * 查询各难易度对应的题目数
+     * @return
+     */
+    Map<Integer, Integer> findCountByDifficulty();
 
     //modify
     /**

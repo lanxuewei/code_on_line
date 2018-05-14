@@ -4,11 +4,11 @@ import com.lanxuewei.code_on_line.dao.entity.Problem;
 import com.lanxuewei.code_on_line.utils.CompareUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * create by lanxuewei in 2018/4/21 15:05
@@ -70,6 +70,45 @@ public class ProblemMapperTest extends BaseTest {
             sqlSession.close();
         }
     }
+
+    /**
+     * 查询相应难易度对应问题数 test
+     */
+    @Test
+    public void selectCountByDifficultyTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            ProblemMapper mapper = sqlSession.getMapper(ProblemMapper.class);
+            //test
+            List<Map<String, Integer>> resultList = mapper.selectCountByDifficulty();
+            logger.info("resultList = {}", resultList);
+            //Map<Integer, Integer> map = transferCountMap(resultList);
+            //logger.info("map = {}", map);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
+    /**
+     * 将根据难度分组统计数据的list转化为map
+     *   结果 map 为 {0->2, 1->3, 2->6} key为难度系数,即 0 1 2, value为问题数
+     * @param list
+     * @return
+     */
+/*    private Map<Integer, Integer> transferCountMap(List<Map<String, Integer>> list) {
+        if (list != null) {
+            Map<Integer, Integer> resultMap = new HashMap<>();
+            for (Map<String, Integer> map : list) {
+                logger.info("map = {}", map);
+                //Integer count = map.get("difficulty");
+                resultMap.put(map.get("difficulty"), map.get("count"));
+            }
+            return resultMap;
+        }
+        return null;
+    }*/
 
     /**
      * get test case
