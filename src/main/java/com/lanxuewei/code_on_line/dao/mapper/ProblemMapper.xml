@@ -176,10 +176,14 @@
     select count(*)
     from problem
   </select>
+  <!-- 返回类型 -->
+  <resultMap id="difficultyMap" type="map">
+    <result column="count" property="count" javaType="java.lang.Integer"/>
+  </resultMap>
   <!-- 查询相应难易度对应问题数 -->
-  <select id="selectCountByDifficulty" resultType="map">
+  <select id="selectCountByDifficulty" resultType="map" resultMap="difficultyMap">
     select difficulty,count(*) as `count`
     from problem
-    group by difficulty;
+    group by difficulty
   </select>
 </mapper>

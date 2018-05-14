@@ -20,11 +20,17 @@ public interface UserProblemMapper {
 
     //查找
     UserProblem selectByPrimaryKey(UserProblemKey key);
+    /**
+     * 根据 userId 查询完成题目数
+     * @param userId
+     * @return
+     */
+    Integer countAllResolved(Long userId);
 
     //更新
     int updateByPrimaryKeySelective(UserProblem record);
 
-    int updateByPrimaryKeyWithBLOBs(UserProblem record);
+    //int updateByPrimaryKeyWithBLOBs(UserProblem record);
 
     int updateByPrimaryKey(UserProblem record);
 }

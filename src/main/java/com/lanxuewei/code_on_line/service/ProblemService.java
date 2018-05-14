@@ -2,6 +2,7 @@ package com.lanxuewei.code_on_line.service;
 
 import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
+import com.lanxuewei.code_on_line.dto.ProblemCountDto;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
 import org.springframework.stereotype.Service;
@@ -39,16 +40,19 @@ public interface ProblemService {
      * @return true or false
      */
     Problem findProblemById(Long id);
+
     /**
      * 查找所有问题
      * @return all problems
      */
     List<Problem> selectAll();
+
     /**
      * 查找总记录数
      * @return count all problems
      */
-    int selectCount();
+    Integer selectCount();
+
     /**
      * 分页查找problem
      * @param pageNum 页码
@@ -56,11 +60,25 @@ public interface ProblemService {
      * @return 分页后数据集以及分页信息
      */
     Page<Problem> selectByPage(Integer pageNum, Integer pageSize);
+
     /**
      * 查询各难易度对应的题目数
      * @return
      */
-    Map<Integer, Integer> findCountByDifficulty();
+    Map<Integer, Integer> countByDifficulty();
+
+    /**
+     * 统计该用户所通过的题数
+     * @return
+     */
+    Integer countAllResolved(Long userId);
+
+    /**
+     * 获取题目相关统计信息以及用户完成题目数
+     * @param userId
+     * @return
+     */
+    ProblemCountDto countProblemAndResolved(Long userId);
 
     //modify
     /**

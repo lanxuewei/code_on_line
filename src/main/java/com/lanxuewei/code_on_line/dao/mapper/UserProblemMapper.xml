@@ -36,8 +36,7 @@
   </delete>
   <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.UserProblem" >
     insert into user_problem (user_id, problem_id, submit, 
-      fail, success, status, last_submit
-      )
+      fail, success, `status`, last_submit)
     values (#{userId,jdbcType=BIGINT}, #{problemId,jdbcType=BIGINT}, #{submit,jdbcType=INTEGER}, 
       #{fail,jdbcType=INTEGER}, #{success,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{lastSubmit,jdbcType=LONGVARCHAR})
   </insert>
@@ -60,7 +59,7 @@
         success,
       </if>
       <if test="status != null" >
-        status,
+        `status`,
       </if>
       <if test="lastSubmit != null" >
         last_submit,
@@ -135,4 +134,12 @@
     where user_id = #{userId,jdbcType=BIGINT}
       and problem_id = #{problemId,jdbcType=BIGINT}
   </update>
+  <!-- 根据用户id查询完成的题目数 -->
+  <select id="countAllResolved" resultType="java.lang.Integer">
+    select count(*)
+    from user_problem
+    where user_id = #{userId,jdbcType=BIGINT}
+     and `status` = 0
+     and success > 0
+  </select>
 </mapper>

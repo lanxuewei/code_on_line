@@ -31,7 +31,7 @@ public interface ProblemMapper {
      * 查找总记录数
      * @return count all problem
      */
-    int selectCount();
+    Integer selectCount();
     /**
      * 查询相应难易度对应问题数
      * @return

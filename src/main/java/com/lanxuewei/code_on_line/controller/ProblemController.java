@@ -1,9 +1,6 @@
 package com.lanxuewei.code_on_line.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.lanxuewei.code_on_line.authorization.annotation.NoNeedLogin;
 import com.lanxuewei.code_on_line.constant.ReturnCodeAndMsgEnum;
 import com.lanxuewei.code_on_line.constant.ServiceConstant;
@@ -12,7 +9,6 @@ import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
 import com.lanxuewei.code_on_line.model.ReturnValue;
 import com.lanxuewei.code_on_line.service.ProblemService;
-import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,6 +84,17 @@ public class ProblemController {
         logger.info("---> findProblemById");
         Assert.notNull(id, "id can not be empty");
         return new ReturnValue<Problem>(ReturnCodeAndMsgEnum.Success, problemService.findProblemById(id));
+    }
+
+    /**
+     * 获取problem统计相关信息 todo userId需要从token中获取
+     * @return
+     */
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    @NoNeedLogin
+    public ReturnValue countAllByDifficultyAndResolved(@RequestParam Long userId) {
+        logger.info("---> countAllByDifficultyAndResolved");
+        return new ReturnValue(ReturnCodeAndMsgEnum.Success, problemService.countProblemAndResolved(userId));
     }
 
 }

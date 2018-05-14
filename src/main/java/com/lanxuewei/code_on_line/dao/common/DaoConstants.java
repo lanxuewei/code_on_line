@@ -20,7 +20,7 @@ public interface DaoConstants {
         /** problem 表中 difficult 字段*/
         Byte easy = 0;              //简单
         Byte medium = 1;            //中等
-        Byte difficult = 2;         //难
+        Byte difficulty = 2;        //难
     }
 
 }
