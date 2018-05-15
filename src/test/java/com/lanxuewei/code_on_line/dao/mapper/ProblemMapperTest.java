@@ -85,27 +85,37 @@ public class ProblemMapperTest extends BaseTest {
             // test
             // all problems
             Byte status = null;
-            List<Problem> allProblems = mapper.selectAll(status, null);
+            List<Problem> allProblems = mapper.selectAll(status, null, null,null, null);
             int allCount = mapper.selectCount(status);
             Assert.assertEquals(allProblems.size(), allCount);
             // all normal problems
             status = 0;
-            List<Problem> allNormalProblems = mapper.selectAll(status, null);
+            List<Problem> allNormalProblems = mapper.selectAll(status, null, null,null, null);
             int allNormalCount = mapper.selectCount(status);
             Assert.assertEquals(allNormalProblems.size(), allNormalCount);
             // all deleted problems
             status = -1;
-            List<Problem> allDeletedProblems = mapper.selectAll(status, null);
+            List<Problem> allDeletedProblems = mapper.selectAll(status, null, null,null, null);
             int allDeletedCount = mapper.selectCount(status);
             Assert.assertEquals(allDeletedProblems.size(), allDeletedCount);
             // all problem by keyword
             status = 0;
             String keyword = "te";
-            List<Problem> keyWordProblems = mapper.selectAll(status, keyword);
+            List<Problem> keyWordProblems = mapper.selectAll(status, keyword, null,null, null);
             for (Problem item : keyWordProblems) {
                 logger.info("name = {}", item.getName());
             }
-            //logger.info("keyWordProblems = {}", keyWordProblems);
+            // all problem where problemId in {14,15}
+            List<Long> resolvedProblemIds = new ArrayList<>();
+            resolvedProblemIds.add(14L);
+            resolvedProblemIds.add(15L);
+            Byte resolve = 0;  // 表示id在集合中
+            List<Problem> allResolvedProblemIds = mapper.selectAll(status, null, null, resolve, resolvedProblemIds);
+            logger.info("resolvedProblemIds = {}", allResolvedProblemIds);
+            // all problem where problemId not in {14,15}
+            resolve = -1;
+            List<Problem> allNotResolvedProblemIds = mapper.selectAll(status, null, null, resolve, resolvedProblemIds);
+            logger.info("allNotResolvedProblemIds = {}", allNotResolvedProblemIds);
         } finally {
             if (sqlSession != null) {
                 sqlSession.close();

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -104,6 +105,25 @@ public class UserProblemMapperTest extends BaseTest {
             logger.info("count = {}", count);
             Integer insertCount = 3;
             Assert.assertEquals(insertCount, count);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
+    /**
+     * selectProblemIdByResolved test
+     */
+    @Test
+    public void selectProblemIdByResolvedTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            UserProblemMapper mapper = sqlSession.getMapper(UserProblemMapper.class);
+            // test
+            Long userId = 3L;
+            List<Long> resolvedProblmeIds = mapper.selectProblemIdByResolved(userId);
+            logger.info("resolvedProblemIds = {}", resolvedProblmeIds);
         } finally {
             if (sqlSession != null) {
                 sqlSession.close();

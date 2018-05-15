@@ -42,6 +42,8 @@ public class ProblemServiceImp implements ProblemService{
     private ProblemTagMapper problemTagMapper;
     @Autowired
     private UserProblemMapper userProblemMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     private static final String Difficulty_Str = "difficulty";
     private static final String Count_Str = "count";
@@ -193,13 +195,17 @@ public class ProblemServiceImp implements ProblemService{
     }
 
     /**
-     * 查询所有问题(状态划分 0:正常 -1:已删除 null:所有)
-     * @param status 状态码
+     * 查询所有问题
+     * @param status 状态码(状态划分 0:正常 -1:已删除 null:所有)
+     * @param keyword 关键字
+     * @param difficulty 难易度
+     * @param resolve 状态码(针对于学生身份 状态划分 null:所有 0:已做 -1:未做)
+     * @param resolvedProblemIds 已做题目 problemId 集
      * @return
      */
     @Override
-    public List<Problem> selectAll(Byte status) {
-        return problemMapper.selectAll(status);
+    public List<Problem> selectAll(Byte status, String keyword, Byte difficulty, Byte resolve, List<Long> resolvedProblemIds) {
+        return problemMapper.selectAll(status, keyword, difficulty, resolve , resolvedProblemIds);
     }
 
     /**
@@ -227,13 +233,50 @@ public class ProblemServiceImp implements ProblemService{
      * @param pageNum 页码
      * @param pageSize 每页大小
      * @param status 状态码
+     * @param keyword 关键字(存在则对题目名进行模糊查找)
+     * @param difficulty 难易度
+     * @param userId 用户判断用户身份
+     * @param resolve 状态码(针对于学生身份 状态划分 null:所有 0:已做 -1:未做)
      * @return
      */
     @Override
-    public Page<Problem> selectByPage(Integer pageNum, Integer pageSize, Byte status) {
-        PageHelper.startPage(pageNum, pageSize);  //分页查询
-        List<Problem> problems = problemMapper.selectAll(status);
-        return new Page<>(problems);
+    @Transactional
+    public Page<Problem> selectByPage(Integer pageNum,
+                                      Integer pageSize,
+                                      Byte status,
+                                      String keyword,
+                                      Byte difficulty,
+                                      Long userId,
+                                      Byte resolve) {
+        boolean isManager = isManager(userId);          // 判断是否为管理员
+        List<Problem> allProblems = null;
+        if (isManager) {  // 管理员身份
+            PageHelper.startPage(pageNum, pageSize);
+            allProblems = problemMapper.selectAll(status, keyword, difficulty, null, null);
+        } else {          // 学生身份
+            List<Long> allResolvedProblemIds = userProblemMapper.
+                    selectProblemIdByResolved(userId);  // 通过 userId 查找该用户已做题目集
+            if (allResolvedProblemIds.size() == 0) {    // 如果为0表示置为null 否则下面查询将会出错
+                allResolvedProblemIds = null;
+            }
+            PageHelper.startPage(pageNum, pageSize);
+            allProblems = problemMapper.selectAll(status, keyword, difficulty, resolve, allResolvedProblemIds);
+        }
+        return new Page<>(allProblems);
+    }
+
+    /**
+     * 判断该用户是否为管理员
+     * @param userId
+     * @return
+     */
+    private boolean isManager(Long userId) {
+        Byte status = userMapper.selectStatusByUserId(userId);  // 通过 userId 查找对应的 status
+        if (status == ServiceConstant.User.manager) {  // 表示管理员
+            return true;
+        } else {
+            return false;                              // 学生身份
+        }
     }
 
     @Override

@@ -25,4 +25,12 @@ public class ServiceConstant {
         Byte Normal = 0;    // 正常 可使用
         Byte Deleted = -1;  // 已删除 不可使用
     }
+
+    /**
+     * User 相关业务
+     */
+    public interface User {
+        Byte manager = 0;  // 管理员
+        Byte student = 1;  // 学生
+    }
 }

@@ -171,11 +171,40 @@
     <include refid="Blob_Column_List" />
     from problem
     <where>
+      <!-- 状态码 -1:已删除 0:正常 -->
       <if test="status != null">
         `status` = #{status,jdbcType=TINYINT}
       </if>
+      <!-- 难易度 -->
+      <if test="difficulty != null">
+        and difficulty = #{difficulty,jdbcType=TINYINT}
+      </if>
+      <!-- keyword 为关键字 可为空 -->
       <if test="keyword != null">
         and locate(#{keyword,jdbcType=VARCHAR}, `name`)>0
+      </if>
+      <!-- resolve: 状态码(针对于学生身份 状态划分 null:所有 0:已做 -1:未做)  -->
+      <if test="resolve != null">
+        <!-- 已做 id in resolvedProblemIds -->
+        <if test="resolve == 0">
+          <if test="resolvedProblemIds != null">
+            and id in
+            <foreach collection="resolvedProblemIds" item="item" index="index"
+                     open="(" separator="," close=")">
+              #{item}
+            </foreach>
+          </if>
+        </if>
+        <!-- 未做 id not in resolvedProblemIds -->
+        <if test="resolve == -1">
+          <if test="resolvedProblemIds != null">
+            and id not in
+            <foreach collection="resolvedProblemIds" item="item" index="index"
+                     open="(" separator="," close=")">
+              #{item}
+            </foreach>
+          </if>
+        </if>
       </if>
     </where>
   </select>

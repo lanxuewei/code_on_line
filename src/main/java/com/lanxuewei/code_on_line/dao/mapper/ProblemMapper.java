@@ -27,9 +27,16 @@ public interface ProblemMapper {
      * 查找所有问题
      * @param status 状态码(状态划分 0:正常 -1:已删除 null:所有)
      * @param keyword 关键字(为空时不参与查询)
+     * @param difficulty 难易度(可为空)
+     * @param resolvedProblemIds 用户已做题目 problemId 集合(可为空)
+     * @param resolve 状态码(针对于学生身份 状态划分 null:所有 0:已做 -1:未做)
      * @return all problem
      */
-    List<Problem> selectAll(@Param("status") Byte status, @Param("keyword") String keyword);
+    List<Problem> selectAll(@Param("status") Byte status,
+                            @Param("keyword") String keyword,
+                            @Param("difficulty") Byte difficulty,
+                            @Param("resolve") Byte resolve,
+                            @Param("resolvedProblemIds") List<Long> resolvedProblemIds);
     /**
      * 查找总记录数(状态划分 0:正常 -1:已删除 null:所有)
      * @return count all problem

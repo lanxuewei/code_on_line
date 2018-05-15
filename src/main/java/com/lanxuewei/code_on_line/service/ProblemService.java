@@ -42,12 +42,19 @@ public interface ProblemService {
     Problem findProblemById(Long id);
 
     /**
-     * 查找所有问题
+     * 查询所有问题
      * @param status 状态码(状态划分 0:正常 -1:已删除 null:所有)
      * @param keyword 关键字
-     * @return all problems
+     * @param difficulty 难易度
+     * @param resolve 状态码(针对于学生身份 状态划分 null:所有 0:已做 -1:未做)
+     * @param resolvedProblemIds 已做题目 problemId 集
+     * @return
      */
-    List<Problem> selectAll(Byte status, String keyword);
+    List<Problem> selectAll(Byte status,
+                            String keyword,
+                            Byte difficulty,
+                            Byte resolve,
+                            List<Long> resolvedProblemIds);
 
     /**
      * 查找总记录数
@@ -57,13 +64,23 @@ public interface ProblemService {
     Integer selectCount(Byte status);
 
     /**
-     * 分页查找problem
+     * 分页查找问题(状态划分 0:正常 -1:已删除 null:所有) todo......
      * @param pageNum 页码
      * @param pageSize 每页大小
-     * @param status 状态码(状态划分 0:正常 -1:已删除 null:所有)
+     * @param status 状态码
+     * @param keyword 关键字(存在则对题目名进行模糊查找)
+     * @param difficulty 难易度
+     * @param userId 用户判断用户身份
+     * @param resolve 状态码(针对于学生身份 状态划分 null:所有 0:已做 -1:未做)
      * @return 分页后数据集以及分页信息
      */
-    Page<Problem> selectByPage(Integer pageNum, Integer pageSize, Byte status);
+    Page<Problem> selectByPage(Integer pageNum,
+                               Integer pageSize,
+                               Byte status,
+                               String keyword,
+                               Byte difficulty,
+                               Long userId,
+                               Byte resolve);
 
     /**
      * 查询各难易度对应的题目数

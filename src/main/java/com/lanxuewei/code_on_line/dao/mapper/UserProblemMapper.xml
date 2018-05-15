@@ -139,7 +139,15 @@
     select count(*)
     from user_problem
     where user_id = #{userId,jdbcType=BIGINT}
-     and `status` = 0
-     and success > 0
+      and `status` = 0
+      and success > 0
+  </select>
+  <!-- 查询已做题目集 -->
+  <select id="selectProblemIdByResolved" resultType="java.lang.Long">
+    select problem_id
+    from user_problem
+    where user_id = #{userId,jdbcType=BIGINT}
+      and `status` = 0
+      and success > 0
   </select>
 </mapper>
