@@ -42,24 +42,27 @@ public interface ProblemService {
     Problem findProblemById(Long id);
 
     /**
-     * 查找所有问题
+     * 查找所有问题(状态划分 0:正常 -1:已删除 null:所有)
+     * @param status 状态码
      * @return all problems
      */
-    List<Problem> selectAll();
+    List<Problem> selectAll(Byte status);
 
     /**
-     * 查找总记录数
+     * 查找总记录数(状态划分 0:正常 -1:已删除 null:所有)
+     * @param status 状态码
      * @return count all problems
      */
-    Integer selectCount();
+    Integer selectCount(Byte status);
 
     /**
-     * 分页查找problem
+     * 分页查找problem(状态划分 0:正常 -1:已删除 null:所有)
      * @param pageNum 页码
      * @param pageSize 每页大小
+     * @param status 状态码
      * @return 分页后数据集以及分页信息
      */
-    Page<Problem> selectByPage(Integer pageNum, Integer pageSize);
+    Page<Problem> selectByPage(Integer pageNum, Integer pageSize, Byte status);
 
     /**
      * 查询各难易度对应的题目数

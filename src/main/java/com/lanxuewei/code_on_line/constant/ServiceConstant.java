@@ -17,4 +17,12 @@ public class ServiceConstant {
         String Default_PageNum = "1";   //默认为第1页
         String Default_PageSize = "5";  //默认每页大小为5
     }
+
+    /**
+     * Problem 相关业务
+     */
+    public interface Problem {
+        Byte Normal = 0;    // 正常 可使用
+        Byte Deleted = -1;  // 已删除 不可使用
+    }
 }

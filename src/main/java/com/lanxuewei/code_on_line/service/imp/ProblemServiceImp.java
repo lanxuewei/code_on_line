@@ -1,6 +1,7 @@
 package com.lanxuewei.code_on_line.service.imp;
 
 import com.github.pagehelper.PageHelper;
+import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
 import com.lanxuewei.code_on_line.dao.entity.ProblemTag;
@@ -169,7 +170,7 @@ public class ProblemServiceImp implements ProblemService{
     public ProblemCountDto countProblemAndResolved(Long userId) {
         Map<Integer, Integer> difficultyMap = countByDifficulty();                        // 查询难易度对应的题目数
         ProblemCountDto problemCountDto = difficultyMapToProblemCountDto(difficultyMap);  // 获取难易度对应题目数属性
-        Integer totalCount = selectCount();                             // 查询题目总数
+        Integer totalCount = selectCount(ServiceConstant.Problem.Normal);                 // 查询题目总数
         problemCountDto.setTotalCount(totalCount);
         Integer resolved = userProblemMapper.countAllResolved(userId);  // 已完成题目数
         problemCountDto.setResolved(resolved);
@@ -192,21 +193,23 @@ public class ProblemServiceImp implements ProblemService{
     }
 
     /**
-     * 查询所有问题
+     * 查询所有问题(状态划分 0:正常 -1:已删除 null:所有)
+     * @param status 状态码
      * @return
      */
     @Override
-    public List<Problem> selectAll() {
-        return problemMapper.selectAll();
+    public List<Problem> selectAll(Byte status) {
+        return problemMapper.selectAll(status);
     }
 
     /**
-     * 查询问题总记录数
+     * 查询问题总记录数(状态划分 0:正常 -1:已删除 null:所有)
+     * @param status 状态码
      * @return
      */
     @Override
-    public Integer selectCount() {
-        return problemMapper.selectCount();
+    public Integer selectCount(Byte status) {
+        return problemMapper.selectCount(status);
     }
 
     /**
@@ -220,15 +223,16 @@ public class ProblemServiceImp implements ProblemService{
     }
 
     /**
-     * 分页查找问题
+     * 分页查找问题(状态划分 0:正常 -1:已删除 null:所有)
      * @param pageNum 页码
      * @param pageSize 每页大小
+     * @param status 状态码
      * @return
      */
     @Override
-    public Page<Problem> selectByPage(Integer pageNum, Integer pageSize) {
+    public Page<Problem> selectByPage(Integer pageNum, Integer pageSize, Byte status) {
         PageHelper.startPage(pageNum, pageSize);  //分页查询
-        List<Problem> problems = problemMapper.selectAll();
+        List<Problem> problems = problemMapper.selectAll(status);
         return new Page<>(problems);
     }
 

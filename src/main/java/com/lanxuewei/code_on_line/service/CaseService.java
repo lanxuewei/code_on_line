@@ -35,22 +35,23 @@ public interface CaseService {
      */
     Case findCaseById(Long id);
     /**
-     * 查找所有用例
+     * 查找所有用例(状态划分 0:正常 -1:已删除 null:所有)
      * @return all cases
      */
-    List<Case> selectAll();
+    List<Case> selectAll(Byte status);
     /**
-     * 查找总记录数
+     * 查找总记录数(状态划分 0:正常 -1:已删除 null:所有)
      * @return count all cases
      */
-    int selectCount();
+    int selectCount(Byte status);
     /**
      * 分页查找case
      * @param pageNum 页码
      * @param pageSize 每页大小
+     * @param status (状态划分 0:正常 -1:已删除 null:所有)
      * @return 分页后数据集以及分页信息
      */
-    Page<Case> selectByPage(Integer pageNum, Integer pageSize);
+    Page<Case> selectByPage(Integer pageNum, Integer pageSize, Byte status);
 
     //修改
     /**

@@ -164,17 +164,27 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- select all -->
-  <select id="selectAll" resultMap="ResultMapWithBLOBs">
+  <select id="selectAll" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Byte">
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from problem
+    <where>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT}
+      </if>
+    </where>
   </select>
   <!-- count all case -->
-  <select id="selectCount" resultType="java.lang.Integer">
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.Byte">
     select count(*)
     from problem
+    <where>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT}
+      </if>
+    </where>
   </select>
   <!-- 返回类型 -->
   <resultMap id="difficultyMap" type="map">

@@ -3,6 +3,7 @@ package com.lanxuewei.code_on_line.dao.mapper;
 import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -23,15 +24,15 @@ public interface ProblemMapper {
     //查找
     Problem selectByPrimaryKey(Long id);
     /**
-     * 查找所有问题
+     * 查找所有问题(状态划分 0:正常 -1:已删除 null:所有)
      * @return all problem
      */
-    List<Problem> selectAll();
+    List<Problem> selectAll(@Param("status") Byte status);
     /**
-     * 查找总记录数
+     * 查找总记录数(状态划分 0:正常 -1:已删除 null:所有)
      * @return count all problem
      */
-    Integer selectCount();
+    Integer selectCount(@Param("status") Byte status);
     /**
      * 查询相应难易度对应问题数
      * @return

@@ -40,20 +40,35 @@ public class CaseServiceImp implements CaseService{
         return caseMapper.selectByPrimaryKey(id);
     }
 
+    /**
+     * 根据状态码查找所有测试用例(状态划分 0:正常 -1:已删除 null:所有)
+     * @return
+     */
     @Override
-    public List<Case> selectAll() {
-        return caseMapper.selectAll();
+    public List<Case> selectAll(Byte status) {
+        return caseMapper.selectAll(status);
     }
 
+    /**
+     * 分页查找
+     * @param pageNum 页码
+     * @param pageSize 每页大小
+     * @return
+     */
     @Override
-    public Page<Case> selectByPage(Integer pageNum, Integer pageSize) {
+    public Page<Case> selectByPage(Integer pageNum, Integer pageSize, Byte status) {
         PageHelper.startPage(pageNum, pageSize);  //分页查询
-        List<Case> cases = caseMapper.selectAll();
+        List<Case> cases = caseMapper.selectAll(status);
         return new Page<>(cases);
     }
+
+    /**
+     * 根据状态码统计测试用例数量
+     * @return
+     */
     @Override
-    public int selectCount() {
-        return caseMapper.selectCount();
+    public int selectCount(Byte status) {
+        return caseMapper.selectCount(status);
     }
 
     @Override

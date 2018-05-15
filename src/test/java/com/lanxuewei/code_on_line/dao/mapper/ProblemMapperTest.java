@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -72,6 +74,38 @@ public class ProblemMapperTest extends BaseTest {
     }
 
     /**
+     * count selectAll
+     */
+    @Test
+    @Transactional
+    public void countAndSelectAllTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            ProblemMapper mapper = sqlSession.getMapper(ProblemMapper.class);
+            // test
+            // all problems
+            Byte status = null;
+            List<Problem> allProblems = mapper.selectAll(status);
+            int allCount = mapper.selectCount(status);
+            Assert.assertEquals(allProblems.size(), allCount);
+            // all normal problems
+            status = 0;
+            List<Problem> allNormalProblems = mapper.selectAll(status);
+            int allNormalCount = mapper.selectCount(status);
+            Assert.assertEquals(allNormalProblems.size(), allNormalCount);
+            // all deleted problems
+            status = -1;
+            List<Problem> allDeletedProblems = mapper.selectAll(status);
+            int allDeletedCount = mapper.selectCount(status);
+            Assert.assertEquals(allDeletedProblems.size(), allDeletedCount);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
+    /**
      * 查询相应难易度对应问题数 test
      */
     @Test
@@ -81,9 +115,9 @@ public class ProblemMapperTest extends BaseTest {
             ProblemMapper mapper = sqlSession.getMapper(ProblemMapper.class);
             //test
             List<Map<String, Integer>> resultList = mapper.selectCountByDifficulty();
-            logger.info("resultList = {}", resultList);
-            //Map<Integer, Integer> map = transferCountMap(resultList);
-            //logger.info("map = {}", map);
+            //logger.info("resultList = {}", resultList);
+            Map<Integer, Integer> map = transferCountMap(resultList);
+            logger.info("map = {}", map);
         } finally {
             if (sqlSession != null) {
                 sqlSession.close();
@@ -97,7 +131,7 @@ public class ProblemMapperTest extends BaseTest {
      * @param list
      * @return
      */
-/*    private Map<Integer, Integer> transferCountMap(List<Map<String, Integer>> list) {
+    private Map<Integer, Integer> transferCountMap(List<Map<String, Integer>> list) {
         if (list != null) {
             Map<Integer, Integer> resultMap = new HashMap<>();
             for (Map<String, Integer> map : list) {
@@ -108,7 +142,7 @@ public class ProblemMapperTest extends BaseTest {
             return resultMap;
         }
         return null;
-    }*/
+    }
 
     /**
      * get test case

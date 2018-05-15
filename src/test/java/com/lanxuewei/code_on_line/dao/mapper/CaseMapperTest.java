@@ -112,19 +112,27 @@ public class CaseMapperTest extends BaseTest{
         SqlSession sqlSession = sqlSessionFactory.openSession();
         try {
             CaseMapper mapper = sqlSession.getMapper(CaseMapper.class);
-            Case problemCase = (Case) getTestCase();
-            //test
-            //insert
-            mapper.insert(problemCase);
-            mapper.insert(problemCase);
-            mapper.insert(problemCase);
-            //selectAll
-            List<Case> cases = mapper.selectAll();
-            logger.debug("cases = {}", cases);
-            //selectCount
-            int count = mapper.selectCount();
-            logger.debug("count = {}", count);
+            //select all cases
+            Byte status = null;
+            List<Case> cases = mapper.selectAll(status);
+            logger.info("cases = {}", cases);
+            int count = mapper.selectCount(status);
+            logger.info("count = {}", count);
             Assert.assertEquals(cases.size(), count);
+            //select all Normal cases
+            status = 0;
+            List<Case> allNormalCases = mapper.selectAll(status);
+            logger.info("allNormalCase = {}", allNormalCases);
+            int allNormalCount = mapper.selectCount(status);
+            logger.info("allNormalCount = {}", allNormalCount);
+            Assert.assertEquals(allNormalCases.size(), allNormalCount);
+            //select all deleted cases
+            status = -1;
+            List<Case> allDeletedCases = mapper.selectAll(status);
+            logger.info("allDeletedCase = {}", allDeletedCases);
+            int allDeleteCount = mapper.selectCount(status);
+            logger.info("allDeletedCount = {}", allDeleteCount);
+            Assert.assertEquals(allDeletedCases.size(), allDeleteCount);
         } finally {
             if (sqlSession != null) {
                 sqlSession.close();

@@ -85,15 +85,25 @@
       `status` = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <!-- select all -->
-  <select id="selectAll" resultMap="BaseResultMap">
+  <!-- select all by status -->
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Byte">
     select
     <include refid="Base_Column_List" />
     from `case`
+    <where>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT}
+      </if>
+    </where>
   </select>
-  <!-- count all case -->
-  <select id="selectCount" resultType="java.lang.Integer">
+  <!-- count all case by status -->
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.Byte">
     select count(*)
     from `case`
+    <where>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT}
+      </if>
+    </where>
   </select>
 </mapper>

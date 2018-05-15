@@ -35,9 +35,10 @@ public class CaseController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation("select case by page")
-    public ReturnValue<Page> findCaseByPage(@RequestParam(defaultValue = ServiceConstant.Case.Default_PageNum) Integer pageNum,
-                                            @RequestParam(defaultValue = ServiceConstant.Case.Default_PageSize) Integer pageSize) {
-        return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, caseService.selectByPage(pageNum, pageSize));
+    public ReturnValue<Page> findCaseByPage(@RequestParam(value = "pageNum", defaultValue = ServiceConstant.Case.Default_PageNum) Integer pageNum,
+                                            @RequestParam(value = "pageSize", defaultValue = ServiceConstant.Case.Default_PageSize) Integer pageSize,
+                                            @RequestParam(value = "status") Byte status) {
+        return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, caseService.selectByPage(pageNum, pageSize, status));
     }
 
 
