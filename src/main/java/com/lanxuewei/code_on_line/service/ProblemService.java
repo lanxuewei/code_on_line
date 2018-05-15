@@ -42,24 +42,25 @@ public interface ProblemService {
     Problem findProblemById(Long id);
 
     /**
-     * 查找所有问题(状态划分 0:正常 -1:已删除 null:所有)
-     * @param status 状态码
+     * 查找所有问题
+     * @param status 状态码(状态划分 0:正常 -1:已删除 null:所有)
+     * @param keyword 关键字
      * @return all problems
      */
-    List<Problem> selectAll(Byte status);
+    List<Problem> selectAll(Byte status, String keyword);
 
     /**
-     * 查找总记录数(状态划分 0:正常 -1:已删除 null:所有)
-     * @param status 状态码
+     * 查找总记录数
+     * @param status 状态码(状态划分 0:正常 -1:已删除 null:所有)
      * @return count all problems
      */
     Integer selectCount(Byte status);
 
     /**
-     * 分页查找problem(状态划分 0:正常 -1:已删除 null:所有)
+     * 分页查找problem
      * @param pageNum 页码
      * @param pageSize 每页大小
-     * @param status 状态码
+     * @param status 状态码(状态划分 0:正常 -1:已删除 null:所有)
      * @return 分页后数据集以及分页信息
      */
     Page<Problem> selectByPage(Integer pageNum, Integer pageSize, Byte status);

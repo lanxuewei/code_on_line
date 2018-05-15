@@ -164,7 +164,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- select all -->
-  <select id="selectAll" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Byte">
+  <select id="selectAll" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,
@@ -173,6 +173,9 @@
     <where>
       <if test="status != null">
         `status` = #{status,jdbcType=TINYINT}
+      </if>
+      <if test="keyword != null">
+        and locate(#{keyword,jdbcType=VARCHAR}, `name`)>0
       </if>
     </where>
   </select>

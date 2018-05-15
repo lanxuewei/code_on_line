@@ -31,6 +31,12 @@ public interface UserMapper {
      * @return User
      */
     User selectByUserName(@Param("userName") String userName, @Param("status") Byte status);
+    /**
+     * 根据 userId 查找对应的 status(用于身份判断)
+     * @param id
+     * @return
+     */
+    Byte selectStatusByUserId(@Param("id") Long id);
 
     //修改
     int updateByPrimaryKey(User record);

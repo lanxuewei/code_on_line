@@ -136,4 +136,22 @@ public class Problem {
     public void setDesHtml(String desHtml) {
         this.desHtml = desHtml;
     }
+
+    @Override
+    public String toString() {
+        return "Problem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", difficulty=" + difficulty +
+                ", submit=" + submit +
+                ", fail=" + fail +
+                ", success=" + success +
+                ", author='" + author + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", status=" + status +
+                ", des='" + des + '\'' +
+                ", desHtml='" + desHtml + '\'' +
+                '}';
+    }
 }

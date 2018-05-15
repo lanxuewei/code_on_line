@@ -85,19 +85,27 @@ public class ProblemMapperTest extends BaseTest {
             // test
             // all problems
             Byte status = null;
-            List<Problem> allProblems = mapper.selectAll(status);
+            List<Problem> allProblems = mapper.selectAll(status, null);
             int allCount = mapper.selectCount(status);
             Assert.assertEquals(allProblems.size(), allCount);
             // all normal problems
             status = 0;
-            List<Problem> allNormalProblems = mapper.selectAll(status);
+            List<Problem> allNormalProblems = mapper.selectAll(status, null);
             int allNormalCount = mapper.selectCount(status);
             Assert.assertEquals(allNormalProblems.size(), allNormalCount);
             // all deleted problems
             status = -1;
-            List<Problem> allDeletedProblems = mapper.selectAll(status);
+            List<Problem> allDeletedProblems = mapper.selectAll(status, null);
             int allDeletedCount = mapper.selectCount(status);
             Assert.assertEquals(allDeletedProblems.size(), allDeletedCount);
+            // all problem by keyword
+            status = 0;
+            String keyword = "te";
+            List<Problem> keyWordProblems = mapper.selectAll(status, keyword);
+            for (Problem item : keyWordProblems) {
+                logger.info("name = {}", item.getName());
+            }
+            //logger.info("keyWordProblems = {}", keyWordProblems);
         } finally {
             if (sqlSession != null) {
                 sqlSession.close();

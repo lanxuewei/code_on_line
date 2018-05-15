@@ -33,8 +33,7 @@
   </delete>
   <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.User" keyProperty="id" useGeneratedKeys="true">
     insert into `user` (user_name, password,
-      status, real_name, sex, 
-      img, des)
+      status, real_name, sex, img, des)
     values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{status,jdbcType=TINYINT}, #{realName,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
       #{img,jdbcType=VARCHAR}, #{des,jdbcType=LONGVARCHAR})
@@ -151,5 +150,11 @@
     from `user`
     where user_name = #{userName,jdbcType=VARCHAR} and
           `status` = #{status,jdbcType=TINYINT}
+  </select>
+  <!-- 根据user_id查找对应的status 用于身份判断 -->
+  <select id="selectStatusByUserId" parameterType="java.lang.Long" resultType="java.lang.Byte">
+    select `status`
+    from user
+    where id = #{id,jdbcType=BIGINT}
   </select>
 </mapper>

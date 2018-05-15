@@ -58,6 +58,27 @@ public class UserMapperTest extends BaseTest{
         }
     }
 
+    /**
+     * selectStatusByUserId test
+     */
+    @Test
+    public void selectStatusByUserIdTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            User user = (User) getTestCase();
+            // test
+            // insert
+            mapper.insert(user);
+            Byte status = mapper.selectStatusByUserId(user.getId());
+            Assert.assertEquals(user.getStatus(), status);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
     @Override
     public Object getTestCase() {
         User user = new User();
