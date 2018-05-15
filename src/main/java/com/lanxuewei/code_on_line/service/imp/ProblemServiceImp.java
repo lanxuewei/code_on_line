@@ -8,6 +8,7 @@ import com.lanxuewei.code_on_line.dao.entity.ProblemTag;
 import com.lanxuewei.code_on_line.dao.entity.Tag;
 import com.lanxuewei.code_on_line.dao.mapper.*;
 import com.lanxuewei.code_on_line.dto.ProblemCountDto;
+import com.lanxuewei.code_on_line.dto.ProblemDto;
 import com.lanxuewei.code_on_line.model.CaseViewModel;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
@@ -237,6 +238,7 @@ public class ProblemServiceImp implements ProblemService{
      * @param difficulty 难易度
      * @param userId 用户判断用户身份
      * @param resolve 状态码(针对于学生身份 状态划分 null:所有 0:已做 -1:未做)
+     * @param allResolvedProblemIds 已做题目集
      * @return
      */
     @Override
@@ -247,22 +249,37 @@ public class ProblemServiceImp implements ProblemService{
                                       String keyword,
                                       Byte difficulty,
                                       Long userId,
-                                      Byte resolve) {
+                                      Byte resolve,
+                                      List<Long> allResolvedProblemIds) {
         boolean isManager = isManager(userId);          // 判断是否为管理员
         List<Problem> allProblems = null;
+        //List<ProblemDto> problemDtos = null;            // 返回结果集
         if (isManager) {  // 管理员身份
             PageHelper.startPage(pageNum, pageSize);
             allProblems = problemMapper.selectAll(status, keyword, difficulty, null, null);
+            //problemDtos = ProblemDto.getProblemDtoList(null, allProblems);
         } else {          // 学生身份
-            List<Long> allResolvedProblemIds = userProblemMapper.
-                    selectProblemIdByResolved(userId);  // 通过 userId 查找该用户已做题目集
-            if (allResolvedProblemIds.size() == 0) {    // 如果为0表示置为null 否则下面查询将会出错
+            /*List<Long> allResolvedProblemIds = userProblemMapper.
+                    selectProblemIdByResolved(userId);    // 通过 userId 查找该用户已做题目集
+            if (allResolvedProblemIds.size() == 0) {      // 如果为0表示置为null 否则下面查询将会出错
                 allResolvedProblemIds = null;
-            }
+            }*/
             PageHelper.startPage(pageNum, pageSize);
             allProblems = problemMapper.selectAll(status, keyword, difficulty, resolve, allResolvedProblemIds);
+            //problemDtos = ProblemDto.getProblemDtoList(allResolvedProblemIds, allProblems);  // 封装为 ProblemDto list
         }
         return new Page<>(allProblems);
+    }
+
+    /**
+     * 查找用户已做题目id集
+     * @param userId
+     * @return
+     */
+    public List<Long> getAllResolvedProblems(Long userId) {
+        List<Long> allResolvedProblems = userProblemMapper.
+                selectProblemIdByResolved(userId);  // 通过 userId 查找该用户已做题目集
+        return allResolvedProblems;
     }
 
     /**

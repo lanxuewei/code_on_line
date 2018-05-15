@@ -3,6 +3,7 @@ package com.lanxuewei.code_on_line.service;
 import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
 import com.lanxuewei.code_on_line.dto.ProblemCountDto;
+import com.lanxuewei.code_on_line.dto.ProblemDto;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
 import org.springframework.stereotype.Service;
@@ -72,6 +73,7 @@ public interface ProblemService {
      * @param difficulty 难易度
      * @param userId 用户判断用户身份
      * @param resolve 状态码(针对于学生身份 状态划分 null:所有 0:已做 -1:未做)
+     * @param allResolvedProblemIds 已做题目集
      * @return 分页后数据集以及分页信息
      */
     Page<Problem> selectByPage(Integer pageNum,
@@ -80,7 +82,14 @@ public interface ProblemService {
                                String keyword,
                                Byte difficulty,
                                Long userId,
-                               Byte resolve);
+                               Byte resolve,
+                               List<Long> allResolvedProblemIds);
+    /**
+     * 查找用户已做题目id集
+     * @param userId
+     * @return
+     */
+    List<Long> getAllResolvedProblems(Long userId);
 
     /**
      * 查询各难易度对应的题目数

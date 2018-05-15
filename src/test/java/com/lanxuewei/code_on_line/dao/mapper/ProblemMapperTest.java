@@ -113,7 +113,7 @@ public class ProblemMapperTest extends BaseTest {
             List<Problem> allResolvedProblemIds = mapper.selectAll(status, null, null, resolve, resolvedProblemIds);
             logger.info("resolvedProblemIds = {}", allResolvedProblemIds);
             // all problem where problemId not in {14,15}
-            resolve = -1;
+            resolve = -1;      // 表示id不在集合中
             List<Problem> allNotResolvedProblemIds = mapper.selectAll(status, null, null, resolve, resolvedProblemIds);
             logger.info("allNotResolvedProblemIds = {}", allNotResolvedProblemIds);
         } finally {
