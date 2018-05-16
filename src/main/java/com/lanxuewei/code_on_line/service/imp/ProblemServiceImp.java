@@ -2,10 +2,7 @@ package com.lanxuewei.code_on_line.service.imp;
 
 import com.github.pagehelper.PageHelper;
 import com.lanxuewei.code_on_line.constant.ServiceConstant;
-import com.lanxuewei.code_on_line.dao.entity.Case;
-import com.lanxuewei.code_on_line.dao.entity.Problem;
-import com.lanxuewei.code_on_line.dao.entity.ProblemTag;
-import com.lanxuewei.code_on_line.dao.entity.Tag;
+import com.lanxuewei.code_on_line.dao.entity.*;
 import com.lanxuewei.code_on_line.dao.mapper.*;
 import com.lanxuewei.code_on_line.dto.ProblemCountDto;
 import com.lanxuewei.code_on_line.dto.ProblemDto;
@@ -205,7 +202,7 @@ public class ProblemServiceImp implements ProblemService{
      * @return
      */
     @Override
-    public List<Problem> selectAll(Byte status, String keyword, Byte difficulty, Byte resolve, List<Long> resolvedProblemIds) {
+    public List<ProblemDto> selectAll(Byte status, String keyword, Byte difficulty, Byte resolve, List<Long> resolvedProblemIds) {
         return problemMapper.selectAll(status, keyword, difficulty, resolve , resolvedProblemIds);
     }
 
@@ -238,48 +235,67 @@ public class ProblemServiceImp implements ProblemService{
      * @param difficulty 难易度
      * @param userId 用户判断用户身份
      * @param resolve 状态码(针对于学生身份 状态划分 null:所有 0:已做 -1:未做)
-     * @param allResolvedProblemIds 已做题目集
      * @return
      */
     @Override
     @Transactional
-    public Page<Problem> selectByPage(Integer pageNum,
+    public Page<ProblemDto> selectByPage(Integer pageNum,
                                       Integer pageSize,
                                       Byte status,
                                       String keyword,
                                       Byte difficulty,
                                       Long userId,
-                                      Byte resolve,
-                                      List<Long> allResolvedProblemIds) {
+                                      Byte resolve) {
         boolean isManager = isManager(userId);          // 判断是否为管理员
-        List<Problem> allProblems = null;
-        //List<ProblemDto> problemDtos = null;            // 返回结果集
+        List<ProblemDto> problemDtos = null;            // 返回结果集
         if (isManager) {  // 管理员身份
             PageHelper.startPage(pageNum, pageSize);
-            allProblems = problemMapper.selectAll(status, keyword, difficulty, null, null);
-            //problemDtos = ProblemDto.getProblemDtoList(null, allProblems);
+            problemDtos = problemMapper.selectAll(status, keyword, difficulty, null, null);
         } else {          // 学生身份
-            /*List<Long> allResolvedProblemIds = userProblemMapper.
-                    selectProblemIdByResolved(userId);    // 通过 userId 查找该用户已做题目集
-            if (allResolvedProblemIds.size() == 0) {      // 如果为0表示置为null 否则下面查询将会出错
-                allResolvedProblemIds = null;
-            }*/
+            List<Long> allResolvedProblemIds = userProblemMapper.
+                    selectProblemIdByResolved(userId);  // 通过 userId 查找该用户已做题目集
             PageHelper.startPage(pageNum, pageSize);
-            allProblems = problemMapper.selectAll(status, keyword, difficulty, resolve, allResolvedProblemIds);
-            //problemDtos = ProblemDto.getProblemDtoList(allResolvedProblemIds, allProblems);  // 封装为 ProblemDto list
+            problemDtos = problemMapper.selectAll(status, keyword, difficulty, resolve, allResolvedProblemIds);
+            problemDtos = ProblemDto.setProblemDtoIsResolved(allResolvedProblemIds, problemDtos);  // 设置题目已做或者未做标识
+            setProblemThroughrate(problemDtos);         // 设置通过率
         }
-        return new Page<>(allProblems);
+        return new Page<>(problemDtos);
     }
 
     /**
-     * 查找用户已做题目id集
-     * @param userId
+     * 计算题目对应通过率
+     * @param problemDtos
      * @return
      */
-    public List<Long> getAllResolvedProblems(Long userId) {
-        List<Long> allResolvedProblems = userProblemMapper.
-                selectProblemIdByResolved(userId);  // 通过 userId 查找该用户已做题目集
-        return allResolvedProblems;
+    private List<ProblemDto> setProblemThroughrate(List<ProblemDto> problemDtos) {
+        if (problemDtos != null) {
+            List<Long> problemIds = getProblemIds(problemDtos);  // 获取需要计算通过率的问题id集
+            List<ProblemThroughRate> problemThroughRates = userProblemMapper.selectProblemThroughRate(problemIds);  // 计算问题通过率
+            for (ProblemDto problemDto : problemDtos) {
+                for (ProblemThroughRate problemThroughRate : problemThroughRates) {
+                    if (problemDto.getId() == problemThroughRate.getProblemId()) {   // id 相同即本题通过率计算值
+                        problemDto.setThroughRate(problemThroughRate.getThrough());  // 设置通过率
+                    }
+                }
+            }
+        }
+        return problemDtos;  // 直接返回
+    }
+
+
+    /**
+     * 获取ProblemDto集合中的所有id
+     * @param problemDtos
+     * @return
+     */
+    private List<Long> getProblemIds(List<ProblemDto> problemDtos) {
+        List<Long> problemIds = new ArrayList<>();
+        if (problemDtos != null) {
+            for (ProblemDto problemDto : problemDtos) {
+                problemIds.add(problemDto.getId());  // 获取所有ProblemDto的id值
+            }
+        }
+        return problemIds;
     }
 
     /**

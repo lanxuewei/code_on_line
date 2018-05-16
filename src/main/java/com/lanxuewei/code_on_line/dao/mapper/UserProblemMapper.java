@@ -1,5 +1,6 @@
 package com.lanxuewei.code_on_line.dao.mapper;
 
+import com.lanxuewei.code_on_line.dao.entity.ProblemThroughRate;
 import com.lanxuewei.code_on_line.dao.entity.UserProblem;
 import com.lanxuewei.code_on_line.dao.entity.UserProblemKey;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,6 +38,13 @@ public interface UserProblemMapper {
      * @return
      */
     List<Long> selectProblemIdByResolved(@Param("userId") Long userId);
+
+    /**
+     * 计算对应题目的通过率
+     * @param problemIds 题目id集
+     * @return
+     */
+    List<ProblemThroughRate> selectProblemThroughRate(@Param("problemIds") List<Long> problemIds);
 
     //更新
     int updateByPrimaryKeySelective(UserProblem record);

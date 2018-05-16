@@ -1,5 +1,6 @@
 package com.lanxuewei.code_on_line.dao.mapper;
 
+import com.lanxuewei.code_on_line.dao.entity.ProblemThroughRate;
 import com.lanxuewei.code_on_line.dao.entity.UserProblem;
 import com.lanxuewei.code_on_line.dao.entity.UserProblemKey;
 import com.lanxuewei.code_on_line.utils.CompareUtil;
@@ -10,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * create by lanxuewei in 2018/5/13 16:13
@@ -124,6 +122,25 @@ public class UserProblemMapperTest extends BaseTest {
             Long userId = 3L;
             List<Long> resolvedProblmeIds = mapper.selectProblemIdByResolved(userId);
             logger.info("resolvedProblemIds = {}", resolvedProblmeIds);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
+    /**
+     * selectProblemThroughRate test
+     */
+    @Test
+    public void selectProblemThroughRateTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            UserProblemMapper userProblemMapper = sqlSession.getMapper(UserProblemMapper.class);
+            // test
+            List<Long> problemIds = new ArrayList<>();
+            List<ProblemThroughRate> list = userProblemMapper.selectProblemThroughRate(problemIds);
+            logger.info("list = {}", list);
         } finally {
             if (sqlSession != null) {
                 sqlSession.close();

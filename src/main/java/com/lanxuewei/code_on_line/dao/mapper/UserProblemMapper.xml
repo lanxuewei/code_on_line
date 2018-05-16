@@ -150,4 +150,27 @@
       and `status` = 0
       and success > 0
   </select>
+  <!-- 统计题目通过率 -->
+  <resultMap id="ProblemThroughRate" type="com.lanxuewei.code_on_line.dao.entity.ProblemThroughRate">
+    <result column="problem_id" property="problemId" jdbcType="BIGINT" />
+    <result column="success_count" property="successCount" jdbcType="INTEGER" />
+    <result column="done_count" property="doneCount" jdbcType="INTEGER" />
+    <result column="through" property="through" jdbcType="DECIMAL" />
+  </resultMap>
+  <select id="selectProblemThroughRate" resultMap="ProblemThroughRate">
+    select *, (success_count/done_count)*100 as through from (
+      select
+          problem_id,
+          count(case when success>0 then 1 else null end) as success_count,
+          count(1) as done_count from user_problem
+          <if test="problemIds != null and problemIds.size > 0">
+            where problem_id in
+            <foreach collection="problemIds" item="item" index="index"
+                     open="(" separator="," close=")">
+              #{item}
+            </foreach>
+          </if>
+      group by problem_id
+    ) as source
+  </select>
 </mapper>
