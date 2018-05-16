@@ -17,6 +17,10 @@
     <result column="des" jdbcType="LONGVARCHAR" property="des" />
     <result column="des_html" jdbcType="LONGVARCHAR" property="desHtml" />
   </resultMap>
+  <!-- problemDto -->
+  <resultMap extends="BaseResultMap" id="ProblemDto" type="com.lanxuewei.code_on_line.dto.ProblemDto">
+
+  </resultMap>
   <sql id="Base_Column_List">
     id, `name`, difficulty, submit, fail, success, author, create_time, update_time, `status`
   </sql>
@@ -164,7 +168,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- select all -->
-  <select id="selectAll" resultMap="ResultMapWithBLOBs">
+  <select id="selectAll" resultMap="ProblemDto">
     select
     <include refid="Base_Column_List" />
     ,

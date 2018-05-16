@@ -1,6 +1,8 @@
 package com.lanxuewei.code_on_line.dao.mapper;
 
 import com.lanxuewei.code_on_line.dao.entity.Problem;
+import com.lanxuewei.code_on_line.dto.ProblemCountDto;
+import com.lanxuewei.code_on_line.dto.ProblemDto;
 import com.lanxuewei.code_on_line.utils.CompareUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
@@ -85,24 +87,24 @@ public class ProblemMapperTest extends BaseTest {
             // test
             // all problems
             Byte status = null;
-            List<Problem> allProblems = mapper.selectAll(status, null, null,null, null);
+            List<ProblemDto> allProblems = mapper.selectAll(status, null, null,null, null);
             int allCount = mapper.selectCount(status);
             Assert.assertEquals(allProblems.size(), allCount);
             // all normal problems
             status = 0;
-            List<Problem> allNormalProblems = mapper.selectAll(status, null, null,null, null);
+            List<ProblemDto> allNormalProblems = mapper.selectAll(status, null, null,null, null);
             int allNormalCount = mapper.selectCount(status);
             Assert.assertEquals(allNormalProblems.size(), allNormalCount);
             // all deleted problems
             status = -1;
-            List<Problem> allDeletedProblems = mapper.selectAll(status, null, null,null, null);
+            List<ProblemDto> allDeletedProblems = mapper.selectAll(status, null, null,null, null);
             int allDeletedCount = mapper.selectCount(status);
             Assert.assertEquals(allDeletedProblems.size(), allDeletedCount);
             // all problem by keyword
             status = 0;
             String keyword = "te";
-            List<Problem> keyWordProblems = mapper.selectAll(status, keyword, null,null, null);
-            for (Problem item : keyWordProblems) {
+            List<ProblemDto> keyWordProblems = mapper.selectAll(status, keyword, null,null, null);
+            for (ProblemDto item : keyWordProblems) {
                 logger.info("name = {}", item.getName());
             }
             // all problem where problemId in {14,15}
@@ -110,11 +112,11 @@ public class ProblemMapperTest extends BaseTest {
             resolvedProblemIds.add(14L);
             resolvedProblemIds.add(15L);
             Byte resolve = 0;  // 表示id在集合中
-            List<Problem> allResolvedProblemIds = mapper.selectAll(status, null, null, resolve, resolvedProblemIds);
+            List<ProblemDto> allResolvedProblemIds = mapper.selectAll(status, null, null, resolve, resolvedProblemIds);
             logger.info("resolvedProblemIds = {}", allResolvedProblemIds);
             // all problem where problemId not in {14,15}
             resolve = -1;      // 表示id不在集合中
-            List<Problem> allNotResolvedProblemIds = mapper.selectAll(status, null, null, resolve, resolvedProblemIds);
+            List<ProblemDto> allNotResolvedProblemIds = mapper.selectAll(status, null, null, resolve, resolvedProblemIds);
             logger.info("allNotResolvedProblemIds = {}", allNotResolvedProblemIds);
         } finally {
             if (sqlSession != null) {

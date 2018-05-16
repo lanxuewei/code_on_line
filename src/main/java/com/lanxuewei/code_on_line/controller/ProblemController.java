@@ -6,6 +6,7 @@ import com.lanxuewei.code_on_line.authorization.config.Constants;
 import com.lanxuewei.code_on_line.constant.ReturnCodeAndMsgEnum;
 import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
+import com.lanxuewei.code_on_line.dto.ProblemDto;
 import com.lanxuewei.code_on_line.dto.ProblemListDto;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
@@ -76,7 +77,7 @@ public class ProblemController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation("find problem by page")
-    public ReturnValue<ProblemListDto> findProblemByPage(@RequestParam(value = "pageNum", required = false, defaultValue = ServiceConstant.Default_PageNum) Integer pageNum,
+    public ReturnValue<Page> findProblemByPage(@RequestParam(value = "pageNum", required = false, defaultValue = ServiceConstant.Default_PageNum) Integer pageNum,
                                                @RequestParam(value = "pageSize", required = false, defaultValue = ServiceConstant.Default_PageSize) Integer pageSize,
                                                @RequestParam(value = "status", required = false, defaultValue = ServiceConstant.Default_Status) Byte status,
                                                @RequestParam(value = "resolve", required = false) Byte resolve,
@@ -85,11 +86,11 @@ public class ProblemController {
                                                HttpServletRequest request) {
         logger.info("---> find problem by page");
         Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);                   // 获取用户id
-        List<Long> allResolvedProblems = problemService.getAllResolvedProblems(userId);         // 获取用户已做题目集合 todo 逻辑可以优化，管理员则少查一遍
-        Page<Problem> problemPage = problemService.selectByPage(pageNum, pageSize,
-                status, keyword, difficulty,userId, resolve, allResolvedProblems);              // 查询所有记录
-        ProblemListDto problemListDto = new ProblemListDto(allResolvedProblems, problemPage);   // 封装为dto
-        return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, problemListDto);                 // 数据返回
+//        List<Long> allResolvedProblems = problemService.getAllResolvedProblems(userId);         // 获取用户已做题目集合 todo 逻辑可以优化，管理员则少查一遍
+        Page<ProblemDto> problemDtoPage = problemService.selectByPage(pageNum, pageSize,
+                status, keyword, difficulty,userId, resolve);              // 查询所有记录
+        //ProblemListDto problemListDto = new ProblemListDto(allResolvedProblems, problemDtoPage);   // 封装为dto
+        return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, problemDtoPage);                 // 数据返回
     }
 
     /**
