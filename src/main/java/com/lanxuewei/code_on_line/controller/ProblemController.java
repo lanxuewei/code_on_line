@@ -6,6 +6,7 @@ import com.lanxuewei.code_on_line.authorization.config.Constants;
 import com.lanxuewei.code_on_line.constant.ReturnCodeAndMsgEnum;
 import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
+import com.lanxuewei.code_on_line.dto.ProblemListDto;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
 import com.lanxuewei.code_on_line.model.ReturnValue;
@@ -18,6 +19,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * create by lanxuewei in 2018/4/21 17:27
@@ -74,17 +76,20 @@ public class ProblemController {
      */
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation("find problem by page")
-    public ReturnValue<Page> findProblemByPage(@RequestParam(value = "pageNum", required = false, defaultValue = ServiceConstant.Case.Default_PageNum) Integer pageNum,
-                                               @RequestParam(value = "pageSize", required = false, defaultValue = ServiceConstant.Case.Default_PageSize) Integer pageSize,
-                                               @RequestParam(value = "status", required = false) Byte status,
+    public ReturnValue<ProblemListDto> findProblemByPage(@RequestParam(value = "pageNum", required = false, defaultValue = ServiceConstant.Default_PageNum) Integer pageNum,
+                                               @RequestParam(value = "pageSize", required = false, defaultValue = ServiceConstant.Default_PageSize) Integer pageSize,
+                                               @RequestParam(value = "status", required = false, defaultValue = ServiceConstant.Default_Status) Byte status,
                                                @RequestParam(value = "resolve", required = false) Byte resolve,
                                                @RequestParam(value = "keyword", required = false) String keyword,
                                                @RequestParam(value = "difficulty", required = false) Byte difficulty,
                                                HttpServletRequest request) {
         logger.info("---> find problem by page");
-        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);  // 获取用户id
-        return new ReturnValue<>(ReturnCodeAndMsgEnum.Success,
-                problemService.selectByPage(pageNum, pageSize, status, keyword, difficulty,userId, resolve));
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);                   // 获取用户id
+        List<Long> allResolvedProblems = problemService.getAllResolvedProblems(userId);         // 获取用户已做题目集合 todo 逻辑可以优化，管理员则少查一遍
+        Page<Problem> problemPage = problemService.selectByPage(pageNum, pageSize,
+                status, keyword, difficulty,userId, resolve, allResolvedProblems);              // 查询所有记录
+        ProblemListDto problemListDto = new ProblemListDto(allResolvedProblems, problemPage);   // 封装为dto
+        return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, problemListDto);                 // 数据返回
     }
 
     /**
