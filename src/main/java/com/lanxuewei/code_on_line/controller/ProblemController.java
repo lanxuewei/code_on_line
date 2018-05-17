@@ -6,12 +6,14 @@ import com.lanxuewei.code_on_line.authorization.config.Constants;
 import com.lanxuewei.code_on_line.constant.ReturnCodeAndMsgEnum;
 import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
+import com.lanxuewei.code_on_line.dto.ProblemDetailDto;
 import com.lanxuewei.code_on_line.dto.ProblemDto;
 import com.lanxuewei.code_on_line.dto.ProblemListDto;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
 import com.lanxuewei.code_on_line.model.ReturnValue;
 import com.lanxuewei.code_on_line.service.ProblemService;
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,25 +87,39 @@ public class ProblemController {
                                                @RequestParam(value = "difficulty", required = false) Byte difficulty,
                                                HttpServletRequest request) {
         logger.info("---> find problem by page");
-        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);                   // 获取用户id
-//        List<Long> allResolvedProblems = problemService.getAllResolvedProblems(userId);         // 获取用户已做题目集合 todo 逻辑可以优化，管理员则少查一遍
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);             // 获取用户id
         Page<ProblemDto> problemDtoPage = problemService.selectByPage(pageNum, pageSize,
-                status, keyword, difficulty,userId, resolve);              // 查询所有记录
-        //ProblemListDto problemListDto = new ProblemListDto(allResolvedProblems, problemDtoPage);   // 封装为dto
-        return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, problemDtoPage);                 // 数据返回
+                status, keyword, difficulty,userId, resolve);                             // 查询所有记录
+        return new ReturnValue<>(ReturnCodeAndMsgEnum.Success, problemDtoPage);           // 数据返回
     }
 
     /**
-     * 通过id查找问题
+     * 通过id查找问题 todo
      * @param id
      * @return problem
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/ID/{id}", method = RequestMethod.GET)
+    @NoNeedLogin
     @ApiOperation("find problem by id")
     public ReturnValue<Problem> findProblemById(@PathVariable Long id) {
         logger.info("---> findProblemById");
         Assert.notNull(id, "id can not be empty");
-        return new ReturnValue<Problem>(ReturnCodeAndMsgEnum.Success, problemService.findProblemById(id));
+        //return new ReturnValue<Problem>(ReturnCodeAndMsgEnum.Success, problemService.findProblemById(id));
+        return null;
+    }
+
+    /**
+     * 通过问题id查找对应问题详情,包含(其中包含题目详情,提交次数,成功次数,相关标签集,用户提交记录) todo....
+     * @return
+     */
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    @ApiOperation("find problem detail by id")
+    public ReturnValue<ProblemDetailDto> findProblemDetailById(@PathVariable("id") Long problemId,
+                                                               @RequestParam(value = "status", required = false) Byte status,
+                                                               HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);  // 获取用户id
+        return new ReturnValue<>(ReturnCodeAndMsgEnum.Success
+                ,problemService.findProblemForDetail(problemId, userId, status));
     }
 
     /**

@@ -83,4 +83,35 @@
       </if>
     </where>
   </select>
+  <!-- 通过标签id集查找对应的标签集 -->
+  <select id="selectTagsByPrimaryKey" resultType="com.lanxuewei.code_on_line.dao.entity.Tag">
+    select
+    <include refid="Base_Column_List" />
+    from tag
+    <where>
+      <if test="ids != null and ids.size > 0">
+        id in
+        <foreach collection="ids" item="item" index="index"
+                 open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+      <if test="status != null">
+        and status = #{status,jdbcType=TINYINT}
+      </if>
+    </where>
+  </select>
+  <!-- 通过问题id查找对应标签集 -->
+  <select id="selectTagsByProblemId" parameterType="java.lang.Long" resultType="com.lanxuewei.code_on_line.dao.entity.Tag">
+    select
+    <include refid="Base_Column_List" />
+    from tag
+    where id in (
+      select tag_id
+      from problem_tag
+      where problem_id = #{problemId,jdbcType=BIGINT})
+    <if test="status != null">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+  </select>
 </mapper>

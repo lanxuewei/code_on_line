@@ -32,6 +32,22 @@ public interface TagMapper {
      */
     int selectCount(@Param("status") Byte status);
 
+    /**
+     * 通过标签id集查找对应的标签集
+     * @param ids
+     * @param status
+     * @return
+     */
+    List<Tag> selectTagsByPrimaryKey(@Param("ids") List<Long> ids, @Param("status") Byte status);
+
+    /**
+     * 通过问题id直接查找对应的标签集
+     * @param problemId
+     * @param status
+     * @return
+     */
+    List<Tag> selectTagsByProblemId(@Param("problemId") Long problemId, @Param("status") Byte status);
+
     //修改
     int updateByPrimaryKeySelective(Tag record);
     int updateByPrimaryKey(Tag record);

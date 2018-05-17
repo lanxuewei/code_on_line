@@ -148,6 +148,28 @@ public class UserProblemMapperTest extends BaseTest {
         }
     }
 
+    /**
+     * selectDoneCountByProblemId selectSuccessCountByProblemId test
+     */
+    @Test
+    public void selectDoneCountByProblemIdAndselectSuccessCountByProblemId() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            UserProblemMapper userProblemMapper = sqlSession.getMapper(UserProblemMapper.class);
+            // test
+            Long problemId = 14L;
+            Integer doneCount = userProblemMapper.selectDoneCountByProblemId(problemId, null);
+            logger.info("doneCount = {}", doneCount);
+            Byte status = -1;
+            Integer successCount = userProblemMapper.selectSuccessCountByProblemId(problemId, status);
+            logger.info("successCount = {}", successCount);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
     @Override
     public Object getTestCase() {
         UserProblem userProblem = new UserProblem();

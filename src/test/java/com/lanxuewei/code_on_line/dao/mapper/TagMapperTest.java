@@ -8,8 +8,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -103,6 +105,44 @@ public class TagMapperTest extends BaseTest{
             logger.info("allNormalTags = {}", allNormalTags);
             int allNormalCount = mapper.selectCount(status);
             logger.info("allNormalCount = {}", allNormalCount);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
+    @Test
+    public void selectTagsByPrimaryKeyTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            TagMapper mapper = sqlSession.getMapper(TagMapper.class);
+            // test
+            List<Long> ids = new ArrayList<>();
+            ids.add(55L);
+            ids.add(56L);
+            ids.add(57L);
+
+            Byte status = 0;
+            List<Tag> tags = mapper.selectTagsByPrimaryKey(ids, status);
+            logger.info("tags = {}", tags);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
+    @Test
+    public void selectTagsByProblemIdTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            TagMapper mapper = sqlSession.getMapper(TagMapper.class);
+            // test
+            Long problemId = 19L;
+            Byte status = 0;
+            List<Tag> tags = mapper.selectTagsByProblemId(problemId, status);
+            logger.info("tags = {}", tags);
         } finally {
             if (sqlSession != null) {
                 sqlSession.close();

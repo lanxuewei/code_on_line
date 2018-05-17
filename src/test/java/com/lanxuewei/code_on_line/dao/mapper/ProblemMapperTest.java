@@ -34,16 +34,17 @@ public class ProblemMapperTest extends BaseTest {
             //test
             //insert
             mapper.insert(problem);
-            Problem problemFromDatabase = mapper.selectByPrimaryKey(problem.getId());
+            Byte status = 0;
+            Problem problemFromDatabase = mapper.selectByPrimaryKey(problem.getId(), status);
             Assert.assertTrue(compareTo(problem, problemFromDatabase));
             //update
             problem = (Problem) modifyTestCase(problem);
             mapper.updateByPrimaryKey(problem);
-            problemFromDatabase = mapper.selectByPrimaryKey(problem.getId());
+            problemFromDatabase = mapper.selectByPrimaryKey(problem.getId(), status);
             Assert.assertTrue(compareTo(problem, problemFromDatabase));
             //delete
             mapper.deleteByPrimaryKey(problem.getId());
-            problemFromDatabase = mapper.selectByPrimaryKey(problem.getId());
+            problemFromDatabase = mapper.selectByPrimaryKey(problem.getId(), status);
             Assert.assertNull(problemFromDatabase);
         } finally {
             sqlSession.close();
@@ -63,12 +64,13 @@ public class ProblemMapperTest extends BaseTest {
             //test
             //insertSelect
             mapper.insertSelective(problem);
-            Problem problemFromDatabase = mapper.selectByPrimaryKey(problem.getId());
+            Byte status = 0;
+            Problem problemFromDatabase = mapper.selectByPrimaryKey(problem.getId(), status);
             Assert.assertTrue(compareTo(problem, problemFromDatabase));
             //updateSelective
             problem = (Problem) modifyTestCase(problem);
             mapper.updateByPrimaryKeySelective(problem);
-            problemFromDatabase = mapper.selectByPrimaryKey(problem.getId());
+            problemFromDatabase = mapper.selectByPrimaryKey(problem.getId(), status);
             Assert.assertTrue(compareTo(problem, problemFromDatabase));
         } finally {
             sqlSession.close();

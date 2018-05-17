@@ -5,10 +5,12 @@ import com.lanxuewei.code_on_line.dao.entity.ProblemTagKey;
 import com.lanxuewei.code_on_line.utils.CompareUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -71,6 +73,25 @@ public class ProblemTagMapperTest extends BaseTest {
             mapper.updateByPrimaryKeySelective(problemTag);
             problemTagFromDatabase = mapper.selectByPrimaryKey(problemTagKey);
             Assert.assertTrue(compareTo(problemTag, problemTagFromDatabase));
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
+    /**
+     * selectTagIdsByProblemId test
+     */
+    @Test
+    public void selectTagIdsByProblemIdTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            ProblemTagMapper mapper = sqlSession.getMapper(ProblemTagMapper.class);
+            // test
+            Long problemId = 19L;
+            List<Long> tagIds = mapper.selectTagIdsByProblemId(problemId, null);
+            logger.info("tagIds = {}", tagIds);
         } finally {
             if (sqlSession != null) {
                 sqlSession.close();

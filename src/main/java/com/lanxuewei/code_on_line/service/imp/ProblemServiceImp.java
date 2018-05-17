@@ -5,6 +5,7 @@ import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.*;
 import com.lanxuewei.code_on_line.dao.mapper.*;
 import com.lanxuewei.code_on_line.dto.ProblemCountDto;
+import com.lanxuewei.code_on_line.dto.ProblemDetailDto;
 import com.lanxuewei.code_on_line.dto.ProblemDto;
 import com.lanxuewei.code_on_line.model.CaseViewModel;
 import com.lanxuewei.code_on_line.model.Page;
@@ -126,9 +127,30 @@ public class ProblemServiceImp implements ProblemService{
     }
 
     @Override
-    public Problem findProblemById(Long id) {
-        return problemMapper.selectByPrimaryKey(id);
+    public Problem findProblemById(Long id, Byte status) {
+        return problemMapper.selectByPrimaryKey(id, status);
     }
+
+    /**
+     * find problem(其中包含题目详情,提交次数,成功次数,相关标签集,用户提交记录)
+     *   1.根据 problemId 查找Problem
+     *   2.根据 problemId 查找提交次数
+     *   3.根据 problemId 查找成功次数
+     *   4.根据 problemId 查询对应标签集合
+     * @param problemId 题目id
+     * @param userId 用户id
+     * @param status 状态码
+     * @return ProblemDetailDto
+     */
+    public ProblemDetailDto findProblemForDetail(Long problemId, Long userId, Byte status) {
+        ProblemDetailDto problemDetailDto = new ProblemDetailDto();     // 返回结果集
+        problemDetailDto.setProblem(problemMapper.selectByPrimaryKey(problemId, status));                      // 1
+        problemDetailDto.setDoneCount(userProblemMapper.selectDoneCountByProblemId(problemId, status));        // 2
+        problemDetailDto.setSuccessCount(userProblemMapper.selectSuccessCountByProblemId(problemId, status));  // 3
+        problemDetailDto.setTags(tagMapper.selectTagsByProblemId(problemId, status));                          // 4
+        return problemDetailDto;
+    }
+
 
     /**
      * 根据题目难易度查询对应的题目数
@@ -257,7 +279,7 @@ public class ProblemServiceImp implements ProblemService{
             PageHelper.startPage(pageNum, pageSize);
             problemDtos = problemMapper.selectAll(status, keyword, difficulty, resolve, allResolvedProblemIds);
             problemDtos = ProblemDto.setProblemDtoIsResolved(allResolvedProblemIds, problemDtos);  // 设置题目已做或者未做标识
-            setProblemThroughrate(problemDtos);         // 设置通过率
+            setProblemThroughRate(problemDtos);         // 设置通过率
         }
         return new Page<>(problemDtos);
     }
@@ -267,7 +289,7 @@ public class ProblemServiceImp implements ProblemService{
      * @param problemDtos
      * @return
      */
-    private List<ProblemDto> setProblemThroughrate(List<ProblemDto> problemDtos) {
+    private List<ProblemDto> setProblemThroughRate(List<ProblemDto> problemDtos) {
         if (problemDtos != null) {
             List<Long> problemIds = getProblemIds(problemDtos);  // 获取需要计算通过率的问题id集
             List<ProblemThroughRate> problemThroughRates = userProblemMapper.selectProblemThroughRate(problemIds);  // 计算问题通过率

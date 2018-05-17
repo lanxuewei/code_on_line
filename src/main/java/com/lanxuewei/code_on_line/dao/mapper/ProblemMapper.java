@@ -23,7 +23,7 @@ public interface ProblemMapper {
     int deleteByPrimaryKey(Long id);
 
     //查找
-    Problem selectByPrimaryKey(Long id);
+    Problem selectByPrimaryKey(@Param("id") Long id, @Param("status") Byte status);
     /**
      * 查找所有问题
      * @param status 状态码(状态划分 0:正常 -1:已删除 null:所有)

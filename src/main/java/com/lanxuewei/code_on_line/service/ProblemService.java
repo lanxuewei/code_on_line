@@ -3,6 +3,7 @@ package com.lanxuewei.code_on_line.service;
 import com.lanxuewei.code_on_line.dao.entity.Case;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
 import com.lanxuewei.code_on_line.dto.ProblemCountDto;
+import com.lanxuewei.code_on_line.dto.ProblemDetailDto;
 import com.lanxuewei.code_on_line.dto.ProblemDto;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
@@ -37,10 +38,11 @@ public interface ProblemService {
     //find
     /**
      * find problem
-     * @param id
+     * @param id 题目id
+     * @param status
      * @return true or false
      */
-    Problem findProblemById(Long id);
+    Problem findProblemById(Long id, Byte status);
 
     /**
      * 查询所有问题
@@ -107,6 +109,19 @@ public interface ProblemService {
      * @return
      */
     ProblemCountDto countProblemAndResolved(Long userId);
+
+    /**
+     * find problem(其中包含题目详情,提交次数,成功次数,相关标签集,用户提交记录)
+     *   1.根据 problemId 查找Problem
+     *   2.根据 problemId 查找提交次数
+     *   3.根据 problemId 查找成功次数
+     *   4.根据 problemId 查询对应标签集合
+     * @param problemId 题目id
+     * @param userId 用户id
+     * @param status 状态码
+     * @return ProblemDetailDto
+     */
+    ProblemDetailDto findProblemForDetail(Long problemId, Long userId, Byte status);
 
     //modify
     /**

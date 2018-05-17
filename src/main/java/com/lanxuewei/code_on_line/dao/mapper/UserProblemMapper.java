@@ -46,6 +46,22 @@ public interface UserProblemMapper {
      */
     List<ProblemThroughRate> selectProblemThroughRate(@Param("problemIds") List<Long> problemIds);
 
+    /**
+     * 查找该题提交次数
+     * @param problemId
+     * @param status
+     * @return
+     */
+    Integer selectDoneCountByProblemId(@Param("problemId") Long problemId, @Param("status") Byte status);
+
+    /**
+     * 查找该问题成功次数
+     * @param status
+     * @param problemId
+     * @return
+     */
+    Integer selectSuccessCountByProblemId(@Param("problemId") Long problemId, @Param("status") Byte status);
+
     //更新
     int updateByPrimaryKeySelective(UserProblem record);
 

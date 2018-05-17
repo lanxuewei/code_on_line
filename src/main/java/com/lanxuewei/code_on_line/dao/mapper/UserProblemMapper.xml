@@ -173,4 +173,23 @@
       group by problem_id
     ) as source
   </select>
+  <!-- 通过问题id查找其提交次数 -->
+  <select id="selectDoneCountByProblemId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    select count(*)
+    from user_problem
+    where problem_id = #{problemId,jdbcType=BIGINT}
+    <if test="status != null">
+      and `status` = #{status,jdbcType=TINYINT}
+    </if>
+  </select>
+  <!-- 通过问题id查找其成功次数 -->
+  <select id="selectSuccessCountByProblemId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+    select count(*)
+    from user_problem
+    where problem_id = #{problemId,jdbcType=BIGINT}
+    and success > 0
+    <if test="status != null">
+      and `status` = #{status,jdbcType=TINYINT}
+    </if>
+  </select>
 </mapper>
