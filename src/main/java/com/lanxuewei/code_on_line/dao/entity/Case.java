@@ -97,4 +97,17 @@ public class Case {
     public void setStatus(Byte status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Case{" +
+                "id=" + id +
+                ", problemId=" + problemId +
+                ", input='" + input + '\'' +
+                ", output='" + output + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", status=" + status +
+                '}';
+    }
 }

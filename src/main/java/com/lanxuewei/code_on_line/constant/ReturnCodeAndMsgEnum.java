@@ -27,6 +27,16 @@ public enum ReturnCodeAndMsgEnum {
     Tag_Exist(-3001, "tag exist"),
 
     /**
+     * 做题相关
+     */
+    No_Cases(-4000, "no cases"),              // 无测试用例
+    Compile_Failed(-4001, "compile failed"),  // 编译失败
+    Time_Out(-4002, "time out"),              // 超出时间
+    Memory_Out(-4003, "memory out"),          // 超出内存
+    Wrong_Answer(-4004, "wrong answer"),      // 答案错误
+    Accepted(-4005, "accepted"),              // 答案正确
+
+    /**
      * 内部服务器错误
      */
     System_Error(1000, "system error");

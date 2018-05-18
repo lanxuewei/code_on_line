@@ -32,6 +32,14 @@ public interface CaseMapper {
      */
     int selectCount(@Param("status") Byte status);
 
+    /**
+     * 根据问题id以及状态码查找对应的测试用例集合
+     * @param problemId
+     * @param status
+     * @return
+     */
+    List<Case> selectAllByProblemId(@Param("problemId") Long problemId, @Param("status") Byte status);
+
     //更新
     int updateByPrimaryKeySelective(Case record);
     int updateByPrimaryKey(Case record);

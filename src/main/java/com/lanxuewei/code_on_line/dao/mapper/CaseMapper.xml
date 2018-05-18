@@ -106,4 +106,14 @@
       </if>
     </where>
   </select>
+  <!-- 根据问题id以及状态码查找对应的测试用例集合 -->
+  <select id="selectAllByProblemId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from `case`
+    where problem_id = #{problemId,jdbcType=BIGINT}
+    <if test="status != null">
+      and `status` = #{status,jdbcType=TINYINT}
+    </if>
+  </select>
 </mapper>

@@ -9,6 +9,8 @@ import com.lanxuewei.code_on_line.dao.entity.Problem;
 import com.lanxuewei.code_on_line.dto.ProblemDetailDto;
 import com.lanxuewei.code_on_line.dto.ProblemDto;
 import com.lanxuewei.code_on_line.dto.ProblemListDto;
+import com.lanxuewei.code_on_line.judger.CppSolution;
+import com.lanxuewei.code_on_line.judger.JudgeStatus;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
 import com.lanxuewei.code_on_line.model.ReturnValue;
@@ -109,7 +111,8 @@ public class ProblemController {
     }
 
     /**
-     * 通过问题id查找对应问题详情,包含(其中包含题目详情,提交次数,成功次数,相关标签集,用户提交记录) todo....
+     * 通过问题id查找对应问题详情,包含(其中包含题目详情,提交次数,成功次数,相关标签集,用户提交记录)
+     * @param status 状态码
      * @return
      */
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
@@ -117,6 +120,7 @@ public class ProblemController {
     public ReturnValue<ProblemDetailDto> findProblemDetailById(@PathVariable("id") Long problemId,
                                                                @RequestParam(value = "status", required = false) Byte status,
                                                                HttpServletRequest request) {
+        logger.info("---> findProblemDetailById");
         Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);  // 获取用户id
         return new ReturnValue<>(ReturnCodeAndMsgEnum.Success
                 ,problemService.findProblemForDetail(problemId, userId, status));
@@ -135,4 +139,15 @@ public class ProblemController {
         return new ReturnValue(ReturnCodeAndMsgEnum.Success, problemService.countProblemAndResolved(userId));
     }
 
+    @RequestMapping(value = "/answer", method = RequestMethod.POST)
+    @ApiOperation("run code")
+    public ReturnValue runCode(@RequestParam(value = "problemId", required = true) Long problemId,
+                               @RequestParam(value = "code", required = true) String code,
+                               HttpServletRequest request) {
+        logger.info("---> run code");
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);  // 获取用户id
+        return problemService.runCodeAfter(userId, problemId, code);
+//        CppSolution solution = new CppSolution(code, 3, 1024, "1 2", "3");
+//        return new ReturnValue(ReturnCodeAndMsgEnum.Success, solution.judge());
+    }
 }

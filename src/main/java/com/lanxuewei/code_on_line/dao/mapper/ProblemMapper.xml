@@ -203,7 +203,7 @@
           </if>
           <!-- 如果出现集合为空并且size==0的情况 则使其查不到数据 -->
           <if test="resolvedProblemIds != null and resolvedProblemIds.size == 0">
-            1=0
+            and 1=0
           </if>
         </if>
         <!-- 未做 id not in resolvedProblemIds -->

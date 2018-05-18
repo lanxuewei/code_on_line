@@ -170,6 +170,28 @@ public class UserProblemMapperTest extends BaseTest {
         }
     }
 
+    /**
+     * updateSubmits test
+     */
+    @Test
+    public void updateSubmitsTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            UserProblemMapper mapper = sqlSession.getMapper(UserProblemMapper.class);
+            // test
+            Long userId = 3L;
+            Long problemId = 14L;
+            Byte isSuccess = -1;  // 失败
+            String lastSubmitCode = "aaa";
+            int updateSuccessCount = mapper.updateSubmitsByIds(userId, problemId, lastSubmitCode, isSuccess);
+            logger.info("updateSuccessCount = {}", updateSuccessCount);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
     @Override
     public Object getTestCase() {
         UserProblem userProblem = new UserProblem();

@@ -5,8 +5,10 @@ import com.lanxuewei.code_on_line.dao.entity.Problem;
 import com.lanxuewei.code_on_line.dto.ProblemCountDto;
 import com.lanxuewei.code_on_line.dto.ProblemDetailDto;
 import com.lanxuewei.code_on_line.dto.ProblemDto;
+import com.lanxuewei.code_on_line.judger.JudgeStatus;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
+import com.lanxuewei.code_on_line.model.ReturnValue;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +28,22 @@ public interface ProblemService {
      * @return true or false
      */
     boolean addProblem(ProblemViewModel problemViewModel);
+
+    /**
+     * 运行代码
+     * @param userId
+     * @param problemId
+     * @param code
+     */
+    ReturnValue runCodeAfter(Long userId, Long problemId, String code);
+
+    /**
+     * 运行代码,返回运行结果
+     * @param code
+     * @param cases 需要通过的测试用例集
+     * @return 通过或者失败
+     */
+    ReturnValue runCode(String code, List<Case> cases);
 
     //delete
     /**

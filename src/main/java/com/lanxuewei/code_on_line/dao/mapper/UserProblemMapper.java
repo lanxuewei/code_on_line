@@ -62,6 +62,15 @@ public interface UserProblemMapper {
      */
     Integer selectSuccessCountByProblemId(@Param("problemId") Long problemId, @Param("status") Byte status);
 
+    /**
+     * 更新用户-题目记录 即成功或者失败+1 提交次数加1
+     * @param userId
+     * @param problemId
+     * @param isSuccess 是否成功(0:表示成功 -1:表示失败)
+     * @return
+     */
+    int updateSubmitsByIds(@Param("userId") Long userId, @Param("problemId") Long problemId, @Param("lastSubmit") String lastSubmit, @Param("isSuccess") Byte isSuccess);
+
     //更新
     int updateByPrimaryKeySelective(UserProblem record);
 

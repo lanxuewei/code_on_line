@@ -192,4 +192,18 @@
       and `status` = #{status,jdbcType=TINYINT}
     </if>
   </select>
+  <!-- 提交记录更新 即成功或者失败加1 次数加1 -->
+  <update id="updateSubmitsByIds">
+    update user_problem
+    set submit = submit + 1,
+        last_submit = #{lastSubmit,jdbcType=LONGVARCHAR}
+      <if test="isSuccess == 0">
+        ,success = success + 1
+      </if>
+      <if test="isSuccess == -1">
+        ,fail = fail + 1
+      </if>
+    where user_id = #{userId,jdbcType=BIGINT}
+          and problem_id = #{problemId,jdbcType=BIGINT}
+  </update>
 </mapper>

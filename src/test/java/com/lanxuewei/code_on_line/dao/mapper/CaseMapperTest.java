@@ -141,6 +141,26 @@ public class CaseMapperTest extends BaseTest{
     }
 
     /**
+     * selectAllByProblemId test
+     */
+    @Test
+    public void selectAllByProblemIdTest() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        try {
+            CaseMapper mapper = sqlSession.getMapper(CaseMapper.class);
+            // test
+            Long problemId = 14L;
+            Byte status = 0;
+            List<Case> cases = mapper.selectAllByProblemId(problemId, status);
+            logger.info("cases = {}", cases);
+        } finally {
+            if (sqlSession != null) {
+                sqlSession.close();
+            }
+        }
+    }
+
+    /**
      * get test case
      * @return case
      */

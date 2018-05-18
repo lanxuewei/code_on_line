@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `problem_tag` (
 
 -- 用户-提交记录表(用于记录用户提交记录)
 CREATE TABLE IF NOT EXISTS `user_record` (
-  `id` BIGINT NOT NULL COMMENT '记录id',
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '记录id',
   `user_id` BIGINT NOT NULL COMMENT 'user id',
   `problem_id` BIGINT NOT NULL COMMENT 'problem id',
   `is_success` TINYINT NOT NULL COMMENT '提交是否成功',

@@ -1,16 +1,22 @@
 package com.lanxuewei.code_on_line.service.imp;
 
 import com.github.pagehelper.PageHelper;
+import com.lanxuewei.code_on_line.constant.ReturnCodeAndMsgEnum;
 import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.*;
 import com.lanxuewei.code_on_line.dao.mapper.*;
+import com.lanxuewei.code_on_line.dto.CaseDto;
 import com.lanxuewei.code_on_line.dto.ProblemCountDto;
 import com.lanxuewei.code_on_line.dto.ProblemDetailDto;
 import com.lanxuewei.code_on_line.dto.ProblemDto;
+import com.lanxuewei.code_on_line.judger.CppSolution;
+import com.lanxuewei.code_on_line.judger.JudgeStatus;
 import com.lanxuewei.code_on_line.model.CaseViewModel;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
+import com.lanxuewei.code_on_line.model.ReturnValue;
 import com.lanxuewei.code_on_line.service.ProblemService;
+import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +49,8 @@ public class ProblemServiceImp implements ProblemService{
     private UserProblemMapper userProblemMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserRecordMapper userRecordMapper;
 
     private static final String Difficulty_Str = "difficulty";
     private static final String Count_Str = "count";
@@ -332,6 +340,98 @@ public class ProblemServiceImp implements ProblemService{
         } else {
             return false;                              // 学生身份
         }
+    }
+
+    /**
+     * 程序运行后更新数据库数据
+     *  1.根据问题id查询测试用例集
+     *  2.遍历测试用例,运行code
+     *  3.根据返回值更新用户做题情况
+     * @param userId
+     * @param problemId
+     * @param code
+     * @return
+     */
+    @Override
+    @Transactional
+    public ReturnValue runCodeAfter(Long userId, Long problemId, String code) {
+        List<Case> cases = caseMapper.selectAllByProblemId(problemId, ServiceConstant.Problem.Normal);  // 1 查询可用测试用例
+        ReturnValue runCodeReturnVal = runCode(code, cases);  // 2 运行程序
+        Byte isSuccess = null;
+        if (runCodeReturnVal.getCode().equals(ReturnCodeAndMsgEnum.Accepted.getCode())) {  // 3 成功
+            updataUserProblemRecord(userId, problemId, code, true);   // 答案正确
+            isSuccess = 0;
+            UserRecord userRecord = new UserRecord(userId, problemId, isSuccess);
+            userRecordMapper.insertSelective(userRecord);
+        } else {
+            updataUserProblemRecord(userId, problemId, code, false);  // 答案错误
+            isSuccess = -1;
+            UserRecord userRecord = new UserRecord(userId, problemId, isSuccess);
+            userRecordMapper.insertSelective(userRecord);
+        }
+        return runCodeReturnVal;
+    }
+
+    /**
+     * 更新用户-问题记录 如果不存在则插入新纪录
+     * @param userId
+     * @param problemId
+     * @param code
+     * @param isSuccess
+     */
+    public void updataUserProblemRecord(Long userId, Long problemId, String code, boolean isSuccess) {
+        Byte successOrFailed = null;
+        UserProblem userProblem = new UserProblem();
+        userProblem.setUserId(userId);
+        userProblem.setProblemId(problemId);
+        userProblem.setSubmit(1);         // 提交1次
+        userProblem.setLastSubmit(code);  // 最后一次提交的代码
+        if (isSuccess) {  // 成功
+            successOrFailed = 0;
+            userProblem.setSuccess(1);    // 成功1次
+            userProblem.setFail(0);       // 失败0次
+        } else {          // 失败
+            successOrFailed = -1;
+            userProblem.setFail(1);       // 失败1次
+            userProblem.setSuccess(0);    // 成功0次
+        }
+        int updateCount = userProblemMapper.updateSubmitsByIds(userId, problemId, code,successOrFailed);  // 更新记录
+        if (updateCount < 1) {            // 不存在该用户与该题记录则插入记录 1次提交 1次成功或失败 以及最后一次提交代码
+            userProblemMapper.insertSelective(userProblem);  // 插入
+        }
+    }
+
+    /**
+     * 运行代码
+     * @param code
+     * @param cases 需要通过的测试用例集
+     * @return
+     */
+    @Override
+    public ReturnValue runCode(String code, List<Case> cases) {
+        int timeLimit = 3;        // 限制时间
+        long memoryLimit = 1024;  // 限制内存
+        if (cases != null) {
+            for (Case item : cases) {  // 遍历测试用例
+                CppSolution solution = new CppSolution(code, timeLimit, memoryLimit,
+                        item.getInput(), item.getOutput());
+                JudgeStatus judgeStatus = solution.judge();                     // 编译运行
+                if (judgeStatus.equals(JudgeStatus.COMPILE_ERROR)) {            // 编译错误
+                    return new ReturnValue(ReturnCodeAndMsgEnum.Compile_Failed,
+                            solution.getCompileLog());                          // 获取编译失败原因
+                }
+                if (judgeStatus.equals(JudgeStatus.TIME_LIMIT_EXCEEDED)) {      // 超时
+                    return new ReturnValue(ReturnCodeAndMsgEnum.Time_Out);
+                }
+                if (judgeStatus.equals(JudgeStatus.WRONG_ANSWER)) {             // 答案错误
+                    return new ReturnValue(ReturnCodeAndMsgEnum.Wrong_Answer,
+                            new CaseDto(item));                                 // 存入未通过测试用例
+                }
+                solution.removeFiles();                                         // 删除临时文件
+            }
+            return new ReturnValue(ReturnCodeAndMsgEnum.Accepted);              // 成功
+        }
+        return new ReturnValue(ReturnCodeAndMsgEnum.No_Cases);  // 无测试用例
     }
 
     @Override

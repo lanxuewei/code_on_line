@@ -25,6 +25,19 @@ public class UserRecord {
     // 状态码
     private Byte status;
 
+    public UserRecord(Long userId, Long problemId, Byte isSuccess) {
+        this.userId = userId;
+        this.problemId = problemId;
+        this.isSuccess = isSuccess;
+    }
+
+    public UserRecord(Long userId, Long problemId, Byte isSuccess, Byte status) {
+        this.userId = userId;
+        this.problemId = problemId;
+        this.isSuccess = isSuccess;
+        this.status = status;
+    }
+
     public Long getId() {
         return id;
     }
