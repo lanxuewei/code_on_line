@@ -304,6 +304,8 @@ public class ProblemServiceImp implements ProblemService{
             for (ProblemDto problemDto : problemDtos) {
                 for (ProblemThroughRate problemThroughRate : problemThroughRates) {
                     if (problemDto.getId() == problemThroughRate.getProblemId()) {   // id 相同即本题通过率计算值
+                        problemDto.setDoneCount(problemThroughRate.getDoneCount());  // 设置提交次数
+                        problemDto.setSuccessCount();
                         problemDto.setThroughRate(problemThroughRate.getThrough());  // 设置通过率
                     }
                 }
@@ -358,7 +360,7 @@ public class ProblemServiceImp implements ProblemService{
         List<Case> cases = caseMapper.selectAllByProblemId(problemId, ServiceConstant.Problem.Normal);  // 1 查询可用测试用例
         ReturnValue runCodeReturnVal = runCode(code, cases);  // 2 运行程序
         Byte isSuccess = null;
-        if (runCodeReturnVal.getCode().equals(ReturnCodeAndMsgEnum.Accepted.getCode())) {  // 3 成功
+        if (runCodeReturnVal.getCode().equals(ReturnCodeAndMsgEnum.Success.getCode())) {  // 3 成功
             updataUserProblemRecord(userId, problemId, code, true);   // 答案正确
             isSuccess = 0;
             UserRecord userRecord = new UserRecord(userId, problemId, isSuccess);
@@ -411,7 +413,7 @@ public class ProblemServiceImp implements ProblemService{
     public ReturnValue runCode(String code, List<Case> cases) {
         int timeLimit = 3;        // 限制时间
         long memoryLimit = 1024;  // 限制内存
-        if (cases != null) {
+        if (cases != null && cases.size() != 0) {
             for (Case item : cases) {  // 遍历测试用例
                 CppSolution solution = new CppSolution(code, timeLimit, memoryLimit,
                         item.getInput(), item.getOutput());
@@ -429,7 +431,7 @@ public class ProblemServiceImp implements ProblemService{
                 }
                 solution.removeFiles();                                         // 删除临时文件
             }
-            return new ReturnValue(ReturnCodeAndMsgEnum.Accepted);              // 成功
+            return new ReturnValue(ReturnCodeAndMsgEnum.Success);               // 成功
         }
         return new ReturnValue(ReturnCodeAndMsgEnum.No_Cases);  // 无测试用例
     }

@@ -34,7 +34,7 @@ public enum ReturnCodeAndMsgEnum {
     Time_Out(-4002, "time out"),              // 超出时间
     Memory_Out(-4003, "memory out"),          // 超出内存
     Wrong_Answer(-4004, "wrong answer"),      // 答案错误
-    Accepted(-4005, "accepted"),              // 答案正确
+//    Accepted(-4005, "accepted"),              // 答案正确
 
     /**
      * 内部服务器错误
