@@ -239,4 +239,16 @@
     from problem
     group by difficulty
   </select>
+  <!-- 根据用户做题情况更新 成功、失败以及提交次数 -->
+  <update id="updateSubmitById">
+    update problem
+    set submit = submit + 1
+    <if test="isSuccess == 0">
+      ,success = success + 1
+    </if>
+    <if test="isSuccess == -1">
+      ,fail = fail + 1
+    </if>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

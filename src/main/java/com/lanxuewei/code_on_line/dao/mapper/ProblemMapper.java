@@ -52,4 +52,12 @@ public interface ProblemMapper {
     //更新
     int updateByPrimaryKeySelective(Problem record);
     int updateByPrimaryKey(Problem record);
+
+    /**
+     * 更新题目的提交次数、成功次数以及失败次数
+     * @param id
+     * @param isSuccess
+     * @return
+     */
+    int updateSubmitById(@Param("id") Long id, @Param("isSuccess") Byte isSuccess);
 }

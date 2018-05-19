@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -287,25 +288,43 @@ public class ProblemServiceImp implements ProblemService{
             PageHelper.startPage(pageNum, pageSize);
             problemDtos = problemMapper.selectAll(status, keyword, difficulty, resolve, allResolvedProblemIds);
             problemDtos = ProblemDto.setProblemDtoIsResolved(allResolvedProblemIds, problemDtos);  // 设置题目已做或者未做标识
-            setProblemThroughRate(problemDtos);         // 设置通过率
+            setProblemThroughRateByCounts(problemDtos);         // 设置通过率
         }
         return new Page<>(problemDtos);
     }
 
+
     /**
-     * 计算题目对应通过率
+     * 计算题目通过率 按照次数算
      * @param problemDtos
      * @return
      */
-    private List<ProblemDto> setProblemThroughRate(List<ProblemDto> problemDtos) {
+    private List<ProblemDto> setProblemThroughRateByCounts(List<ProblemDto> problemDtos) {
+        if (problemDtos != null) {
+            for (ProblemDto problemDto : problemDtos) {  // 遍历问题集
+                double throughRate = 0;
+                if (problemDto.getSubmit() != 0) {       // 防止除数为0
+                    throughRate = 1.0 * problemDto.getSuccess()/problemDto.getSubmit() * 100;   // 成功次数除以总提交次数
+                }
+                throughRate = (double) Math.round(throughRate * 100) / 100;                     // 保留两位小数
+                problemDto.setThroughRate(throughRate);
+            }
+        }
+        return problemDtos;  // 直接返回
+    }
+
+    /**
+     * 计算题目对应通过率 按照用户算
+     * @param problemDtos
+     * @return
+     */
+    private List<ProblemDto> setProblemThroughRateByPeople(List<ProblemDto> problemDtos) {
         if (problemDtos != null) {
             List<Long> problemIds = getProblemIds(problemDtos);  // 获取需要计算通过率的问题id集
             List<ProblemThroughRate> problemThroughRates = userProblemMapper.selectProblemThroughRate(problemIds);  // 计算问题通过率
             for (ProblemDto problemDto : problemDtos) {
                 for (ProblemThroughRate problemThroughRate : problemThroughRates) {
                     if (problemDto.getId() == problemThroughRate.getProblemId()) {   // id 相同即本题通过率计算值
-                        problemDto.setDoneCount(problemThroughRate.getDoneCount());  // 设置提交次数
-                        problemDto.setSuccessCount();
                         problemDto.setThroughRate(problemThroughRate.getThrough());  // 设置通过率
                     }
                 }
@@ -361,12 +380,12 @@ public class ProblemServiceImp implements ProblemService{
         ReturnValue runCodeReturnVal = runCode(code, cases);  // 2 运行程序
         Byte isSuccess = null;
         if (runCodeReturnVal.getCode().equals(ReturnCodeAndMsgEnum.Success.getCode())) {  // 3 成功
-            updataUserProblemRecord(userId, problemId, code, true);   // 答案正确
+            updateUserProblemRecord(userId, problemId, code, true);   // 答案正确
             isSuccess = 0;
             UserRecord userRecord = new UserRecord(userId, problemId, isSuccess);
             userRecordMapper.insertSelective(userRecord);
         } else {
-            updataUserProblemRecord(userId, problemId, code, false);  // 答案错误
+            updateUserProblemRecord(userId, problemId, code, false);  // 答案错误
             isSuccess = -1;
             UserRecord userRecord = new UserRecord(userId, problemId, isSuccess);
             userRecordMapper.insertSelective(userRecord);
@@ -381,7 +400,7 @@ public class ProblemServiceImp implements ProblemService{
      * @param code
      * @param isSuccess
      */
-    public void updataUserProblemRecord(Long userId, Long problemId, String code, boolean isSuccess) {
+    public void updateUserProblemRecord(Long userId, Long problemId, String code, boolean isSuccess) {
         Byte successOrFailed = null;
         UserProblem userProblem = new UserProblem();
         userProblem.setUserId(userId);
@@ -401,6 +420,7 @@ public class ProblemServiceImp implements ProblemService{
         if (updateCount < 1) {            // 不存在该用户与该题记录则插入记录 1次提交 1次成功或失败 以及最后一次提交代码
             userProblemMapper.insertSelective(userProblem);  // 插入
         }
+        problemMapper.updateSubmitById(problemId, successOrFailed);  // 更新题目中提交次数以及成功失败次数
     }
 
     /**
