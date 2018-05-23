@@ -22,6 +22,13 @@ public interface ProblemMapper {
     //删除
     int deleteByPrimaryKey(Long id);
 
+    /**
+     * 主键删除(将状态码status修改为-1)
+     * @param id
+     * @return
+     */
+    int deleteById(Long id);
+
     //查找
     Problem selectByPrimaryKey(@Param("id") Long id, @Param("status") Byte status);
     /**
@@ -47,11 +54,19 @@ public interface ProblemMapper {
      * 查询相应难易度对应问题数
      * @return
      */
-    List<Map<String, Integer>> selectCountByDifficulty();
+    List<Map<String, Integer>> selectCountByDifficulty(@Param("status") Byte status);
 
     //更新
     int updateByPrimaryKeySelective(Problem record);
     int updateByPrimaryKey(Problem record);
+
+    /**
+     * 更新任务状态
+     * @param status
+     * @param id
+     * @return
+     */
+    int updateStatusById(@Param("status") Byte status, @Param("id") Long id);
 
     /**
      * 更新题目的提交次数、成功次数以及失败次数

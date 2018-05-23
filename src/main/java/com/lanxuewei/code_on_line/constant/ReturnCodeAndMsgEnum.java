@@ -39,7 +39,11 @@ public enum ReturnCodeAndMsgEnum {
     /**
      * 内部服务器错误
      */
-    System_Error(1000, "system error");
+    System_Error(1000, "system error"),
+    /**
+     * 无权限非法操作
+     */
+    Permission_Denied(1001, "permission denied");
 
     /**
      * code 状态码

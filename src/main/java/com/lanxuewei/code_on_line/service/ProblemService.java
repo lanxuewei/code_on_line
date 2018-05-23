@@ -53,6 +53,13 @@ public interface ProblemService {
      */
     boolean deleteProblemById(Long id);
 
+    /**
+     * 删除问题(修改状态码status为-1,不是真正意义删除)
+     * @param id
+     * @return
+     */
+    boolean deleteById(Long id);
+
     //find
     /**
      * find problem
@@ -113,7 +120,7 @@ public interface ProblemService {
      * 查询各难易度对应的题目数
      * @return
      */
-    Map<Integer, Integer> countByDifficulty();
+    Map<Integer, Integer> countByDifficulty(Byte status);
 
     /**
      * 统计该用户所通过的题数
@@ -140,6 +147,21 @@ public interface ProblemService {
      * @return ProblemDetailDto
      */
     ProblemDetailDto findProblemForDetail(Long problemId, Long userId, Byte status);
+
+    /**
+     * 判断该用户是否为管理员
+     * @param userId
+     * @return
+     */
+    boolean isManager(Long userId);
+
+    /**
+     * 更新任务状态
+     * @param status
+     * @param id
+     * @return
+     */
+    boolean changeStatusById(Byte status, Long id);
 
     //modify
     /**

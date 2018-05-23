@@ -136,7 +136,8 @@ public class ProblemMapperTest extends BaseTest {
         try {
             ProblemMapper mapper = sqlSession.getMapper(ProblemMapper.class);
             //test
-            List<Map<String, Integer>> resultList = mapper.selectCountByDifficulty();
+            Byte status = 0;
+            List<Map<String, Integer>> resultList = mapper.selectCountByDifficulty(status);
             //logger.info("resultList = {}", resultList);
             Map<Integer, Integer> map = transferCountMap(resultList);
             logger.info("map = {}", map);

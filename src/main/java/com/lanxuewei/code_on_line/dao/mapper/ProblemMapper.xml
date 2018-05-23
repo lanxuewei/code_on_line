@@ -182,6 +182,10 @@
       <if test="status != null">
         `status` = #{status,jdbcType=TINYINT}
       </if>
+      <!-- 为空查询所有时不查询已删除的问题记录 -->
+      <if test="status == null">
+        `status` != -1
+      </if>
       <!-- 难易度 -->
       <if test="difficulty != null">
         and difficulty = #{difficulty,jdbcType=TINYINT}
@@ -237,6 +241,11 @@
   <select id="selectCountByDifficulty" resultType="map" resultMap="difficultyMap">
     select difficulty,count(*) as `count`
     from problem
+    <where>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT}
+      </if>
+    </where>
     group by difficulty
   </select>
   <!-- 根据用户做题情况更新 成功、失败以及提交次数 -->
@@ -249,6 +258,18 @@
     <if test="isSuccess == -1">
       ,fail = fail + 1
     </if>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 删除问题 即将status字段更新为-1 -->
+  <update id="deleteById" parameterType="java.lang.Long">
+    update problem
+    set `status` = -1
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 更新问题状态 -->
+  <update id="updateStatusById">
+    update problem
+    set `status` = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

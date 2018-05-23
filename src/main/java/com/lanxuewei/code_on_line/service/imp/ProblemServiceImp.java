@@ -22,7 +22,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -135,6 +137,15 @@ public class ProblemServiceImp implements ProblemService{
         return problemMapper.deleteByPrimaryKey(id) != 0;
     }
 
+    /**
+     * 删除问题,修改状态码status为-1,并不是真正意义上删除
+     * @param id
+     * @return
+     */
+    public boolean deleteById(Long id) {
+        return problemMapper.deleteById(id) != 0;
+    }
+
     @Override
     public Problem findProblemById(Long id, Byte status) {
         return problemMapper.selectByPrimaryKey(id, status);
@@ -166,8 +177,8 @@ public class ProblemServiceImp implements ProblemService{
      * @return
      */
     @Override
-    public Map<Integer, Integer> countByDifficulty() {
-        List<Map<String, Integer>> list = problemMapper.selectCountByDifficulty();
+    public Map<Integer, Integer> countByDifficulty(Byte status) {
+        List<Map<String, Integer>> list = problemMapper.selectCountByDifficulty(status);
         Map<Integer, Integer> result = transferCountMap(list);
         return result;
     }
@@ -199,9 +210,9 @@ public class ProblemServiceImp implements ProblemService{
     @Override
     @Transactional
     public ProblemCountDto countProblemAndResolved(Long userId) {
-        Map<Integer, Integer> difficultyMap = countByDifficulty();                        // 查询难易度对应的题目数
-        ProblemCountDto problemCountDto = difficultyMapToProblemCountDto(difficultyMap);  // 获取难易度对应题目数属性
-        Integer totalCount = selectCount(ServiceConstant.Problem.Normal);                 // 查询题目总数
+        Map<Integer, Integer> difficultyMap = countByDifficulty(ServiceConstant.Problem.Normal);    // 查询难易度对应的题目数
+        ProblemCountDto problemCountDto = difficultyMapToProblemCountDto(difficultyMap);            // 获取难易度对应题目数属性
+        Integer totalCount = selectCount(ServiceConstant.Problem.Normal);                           // 查询题目总数
         problemCountDto.setTotalCount(totalCount);
         Integer resolved = userProblemMapper.countAllResolved(userId);  // 已完成题目数
         problemCountDto.setResolved(resolved);
@@ -217,9 +228,9 @@ public class ProblemServiceImp implements ProblemService{
     private ProblemCountDto difficultyMapToProblemCountDto(Map<Integer, Integer> difficultyMap) {
         ProblemCountDto problemCountDto = new ProblemCountDto();                // 用于封装难易度对应题目数
         difficultyMap.get(Easy_Int);
-        problemCountDto.setEasyCount(difficultyMap.get(Easy_Int));              // 简单题
-        problemCountDto.setMediumCount(difficultyMap.get(Medium_Int));          // 中等题
-        problemCountDto.setDifficultyCount(difficultyMap.get(Difficulty_Int));  // 难题
+        problemCountDto.setEasyCount(difficultyMap.get(Easy_Int) == null ? 0 : difficultyMap.get(Easy_Int));        // 简单题
+        problemCountDto.setMediumCount(difficultyMap.get(Medium_Int) == null ? 0 : difficultyMap.get(Medium_Int));  // 中等题
+        problemCountDto.setDifficultyCount(difficultyMap.get(Difficulty_Int) == null ? 0 : difficultyMap.get(Difficulty_Int));  // 难题
         return problemCountDto;
     }
 
@@ -288,8 +299,8 @@ public class ProblemServiceImp implements ProblemService{
             PageHelper.startPage(pageNum, pageSize);
             problemDtos = problemMapper.selectAll(status, keyword, difficulty, resolve, allResolvedProblemIds);
             problemDtos = ProblemDto.setProblemDtoIsResolved(allResolvedProblemIds, problemDtos);  // 设置题目已做或者未做标识
-            setProblemThroughRateByCounts(problemDtos);         // 设置通过率
         }
+        setProblemThroughRateByCounts(problemDtos);         // 设置通过率
         return new Page<>(problemDtos);
     }
 
@@ -333,7 +344,6 @@ public class ProblemServiceImp implements ProblemService{
         return problemDtos;  // 直接返回
     }
 
-
     /**
      * 获取ProblemDto集合中的所有id
      * @param problemDtos
@@ -354,7 +364,7 @@ public class ProblemServiceImp implements ProblemService{
      * @param userId
      * @return
      */
-    private boolean isManager(Long userId) {
+    public boolean isManager(Long userId) {
         Byte status = userMapper.selectStatusByUserId(userId);  // 通过 userId 查找对应的 status
         if (status == ServiceConstant.User.manager) {  // 表示管理员
             return true;
@@ -459,5 +469,16 @@ public class ProblemServiceImp implements ProblemService{
     @Override
     public boolean modifyProblemById(Problem problem) {
         return problemMapper.updateByPrimaryKey(problem) != 0;
+    }
+
+    /**
+     * 更新任务状态
+     * @param status
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean changeStatusById(Byte status, Long id) {
+        return problemMapper.updateStatusById(status, id) != 0;
     }
 }

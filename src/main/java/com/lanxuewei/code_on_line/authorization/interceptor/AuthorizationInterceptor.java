@@ -33,7 +33,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
                              HttpServletResponse response, Object handler) {
         response.setHeader("Access-Control-Allow-Origin", "*");  //允许跨域访问
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
+        response.setHeader("Access-Control-Allow-Methods", "DELETE, PUT");
         if (!(handler instanceof HandlerMethod)) {                      //如果不是映射方法直接通过
             return true;
         }

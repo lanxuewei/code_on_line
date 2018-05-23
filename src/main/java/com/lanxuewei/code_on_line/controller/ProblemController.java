@@ -83,7 +83,7 @@ public class ProblemController {
     @ApiOperation("find problem by page")
     public ReturnValue<Page> findProblemByPage(@RequestParam(value = "pageNum", required = false, defaultValue = ServiceConstant.Default_PageNum) Integer pageNum,
                                                @RequestParam(value = "pageSize", required = false, defaultValue = ServiceConstant.Default_PageSize) Integer pageSize,
-                                               @RequestParam(value = "status", required = false, defaultValue = ServiceConstant.Default_Status) Byte status,
+                                               @RequestParam(value = "status", required = false) Byte status,
                                                @RequestParam(value = "resolve", required = false) Byte resolve,
                                                @RequestParam(value = "keyword", required = false) String keyword,
                                                @RequestParam(value = "difficulty", required = false) Byte difficulty,
@@ -108,6 +108,29 @@ public class ProblemController {
         Assert.notNull(id, "id can not be empty");
         //return new ReturnValue<Problem>(ReturnCodeAndMsgEnum.Success, problemService.findProblemById(id));
         return null;
+    }
+
+    /**
+     * 根据问题id删除该问题
+     * @return
+     */
+    @RequestMapping(value = "/ID/{id}", method = RequestMethod.DELETE)
+    @ApiOperation("delete problem by id")
+    public ReturnValue deleteProblemById(@PathVariable(value = "id") Long id,
+                                         HttpServletRequest request) {
+        logger.info("---> deleteProblemById");
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);  // 获取用户id(用于判断是否为管理员,是否有该权限操作)
+        boolean isManager = problemService.isManager(userId);  // 判断该用户是否为管理员
+        if (isManager) {    // 管理员身份
+            boolean isDelete = problemService.deleteById(id);
+            if (isDelete) {
+                return new ReturnValue(ReturnCodeAndMsgEnum.Success);       // 删除成功
+            } else {
+                return new ReturnValue(ReturnCodeAndMsgEnum.System_Error);  // 内部错误
+            }
+        } else {            // 无权限操作
+            return new ReturnValue(ReturnCodeAndMsgEnum.Permission_Denied); // 无权限
+        }
     }
 
     /**
@@ -147,7 +170,32 @@ public class ProblemController {
         logger.info("---> run code");
         Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);  // 获取用户id
         return problemService.runCodeAfter(userId, problemId, code);
-//        CppSolution solution = new CppSolution(code, 3, 1024, "1 2", "3");
-//        return new ReturnValue(ReturnCodeAndMsgEnum.Success, solution.judge());
+    }
+
+    /**
+     * 更改题目状态
+     * @param status
+     * @return
+     */
+    @RequestMapping(value = "/updateStatus/ID/{id}", method = RequestMethod.GET)
+    @ApiOperation("change problem status by id")
+    public ReturnValue changeProblemStatusById(@PathVariable("id") Long id,
+                                               @RequestParam("status") Byte status,
+                                               HttpServletRequest request) {
+        logger.info("---> changeProblemStatusById");
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);  // 获取用户id
+        boolean isManager = problemService.isManager(userId);                  // 判断是否为管理员
+        if (isManager) {  // 管理员
+            problemService.changeStatusById(status, id);                       // 更新状态
+            return new ReturnValue(ReturnCodeAndMsgEnum.Success);
+        } else {          // 非法权限
+            return new ReturnValue(ReturnCodeAndMsgEnum.Permission_Denied);
+        }
+    }
+
+    // todo ....
+    @RequestMapping(value = "")
+    public ReturnValue getLastSubmit() {
+        return null;
     }
 }
