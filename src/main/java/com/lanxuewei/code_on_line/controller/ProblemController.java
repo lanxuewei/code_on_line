@@ -111,7 +111,7 @@ public class ProblemController {
     }
 
     /**
-     * 根据问题id删除该问题
+     * 根据问题id删除该问题(只是修改状态码,并不是真正意义上删除)
      * @return
      */
     @RequestMapping(value = "/ID/{id}", method = RequestMethod.DELETE)
@@ -130,6 +130,31 @@ public class ProblemController {
             }
         } else {            // 无权限操作
             return new ReturnValue(ReturnCodeAndMsgEnum.Permission_Denied); // 无权限
+        }
+    }
+
+    /**
+     * 根据问题id彻底删除问题(真正意义上删除)
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/real/ID/{id}", method = RequestMethod.DELETE)
+    @ApiOperation("real delete problem by id")
+    public ReturnValue realDeleteProblemById(@PathVariable(value = "id") Long id,
+                                             HttpServletRequest request) {
+        logger.info("---> realDeleteProblemById");
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);    // 获取用户id
+        boolean isManager = problemService.isManager(userId);                    // 判断该用户是否为管理员
+        if (isManager) {
+            boolean isDelete = problemService.deleteProblemById(id);             // 彻底删除
+            if (isDelete) {
+                return new ReturnValue(ReturnCodeAndMsgEnum.Success);            // 删除成功
+            } else {
+                return new ReturnValue(ReturnCodeAndMsgEnum.System_Error);       // 内部错误
+            }
+        } else {    // 无权限操作
+            return new ReturnValue(ReturnCodeAndMsgEnum.Permission_Denied);
         }
     }
 
