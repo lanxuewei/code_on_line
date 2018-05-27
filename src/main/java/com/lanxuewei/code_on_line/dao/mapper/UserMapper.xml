@@ -157,4 +157,26 @@
     from user
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <!-- 根据条件查询所有用户 -->
+  <select id="selectAllUsers" resultType="com.lanxuewei.code_on_line.dao.entity.User">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `user`
+    <where>
+      <!-- status 0:管理员 1:学生 -->
+      <if test="status != null">
+        and `status` = #{status,jdbcType=TINYINT}
+      </if>
+      <!-- 表示查询所有账号,即除了管理员之外账号 -->
+      <if test="status == null">
+        and `status` != 0
+      </if>
+      <!-- keyword 为关键字 可为空 -->
+      <if test="keyword != null">
+        and locate(#{keyword,jdbcType=VARCHAR}, `real_name`)>0
+      </if>
+    </where>
+  </select>
 </mapper>

@@ -8,14 +8,10 @@ import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.Problem;
 import com.lanxuewei.code_on_line.dto.ProblemDetailDto;
 import com.lanxuewei.code_on_line.dto.ProblemDto;
-import com.lanxuewei.code_on_line.dto.ProblemListDto;
-import com.lanxuewei.code_on_line.judger.CppSolution;
-import com.lanxuewei.code_on_line.judger.JudgeStatus;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.ProblemViewModel;
 import com.lanxuewei.code_on_line.model.ReturnValue;
 import com.lanxuewei.code_on_line.service.ProblemService;
-import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +20,6 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * create by lanxuewei in 2018/4/21 17:27
@@ -39,6 +34,7 @@ public class ProblemController {
     @Autowired
     private ProblemService problemService;
 
+    // todo 管理员身份验证应该使用 userService
     /**
      * 接口测试
      * @param jsonStr

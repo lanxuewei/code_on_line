@@ -1,13 +1,19 @@
 package com.lanxuewei.code_on_line.service.imp;
 
+import com.github.pagehelper.PageHelper;
+import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.User;
 import com.lanxuewei.code_on_line.dao.mapper.UserMapper;
+import com.lanxuewei.code_on_line.dto.ProblemDto;
+import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.UserViewModel;
 import com.lanxuewei.code_on_line.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * create by lanxuewei in 2018/4/15 21:32
@@ -74,6 +80,32 @@ public class UserServiceImp implements UserService{
     }
 
     /**
+     * 分页查找用户列表 todo ......
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @param keyword
+     * @return
+     */
+    @Override
+    public Page<User> getUserListByPage(Integer pageNum, Integer pageSize, Byte status, String keyword) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> users = userMapper.selectAllUsers(status, keyword);
+        return new Page<>(users);
+    }
+
+    /**
+     * 查询所有用户 todo test
+     * @param status
+     * @param keyword
+     * @return
+     */
+    @Override
+    public List<User> selectAllUsers(Byte status, String keyword) {
+        return userMapper.selectAllUsers(status, keyword);
+    }
+
+    /**
      * 修改
      * @param userName
      * @return
@@ -81,5 +113,20 @@ public class UserServiceImp implements UserService{
     @Override
     public boolean modifyUserByUserName(String userName) {
         return false;
+    }
+
+    /**
+     * 判断该用户是否为管理员
+     * @param userId
+     * @return
+     */
+    @Override
+    public boolean isManager(Long userId) {
+        Byte status = userMapper.selectStatusByUserId(userId);  // 通过 userId 查找对应的 status
+        if (status == ServiceConstant.User.manager) {  // 表示管理员
+            return true;
+        } else {
+            return false;                              // 学生身份
+        }
     }
 }

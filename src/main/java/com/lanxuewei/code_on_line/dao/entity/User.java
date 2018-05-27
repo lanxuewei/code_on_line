@@ -1,5 +1,7 @@
 package com.lanxuewei.code_on_line.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 用户(对应表 user) TODO 考虑是否需要 createTime 和 updateTime
  */
@@ -10,6 +12,7 @@ public class User {
     //用户名
     private String userName;
 
+    @JsonIgnore
     //密码
     private String password;
 

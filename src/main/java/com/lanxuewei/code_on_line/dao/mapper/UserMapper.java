@@ -4,6 +4,8 @@ import com.lanxuewei.code_on_line.dao.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 对应 User 的CURD操作
  */
@@ -37,6 +39,14 @@ public interface UserMapper {
      * @return
      */
     Byte selectStatusByUserId(@Param("id") Long id);
+
+    /**
+     * 查询所有用户
+     * @param status
+     * @param keyword
+     * @return
+     */
+    List<User> selectAllUsers(@Param("status") Byte status, @Param("keyword") String keyword);
 
     //修改
     int updateByPrimaryKey(User record);

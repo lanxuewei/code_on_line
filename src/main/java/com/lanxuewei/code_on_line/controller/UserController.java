@@ -3,11 +3,13 @@ package com.lanxuewei.code_on_line.controller;
 import com.lanxuewei.code_on_line.authorization.annotation.NoNeedLogin;
 import com.lanxuewei.code_on_line.authorization.config.Constants;
 import com.lanxuewei.code_on_line.constant.ReturnCodeAndMsgEnum;
+import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.mapper.ProblemMapper;
 import com.lanxuewei.code_on_line.model.ReturnValue;
 import com.lanxuewei.code_on_line.model.UserViewModel;
 import com.lanxuewei.code_on_line.service.ProblemService;
 import com.lanxuewei.code_on_line.service.UserService;
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -45,6 +47,32 @@ public class UserController {
             return new ReturnValue(ReturnCodeAndMsgEnum.Success);          //注册成功
         } else {
             return new ReturnValue(ReturnCodeAndMsgEnum.Register_Failed);  //注册失败
+        }
+    }
+
+    /**
+     * 查找用户列表
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @param request
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET)
+    @ApiOperation("get user list")
+    public ReturnValue getUserList(@RequestParam(value = "pageNum", required = false, defaultValue = ServiceConstant.Default_PageNum) Integer pageNum,
+                                   @RequestParam(value = "pageSize", required = false, defaultValue = ServiceConstant.Default_PageSize) Integer pageSize,
+                                   @RequestParam(value = "status", required = false) Byte status,
+                                   @RequestParam(value = "keyword", required = false) String keyword,
+                                   HttpServletRequest request) {
+        logger.info("---> getUserList");
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);  // 获取用户id
+        boolean isManager = userService.isManager(userId);                     // 判断是否为管理员
+        if (isManager) {  // 管理员
+            return new ReturnValue(ReturnCodeAndMsgEnum.Success,
+                    userService.getUserListByPage(pageNum, pageSize,status, keyword));
+        } else {          // 非法权限
+            return new ReturnValue(ReturnCodeAndMsgEnum.Permission_Denied);
         }
     }
 

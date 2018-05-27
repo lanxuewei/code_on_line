@@ -1,8 +1,11 @@
 package com.lanxuewei.code_on_line.service;
 
 import com.lanxuewei.code_on_line.dao.entity.User;
+import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.UserViewModel;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * create by lanxuewei in 2018/4/15 21:06
@@ -45,6 +48,27 @@ public interface UserService {
     User findByUserName(String userName, Byte status);
     User findByUserId(Long userId);
 
+    /**
+     * 分页查找用户列表
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @param keyword
+     * @return
+     */
+    Page<User> getUserListByPage(Integer pageNum,
+                                 Integer pageSize,
+                                 Byte status,
+                                 String keyword);
+
+    /**
+     * 查询所有用户
+     * @param status
+     * @param keyword
+     * @return
+     */
+    List<User> selectAllUsers(Byte status, String keyword);
+
 
     //modify
     /**
@@ -53,4 +77,11 @@ public interface UserService {
      * @return 操作是否成功
      */
     boolean modifyUserByUserName(String userName);
+
+    /**
+     * 判断该用户是否为管理员
+     * @param userId
+     * @return
+     */
+    public boolean isManager(Long userId);
 }
