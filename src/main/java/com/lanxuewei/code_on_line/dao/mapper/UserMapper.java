@@ -52,4 +52,12 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
     int updateByPrimaryKeySelective(User record);
     int updateByPrimaryKeyWithBLOBs(User record);
+
+    /**
+     * 更改用户状态
+     * @param id
+     * @param status
+     * @return
+     */
+    int updateUserStatus(@Param("id") Long id, @Param("status") Byte status);
 }

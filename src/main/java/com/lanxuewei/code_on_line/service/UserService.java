@@ -79,6 +79,14 @@ public interface UserService {
     boolean modifyUserByUserName(String userName);
 
     /**
+     * 更改用户状态
+     * @param id
+     * @param status
+     * @return
+     */
+    boolean changeUserStatus(Long id, Byte status);
+
+    /**
      * 判断该用户是否为管理员
      * @param userId
      * @return

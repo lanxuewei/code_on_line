@@ -158,7 +158,7 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   <!-- 根据条件查询所有用户 -->
-  <select id="selectAllUsers" resultType="com.lanxuewei.code_on_line.dao.entity.User">
+  <select id="selectAllUsers" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,
@@ -179,4 +179,10 @@
       </if>
     </where>
   </select>
+  <!-- 更改用户状态 -->
+  <update id="updateUserStatus">
+    update `user`
+    set `status` = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

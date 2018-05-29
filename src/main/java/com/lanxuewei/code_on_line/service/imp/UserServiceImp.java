@@ -80,7 +80,7 @@ public class UserServiceImp implements UserService{
     }
 
     /**
-     * 分页查找用户列表 todo ......
+     * 分页查找用户列表
      * @param pageNum
      * @param pageSize
      * @param status
@@ -95,7 +95,7 @@ public class UserServiceImp implements UserService{
     }
 
     /**
-     * 查询所有用户 todo test
+     * 查询所有用户
      * @param status
      * @param keyword
      * @return
@@ -113,6 +113,17 @@ public class UserServiceImp implements UserService{
     @Override
     public boolean modifyUserByUserName(String userName) {
         return false;
+    }
+
+    /**
+     * 更改用户状态
+     * @param id
+     * @param status
+     * @return
+     */
+    @Override
+    public boolean changeUserStatus(Long id, Byte status) {
+        return userMapper.updateUserStatus(id, status) != 0;
     }
 
     /**

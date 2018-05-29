@@ -77,23 +77,29 @@ public class UserController {
     }
 
     /**
-     * 禁用或启用用户账号 todo 待开发 映射方法 判断用户是否为管理员方法
+     * 禁用或启用用户账号
+     * @param id 用户id
+     * @param status 更改为该状态
+     * @param request
      * @return
      */
-    /*@RequestMapping(value = "/ID/{id}")
+    @RequestMapping(value = "/updateStatus/ID/{id}", method = RequestMethod.GET)
     @ApiOperation("disableUser")
-    public ReturnValue disableOrEnableUser(@PathVariable(value = "id") Long id,
-                                   @RequestParam(value = "status") Byte status,
-                                   HttpServletRequest request) {
+    public ReturnValue disableOrEnableUser(@PathVariable(value = "id", required = true) Long id,
+                                           @RequestParam(value = "status", required = true) Byte status,
+                                           HttpServletRequest request) {
         Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);  // 获取用户id
-        boolean isManager = problemService.isManager(userId);
+        boolean isManager = userService.isManager(userId);
         if (isManager) {
-            userService.changeUserStatus(id, status);
-            return new ReturnValue(ReturnCodeAndMsgEnum.Success);
+            boolean isSuccess = userService.changeUserStatus(id, status);
+            if (isSuccess) {
+                return new ReturnValue(ReturnCodeAndMsgEnum.Success);
+            }
+            return new ReturnValue(ReturnCodeAndMsgEnum.System_Error);
         } else {
             return new ReturnValue(ReturnCodeAndMsgEnum.Permission_Denied);
         }
-    }*/
+    }
 
     /**
      * 重置用户密码 todo 待开发 映射方法 判断用户是否为管理员方法
