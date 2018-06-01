@@ -130,6 +130,7 @@ CREATE TABLE IF NOT EXISTS `user_record` (
   `user_id` BIGINT NOT NULL COMMENT 'user id',
   `problem_id` BIGINT NOT NULL COMMENT 'problem id',
   `is_success` TINYINT NOT NULL COMMENT '提交是否成功',
+  `result_body` VARCHAR(128) NOT NULL COMMENT '做题结果',
   `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '生成时间',
   `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `status` TINYINT NOT NULL DEFAULT 0 COMMENT '状态码',

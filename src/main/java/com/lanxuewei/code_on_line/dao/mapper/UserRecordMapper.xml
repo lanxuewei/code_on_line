@@ -6,12 +6,13 @@
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="problem_id" property="problemId" jdbcType="BIGINT" />
     <result column="is_success" property="isSuccess" jdbcType="TINYINT" />
+    <result column="result_body" property="resultBody" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, problem_id, is_success, create_time, update_time, `status`
+    id, user_id, problem_id, is_success, result_body, create_time, update_time, `status`
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -24,9 +25,9 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.lanxuewei.code_on_line.dao.entity.UserRecord" >
-    insert into user_record (id, user_id, problem_id, is_success, `status`)
+    insert into user_record (id, user_id, problem_id, is_success, result_body, `status`)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{problemId,jdbcType=BIGINT}, 
-      #{isSuccess,jdbcType=TINYINT},#{status,jdbcType=TINYINT})
+      #{isSuccess,jdbcType=TINYINT}, #{resultBody,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.lanxuewei.code_on_line.dao.entity.UserRecord" >
     insert into user_record
@@ -42,6 +43,9 @@
       </if>
       <if test="isSuccess != null" >
         is_success,
+      </if>
+      <if test="resultBody != null">
+        result_body,
       </if>
       <if test="status != null" >
         `status`,
@@ -60,6 +64,9 @@
       <if test="isSuccess != null" >
         #{isSuccess,jdbcType=TINYINT},
       </if>
+      <if test="resultBody != null">
+        #{resultBody,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
       </if>
@@ -77,6 +84,9 @@
       <if test="isSuccess != null" >
         is_success = #{isSuccess,jdbcType=TINYINT},
       </if>
+      <if test="resultBody != null" >
+        result_body = #{resultBody,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         `status` = #{status,jdbcType=TINYINT},
       </if>
@@ -88,6 +98,7 @@
     set user_id = #{userId,jdbcType=BIGINT},
       problem_id = #{problemId,jdbcType=BIGINT},
       is_success = #{isSuccess,jdbcType=TINYINT},
+      result_body = #{resultBody,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       `status` = #{status,jdbcType=TINYINT}

@@ -389,16 +389,25 @@ public class ProblemServiceImp implements ProblemService{
         List<Case> cases = caseMapper.selectAllByProblemId(problemId, ServiceConstant.Problem.Normal);  // 1 查询可用测试用例
         ReturnValue runCodeReturnVal = runCode(code, cases);  // 2 运行程序
         Byte isSuccess = null;
-        if (runCodeReturnVal.getCode().equals(ReturnCodeAndMsgEnum.Success.getCode())) {  // 3 成功
+        if (runCodeReturnVal.getCode().equals(ReturnCodeAndMsgEnum.Accepted.getCode())) {  // 3 成功
             updateUserProblemRecord(userId, problemId, code, true);   // 答案正确
             isSuccess = 0;
-            UserRecord userRecord = new UserRecord(userId, problemId, isSuccess);
+            UserRecord userRecord = new UserRecord(userId, problemId, isSuccess, ReturnCodeAndMsgEnum.Accepted.getInfo());
             userRecordMapper.insertSelective(userRecord);
         } else {
-            updateUserProblemRecord(userId, problemId, code, false);  // 答案错误
+            updateUserProblemRecord(userId, problemId, code, false);  // 失败
             isSuccess = -1;
             UserRecord userRecord = new UserRecord(userId, problemId, isSuccess);
-            userRecordMapper.insertSelective(userRecord);
+            if (runCodeReturnVal.getCode().equals(ReturnCodeAndMsgEnum.Compile_Failed.getCode())) {     // 编译失败
+                userRecord.setResultBody(ReturnCodeAndMsgEnum.Compile_Failed.getInfo());
+            }
+            if (runCodeReturnVal.getCode().equals(ReturnCodeAndMsgEnum.Time_Out.getCode())) {           // 超时
+                userRecord.setResultBody(ReturnCodeAndMsgEnum.Time_Out.getInfo());
+            }
+            if (runCodeReturnVal.getCode().equals(ReturnCodeAndMsgEnum.Wrong_Answer.getCode())) {       // 答案错误
+                userRecord.setResultBody(ReturnCodeAndMsgEnum.Wrong_Answer.getInfo());
+            }
+            userRecordMapper.insertSelective(userRecord);  // 更新记录
         }
         return runCodeReturnVal;
     }
@@ -461,7 +470,7 @@ public class ProblemServiceImp implements ProblemService{
                 }
                 solution.removeFiles();                                         // 删除临时文件
             }
-            return new ReturnValue(ReturnCodeAndMsgEnum.Success);               // 成功
+            return new ReturnValue(ReturnCodeAndMsgEnum.Accepted);              // 成功
         }
         return new ReturnValue(ReturnCodeAndMsgEnum.No_Cases);  // 无测试用例
     }

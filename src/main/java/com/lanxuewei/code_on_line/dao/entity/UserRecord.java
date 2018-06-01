@@ -16,6 +16,8 @@ public class UserRecord {
     // 是否成功
     private Byte isSuccess;
 
+    private String resultBody;
+
     // 创建时间
     private Date createTime;
 
@@ -31,11 +33,11 @@ public class UserRecord {
         this.isSuccess = isSuccess;
     }
 
-    public UserRecord(Long userId, Long problemId, Byte isSuccess, Byte status) {
+    public UserRecord(Long userId, Long problemId, Byte isSuccess, String resultBody) {
         this.userId = userId;
         this.problemId = problemId;
         this.isSuccess = isSuccess;
-        this.status = status;
+        this.resultBody = resultBody;
     }
 
     public Long getId() {
@@ -92,5 +94,13 @@ public class UserRecord {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getResultBody() {
+        return resultBody;
+    }
+
+    public void setResultBody(String resultBody) {
+        this.resultBody = resultBody;
     }
 }
