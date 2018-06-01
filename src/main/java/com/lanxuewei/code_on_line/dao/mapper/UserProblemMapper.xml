@@ -206,4 +206,11 @@
     where user_id = #{userId,jdbcType=BIGINT}
           and problem_id = #{problemId,jdbcType=BIGINT}
   </update>
+  <!-- 查找用户上一次提交代码 -->
+  <select id="selectLastSubmitCode" resultType="java.lang.String">
+    select last_submit
+    from user_problem
+    where user_id = #{userId,jdbcType=BIGINT}
+      and problem_id = #{problemId,jdbcType=BIGINT}
+  </select>
 </mapper>

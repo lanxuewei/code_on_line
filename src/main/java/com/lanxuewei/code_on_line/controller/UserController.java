@@ -4,6 +4,7 @@ import com.lanxuewei.code_on_line.authorization.annotation.NoNeedLogin;
 import com.lanxuewei.code_on_line.authorization.config.Constants;
 import com.lanxuewei.code_on_line.constant.ReturnCodeAndMsgEnum;
 import com.lanxuewei.code_on_line.constant.ServiceConstant;
+import com.lanxuewei.code_on_line.dao.entity.UserProblem;
 import com.lanxuewei.code_on_line.dao.mapper.ProblemMapper;
 import com.lanxuewei.code_on_line.model.ReturnValue;
 import com.lanxuewei.code_on_line.model.UserViewModel;
@@ -154,6 +155,20 @@ public class UserController {
                                      HttpServletRequest request) {
         Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);   // 获取用户id
         return new ReturnValue(ReturnCodeAndMsgEnum.Success, userService.findUserRecords(userId, problemId));
+    }
+
+    /**
+     * 获取上一次提交代码
+     * @param problemId
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/lastSubmit", method = RequestMethod.GET)
+    @ApiOperation("get last submit code")
+    public ReturnValue getLastSubmitCode(@RequestParam(value = "problemId", required = true) Long problemId,
+                                         HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);   // 获取用户id
+        return new ReturnValue(ReturnCodeAndMsgEnum.Success, userService.selectLastSubmitCode(userId, problemId));
     }
 
 }

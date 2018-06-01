@@ -3,8 +3,10 @@ package com.lanxuewei.code_on_line.service.imp;
 import com.github.pagehelper.PageHelper;
 import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.User;
+import com.lanxuewei.code_on_line.dao.entity.UserProblem;
 import com.lanxuewei.code_on_line.dao.entity.UserRecord;
 import com.lanxuewei.code_on_line.dao.mapper.UserMapper;
+import com.lanxuewei.code_on_line.dao.mapper.UserProblemMapper;
 import com.lanxuewei.code_on_line.dao.mapper.UserRecordMapper;
 import com.lanxuewei.code_on_line.dto.ProblemDto;
 import com.lanxuewei.code_on_line.model.Page;
@@ -30,6 +32,8 @@ public class UserServiceImp implements UserService{
     private UserMapper userMapper;
     @Autowired
     private UserRecordMapper userRecordMapper;
+    @Autowired
+    private UserProblemMapper userProblemMapper;
 
     /**
      * 将UserViewModel转化为User
@@ -160,6 +164,17 @@ public class UserServiceImp implements UserService{
     @Override
     public int countAllUsersByStatus(Byte status) {
         return userMapper.countAllUsersByStatus(status);
+    }
+
+    /**
+     * 查找上一次提交代码
+     * @param userId
+     * @param problemId
+     * @return
+     */
+    @Override
+    public String selectLastSubmitCode(Long userId, Long problemId) {
+        return userProblemMapper.selectLastSubmitCode(userId, problemId);
     }
 
     /**

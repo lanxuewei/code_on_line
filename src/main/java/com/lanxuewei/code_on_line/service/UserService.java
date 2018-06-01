@@ -78,6 +78,14 @@ public interface UserService {
      */
     List<UserRecord> findUserRecords(Long userId, Long problemId);
 
+    /**
+     * 根据用户id查找该题上一次提交代码
+     * @param userId
+     * @param problemId
+     * @return
+     */
+    String selectLastSubmitCode(Long userId, Long problemId);
+
 
     //modify
     /**
