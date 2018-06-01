@@ -14,6 +14,7 @@ public interface DaoConstants {
         /** user 表中 status 字段 */
         Byte TeacherOrManager = 0;  //老师或管理员
         Byte Student = 1;           //学生
+
     }
 
     interface Problem{

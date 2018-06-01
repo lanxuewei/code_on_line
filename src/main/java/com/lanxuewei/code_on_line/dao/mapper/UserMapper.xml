@@ -185,4 +185,24 @@
     set `status` = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- 重置用户密码 -->
+  <update id="updateUserPassword">
+    update `user`
+    set `password` = #{password,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 根据status统计用户数量 -->
+  <select id="countAllUsersByStatus" resultType="java.lang.Integer">
+    select count(*)
+    from user
+    <where>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT}
+      </if>
+      <!-- 如果为空则查询所有,排除管理员 -->
+      <if test="status == null">
+        `status` != 0
+      </if>
+    </where>
+  </select>
 </mapper>

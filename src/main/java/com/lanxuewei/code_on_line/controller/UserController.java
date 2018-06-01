@@ -102,22 +102,44 @@ public class UserController {
     }
 
     /**
-     * 重置用户密码 todo 待开发 映射方法 判断用户是否为管理员方法
+     * 重置用户密码(将密码重置为123456)
      * @return
      */
-    /*@RequestMapping(value = "/ID/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/resetPassword/ID/{id}", method = RequestMethod.GET)
     @ApiOperation("reset user password")
-    public ReturnValue resetUserPassword(HttpServletRequest request) {
+    public ReturnValue resetUserPassword(@PathVariable(value = "id", required = true) Long id,
+                                         HttpServletRequest request) {
         Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);  // 获取用户id
-        boolean isManager = problemService.isManager(userId);
+        boolean isManager = userService.isManager(userId);
         if (isManager) {
-            userService.resetUserPassword(id);
-            return new ReturnValue(ReturnCodeAndMsgEnum.Success);
+            boolean isSuccess = userService.resetUserPassword(id);      // 重置用户密码
+            if (isSuccess) {
+                return new ReturnValue(ReturnCodeAndMsgEnum.Success);   // 成功
+            }
+            return new ReturnValue(ReturnCodeAndMsgEnum.System_Error);  // 内部错误
         } else {
             return new ReturnValue(ReturnCodeAndMsgEnum.Permission_Denied);
         }
-    }*/
+    }
 
-
+    /**
+     * 根据status统计用户数量
+     * @param status
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    @ApiOperation("count all users by status")
+    public ReturnValue countAllUsersByStatus(@RequestParam("status") Byte status,
+                                             HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);   // 获取用户id
+        boolean isManager = userService.isManager(userId);
+        if (isManager) {
+            return new ReturnValue(ReturnCodeAndMsgEnum.Success,
+                    userService.countAllUsersByStatus(status));                 // 成功
+        } else {
+            return new ReturnValue(ReturnCodeAndMsgEnum.Permission_Denied);     // 无权限
+        }
+    }
 
 }

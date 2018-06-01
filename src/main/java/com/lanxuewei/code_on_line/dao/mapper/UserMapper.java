@@ -48,6 +48,13 @@ public interface UserMapper {
      */
     List<User> selectAllUsers(@Param("status") Byte status, @Param("keyword") String keyword);
 
+    /**
+     * 根据状态码统计用户数量
+     * @param status
+     * @return
+     */
+    int countAllUsersByStatus(@Param("status") Byte status);
+
     //修改
     int updateByPrimaryKey(User record);
     int updateByPrimaryKeySelective(User record);
@@ -60,4 +67,12 @@ public interface UserMapper {
      * @return
      */
     int updateUserStatus(@Param("id") Long id, @Param("status") Byte status);
+
+    /**
+     * 更新用户密码
+     * @param id
+     * @param password
+     * @return
+     */
+    int updateUserPassword(@Param("id") Long id, @Param("password") String password);
 }

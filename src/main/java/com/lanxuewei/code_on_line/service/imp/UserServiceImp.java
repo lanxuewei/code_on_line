@@ -127,6 +127,27 @@ public class UserServiceImp implements UserService{
     }
 
     /**
+     * 重置用户密码 todo 密码应该采用md5加密
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean resetUserPassword(Long id) {
+        String password = "123456";
+        return userMapper.updateUserPassword(id, password) != 0;
+    }
+
+    /**
+     * 根据状态码统计用户数
+     * @param status
+     * @return
+     */
+    @Override
+    public int countAllUsersByStatus(Byte status) {
+        return userMapper.countAllUsersByStatus(status);
+    }
+
+    /**
      * 判断该用户是否为管理员
      * @param userId
      * @return

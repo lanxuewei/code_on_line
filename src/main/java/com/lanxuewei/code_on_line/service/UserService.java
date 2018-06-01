@@ -87,6 +87,20 @@ public interface UserService {
     boolean changeUserStatus(Long id, Byte status);
 
     /**
+     * 重置用户密码为123456
+     * @param id
+     * @return
+     */
+    boolean resetUserPassword(Long id);
+
+    /**
+     * 根据状态码统计用户数量
+     * @param status
+     * @return
+     */
+    int countAllUsersByStatus(Byte status);
+
+    /**
      * 判断该用户是否为管理员
      * @param userId
      * @return
