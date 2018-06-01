@@ -1,6 +1,7 @@
 package com.lanxuewei.code_on_line.service;
 
 import com.lanxuewei.code_on_line.dao.entity.User;
+import com.lanxuewei.code_on_line.dao.entity.UserRecord;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.UserViewModel;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,14 @@ public interface UserService {
      * @return
      */
     List<User> selectAllUsers(Byte status, String keyword);
+
+    /**
+     * 根据问题id以及用户id查找做题记录
+     * @param userId
+     * @param problemId
+     * @return
+     */
+    List<UserRecord> findUserRecords(Long userId, Long problemId);
 
 
     //modify

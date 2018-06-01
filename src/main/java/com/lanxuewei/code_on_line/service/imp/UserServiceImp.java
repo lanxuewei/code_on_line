@@ -3,7 +3,9 @@ package com.lanxuewei.code_on_line.service.imp;
 import com.github.pagehelper.PageHelper;
 import com.lanxuewei.code_on_line.constant.ServiceConstant;
 import com.lanxuewei.code_on_line.dao.entity.User;
+import com.lanxuewei.code_on_line.dao.entity.UserRecord;
 import com.lanxuewei.code_on_line.dao.mapper.UserMapper;
+import com.lanxuewei.code_on_line.dao.mapper.UserRecordMapper;
 import com.lanxuewei.code_on_line.dto.ProblemDto;
 import com.lanxuewei.code_on_line.model.Page;
 import com.lanxuewei.code_on_line.model.UserViewModel;
@@ -26,6 +28,8 @@ public class UserServiceImp implements UserService{
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserRecordMapper userRecordMapper;
 
     /**
      * 将UserViewModel转化为User
@@ -103,6 +107,17 @@ public class UserServiceImp implements UserService{
     @Override
     public List<User> selectAllUsers(Byte status, String keyword) {
         return userMapper.selectAllUsers(status, keyword);
+    }
+
+    /**
+     * 根据问题id以及用户id查找做题记录
+     * @param userId
+     * @param problemId
+     * @return
+     */
+    @Override
+    public List<UserRecord> findUserRecords(Long userId, Long problemId) {
+        return userRecordMapper.selectUserRecords(userId, problemId);
     }
 
     /**

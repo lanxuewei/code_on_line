@@ -142,4 +142,18 @@ public class UserController {
         }
     }
 
+    /**
+     * 获取用户该题做题记录
+     * @param problemId 问题id
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/record", method = RequestMethod.GET)
+    @ApiOperation("get user record")
+    public ReturnValue getUserRecord(@RequestParam(value = "problemId", required = true) Long problemId,
+                                     HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute(Constants.CURRENT_USER_ID);   // 获取用户id
+        return new ReturnValue(ReturnCodeAndMsgEnum.Success, userService.findUserRecords(userId, problemId));
+    }
+
 }

@@ -104,4 +104,12 @@
       `status` = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- 根据用户id以及问题id查找所有做题记录 -->
+  <select id="selectUserRecords" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_record
+    where user_id = #{userId,jdbcType=BIGINT}
+    and problem_id = #{problemId,jdbcType=BIGINT}
+  </select>
 </mapper>
